@@ -36,13 +36,11 @@
 
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
 
-        /* CABEÇALHO */
         header { text-align: center; padding: 30px 0 20px; }
         .logo-title { font-family: 'Cinzel', serif; font-size: 32px; font-weight: 900; color: var(--gold-light); letter-spacing: 2px; margin: 0; }
         .logo-sub { color: var(--text-sub); font-size: 13px; margin-top: 5px; font-weight: 300; }
         .badge-pentecostal { background: rgba(217, 119, 6, 0.15); border: 1px solid var(--gold); color: var(--gold-light); font-size: 10px; font-weight: 800; padding: 4px 12px; border-radius: 99px; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 10px; }
 
-        /* PANEL */
         .panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 25px; backdrop-filter: blur(15px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin-bottom: 25px; }
 
         label { font-size: 12px; font-weight: 700; color: var(--gold-light); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px; }
@@ -65,7 +63,6 @@
         .btn-sec { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 16px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
         .btn-sec:hover { background: rgba(217, 119, 6, 0.2); }
 
-        /* ÁREA DE RESULTADO DO ESTUDO */
         #resultado { display: none; }
 
         .card-estudo {
@@ -80,16 +77,12 @@
         .card-estudo p { margin: 0; font-size: 14px; line-height: 1.7; color: #cbd5e1; white-space: pre-line; }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-
-        /* BARRAS DE AÇÃO */
         .actions-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
 
-        /* LOADING SPINNER */
         .loading { display: none; text-align: center; padding: 30px 0; }
         .spinner { width: 40px; height: 40px; border: 4px solid rgba(217,119,6,0.2); border-top-color: var(--gold-light); border-radius: 50%; animation: spin 1s infinite linear; margin: 0 auto 15px; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* CHAVE API MODAL */
         .api-config { background: rgba(217, 119, 6, 0.08); border: 1px dashed var(--gold); padding: 15px; border-radius: 16px; margin-bottom: 20px; text-align: center; }
 
         @media (max-width: 600px) {
@@ -107,16 +100,14 @@
             <p class="logo-sub">Gerador de Esboços e Exegese Bíblica Profunda</p>
         </header>
 
-        <!-- AVISO DE CHAVE DE API DO GOOGLE GEMINI -->
         <div class="api-config" id="box-api">
             <span style="font-size:12px; color:var(--gold-light); font-weight:700;">🔑 Chave da API do Google Gemini (Gratuito):</span>
-            <input type="password" id="api-key" placeholder="Cole sua chave API aqui (AI Studio)..." style="margin-top:8px; margin-bottom:8px; text-align:center;">
+            <input type="password" id="api-key" placeholder="Cole sua chave API aqui (aistudio.google.com)..." style="margin-top:8px; margin-bottom:8px; text-align:center;">
             <small style="color:var(--text-sub); font-size:11px;">
                 Obtenha uma chave grátis no site <b>aistudio.google.com</b> para gerar estudos ilimitados.
             </small>
         </div>
 
-        <!-- FORMULÁRIO DE ENTRADA -->
         <div class="panel">
             <label>📖 Texto ou Passagem Bíblica:</label>
             <textarea id="texto-biblico" rows="4" placeholder="Cole o versículo ou digite a referência... Ex: 'João 3:16-21' ou 'Porque Deus amou o mundo de tal maneira...'"></textarea>
@@ -146,14 +137,12 @@
             </button>
         </div>
 
-        <!-- INDICADOR DE CARREGAMENTO -->
         <div class="loading" id="loading">
             <div class="spinner"></div>
             <p style="color:var(--gold-light); font-weight:700;">Consultando as Escrituras e Fontes Teológicas...</p>
             <small style="color:var(--text-sub)">Analisando autor, contexto histórico e aplicações pentecostais...</small>
         </div>
 
-        <!-- RESULTADO GERADO -->
         <div id="resultado">
             <div class="actions-bar">
                 <button class="btn-sec" onclick="copiarWhatsApp()">📲 Copiar p/ WhatsApp</button>
@@ -161,7 +150,6 @@
                 <button class="btn-sec" onclick="ouvirEstudo()">🔊 Ouvir Estudo</button>
             </div>
 
-            <!-- CARDS DE CONTEÚDO -->
             <div class="card-estudo">
                 <h3>📜 1. Contexto Hermenêutico (Autor & Época)</h3>
                 <p id="res-hermeneutica"></p>
@@ -190,7 +178,6 @@
     </div>
 
     <script>
-        // Carrega Chave Salva
         window.onload = () => {
             let keySalva = localStorage.getItem('gemini_key_biblia');
             if(keySalva) document.getElementById('api-key').value = keySalva;
@@ -230,49 +217,58 @@
             }
             `;
 
-            try {
-                let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
-                let response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: promptEspecial }] }]
-                    })
-                });
+            // MODELOS DE RESERVA PARA NUNCA DAR ERRO DE API
+            const modelos = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash-latest", "gemini-1.5-pro"];
+            let sucesso = false;
+            let ultimoErro = "";
 
-                let data = await response.json();
-                
-                if (data.error) {
-                    alert('❌ Erro na API: ' + data.error.message);
-                    return;
+            for (let model of modelos) {
+                try {
+                    let url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+                    let response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: promptEspecial }] }]
+                        })
+                    });
+
+                    let data = await response.json();
+                    
+                    if (data.error) {
+                        ultimoErro = data.error.message;
+                        continue; // Tenta o próximo modelo
+                    }
+
+                    let rawText = data.candidates[0].content.parts[0].text;
+                    rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+
+                    estudoGlobal = JSON.parse(rawText);
+
+                    document.getElementById('res-hermeneutica').innerText = estudoGlobal.autorContexto;
+                    document.getElementById('res-exegese').innerText = estudoGlobal.exegeseOriginal;
+                    document.getElementById('res-esboco').innerText = estudoGlobal.esbocoHomiletico;
+                    document.getElementById('res-ilustracao').innerText = estudoGlobal.ilustracao;
+                    document.getElementById('res-teologia').innerText = estudoGlobal.visaoTeologica;
+
+                    document.getElementById('resultado').style.display = 'block';
+                    document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+
+                    sucesso = true;
+                    break; // Sucesso, sai do loop
+                } catch (e) {
+                    ultimoErro = e.message;
                 }
-
-                let rawText = data.candidates[0].content.parts[0].text;
-                // Limpa marcações markdown de JSON se houver
-                rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
-
-                estudoGlobal = JSON.parse(rawText);
-
-                // Preenche a tela
-                document.getElementById('res-hermeneutica').innerText = estudoGlobal.autorContexto;
-                document.getElementById('res-exegese').innerText = estudoGlobal.exegeseOriginal;
-                document.getElementById('res-esboco').innerText = estudoGlobal.esbocoHomiletico;
-                document.getElementById('res-ilustracao').innerText = estudoGlobal.ilustracao;
-                document.getElementById('res-teologia').innerText = estudoGlobal.visaoTeologica;
-
-                document.getElementById('resultado').style.display = 'block';
-                document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
-
-            } catch (e) {
-                alert('⚠️ Falha ao gerar o estudo. Verifique sua chave API ou conexão.');
-                console.error(e);
-            } finally {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('btn-gerar').disabled = false;
             }
+
+            if (!sucesso) {
+                alert('❌ Erro na API: ' + ultimoErro + '\n\nVerifique se sua chave do Google AI Studio está correta!');
+            }
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('btn-gerar').disabled = false;
         }
 
-        // COPIAR PARA WHATSAPP
         function copiarWhatsApp() {
             if(!estudoGlobal.esbocoHomiletico) return;
             let txt = `*🔥 ESTUDO BÍBLICO PENTECOSTAL*\n\n` +
@@ -285,7 +281,6 @@
             alert('✅ Esboço copiado! Cole no WhatsApp.');
         }
 
-        // GERAR PDF
         function baixarPDF() {
             if(!estudoGlobal.esbocoHomiletico) return;
             const { jsPDF } = window.jspdf;
@@ -319,7 +314,6 @@
             doc.save(`Esboco_Pentecostal.pdf`);
         }
 
-        // OUVIR ESTUDO (VOZ)
         function ouvirEstudo() {
             if(!estudoGlobal.esbocoHomiletico) return;
             window.speechSynthesis.cancel();

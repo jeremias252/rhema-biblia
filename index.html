@@ -5,26 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bethesda Majestic • Master Seminary</title>
     
-    <!-- Fontes Premium: Playfair (Títulos/Leitura) e Manrope (UI/Menus) -->
+    <!-- Fontes Premium -->
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        /* TEMA MAJESTIC (MIDNIGHT & ROSE GOLD) */
+        /* TEMA MAJESTIC */
         :root {
             --bg-base: #030305;
             --surface: rgba(255, 255, 255, 0.03);
             --surface-hover: rgba(255, 255, 255, 0.06);
             --border: rgba(255, 255, 255, 0.08);
-            
             --gold-light: #f5d0b5;
             --gold-main: #d4a373;
             --gold-dark: #8b5a33;
-            
             --text-title: #ffffff;
             --text-body: #e2e8f0;
             --text-muted: #94a3b8;
-            
             --glow: 0 0 40px rgba(212, 163, 115, 0.15);
             --glass-blur: blur(24px);
         }
@@ -40,7 +37,6 @@
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--gold-main); }
 
-        /* Fundo Animado Ambient Light */
         .ambient-light {
             position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
             background: radial-gradient(circle, rgba(212,163,115,0.08) 0%, transparent 70%);
@@ -55,7 +51,7 @@
         @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(5%, 10%) scale(1.1); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ================= TELA DE LOGIN ================= */
+        /* TELA DE LOGIN */
         #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: var(--bg-base); z-index: 9999; display: flex; flex-direction: column; 
@@ -88,7 +84,7 @@
         }
         .btn-luxury:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: var(--glow); }
 
-        /* ================= SIDEBAR ================= */
+        /* SIDEBAR */
         .sidebar {
             width: 280px; height: 100vh; position: fixed; top: 0; left: 0; z-index: 100;
             background: rgba(3, 3, 5, 0.7); backdrop-filter: var(--glass-blur); border-right: 1px solid var(--border);
@@ -122,11 +118,8 @@
         .menu-result-link.active { color: var(--gold-light); font-weight: 600; background: var(--surface); }
         .menu-result-link.active::before { background: var(--gold-main); transform: scale(1.5); box-shadow: 0 0 10px var(--gold-main);}
 
-        /* ================= MAIN WRAPPER & BENTO BOX ================= */
-        .main-wrapper {
-            flex: 1; margin-left: 280px; min-height: 100vh; padding: 40px;
-            transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        /* MAIN WRAPPER */
+        .main-wrapper { flex: 1; margin-left: 280px; min-height: 100vh; padding: 40px; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .main-wrapper.expanded { margin-left: 0; }
         
         .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
@@ -159,7 +152,7 @@
         }
         .btn-bible:hover { background: var(--text-title); color: var(--bg-base); }
 
-        /* ================= MODO LEITURA (BOOK STYLE) ================= */
+        /* MODO LEITURA */
         .reader-content { display: none; }
         .reader-content.active { display: block; animation: fadeIn 0.6s; }
         
@@ -175,11 +168,10 @@
         .btn-icon { background: var(--surface); border: 1px solid var(--border); color: var(--text-body); padding: 14px 24px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
         .btn-icon:hover { background: var(--text-title); color: var(--bg-base); }
 
-        /* LOADING */
+        /* LOADING & MODAIS */
         .loading { display: none; text-align: center; padding: 100px 0; }
         .spinner { width: 60px; height: 60px; border: 2px solid var(--border); border-top-color: var(--gold-main); border-radius: 50%; animation: spin 1s infinite cubic-bezier(0.6, 0.2, 0.4, 0.8); margin: 0 auto 30px; }
         
-        /* MODAIS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3,3,5,0.9); backdrop-filter: blur(20px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
         .modal-content { background: var(--bg-base); border: 1px solid var(--border); width: 100%; max-width: 700px; border-radius: 32px; padding: 40px; max-height: 85vh; overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
@@ -219,13 +211,13 @@
             <span>Jeremias 20:9</span>
         </div>
         <div class="login-box">
-            <h1>BETHESDA</h1>
+            <h1 style="position: relative;">BETHESDA <span style="position:absolute; top:-10px; right: 20px; font-size:12px; color:var(--gold-main); font-family: 'Manrope';">v17.2</span></h1>
             <input type="password" id="senha-login" placeholder="Código de Acesso" onkeypress="verificarEnter(event)">
             <button class="btn-luxury" onclick="fazerLogin()">Entrar no Santuário</button>
         </div>
     </div>
 
-    <!-- MODAL CONFIGURAÇÕES -->
+    <!-- MODAL CONFIG -->
     <div class="modal-overlay" id="modal-config">
         <div class="modal-content" style="max-width: 450px;">
             <div class="modal-header">
@@ -347,7 +339,7 @@
             <div class="view-section" id="view-livros">
                 <div class="bento-card full">
                     <label class="bento-label">Curadoria por Tema</label>
-                    <textarea id="texto-livros" rows="2" placeholder="Ex: 'Escatologia', 'Vida de Cristo'..." style="margin-bottom:30px;"></textarea>
+                    <textarea id="texto-livros" rows="2" placeholder="Ex: 'Escatologia', 'A vida de Davi'..." style="margin-bottom:30px;"></textarea>
                     <button class="btn-luxury" onclick="gerarLivros()">Buscar Obras</button>
                 </div>
             </div>
@@ -359,7 +351,7 @@
                 <small style="color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:2px;">Motor Llama 3.3</small>
             </div>
 
-            <!-- MODO LEITURA (RESULTADOS) -->
+            <!-- MODO LEITURA -->
             <div class="view-section" id="view-leitura">
                 <div class="actions-bar">
                     <button class="btn-icon" onclick="copiarWhatsApp()">Exportar Texto</button>
@@ -375,7 +367,6 @@
 
                 <div class="reader-content" id="reader-simples"><div class="book-card"><h3 id="tit-simples">Manuscrito</h3><p id="res-simples"></p></div></div>
             </div>
-
         </div>
     </div>
 
@@ -400,7 +391,7 @@
         function fecharConfig() { document.getElementById('modal-config').style.display = 'none'; }
         function salvarConfig() { localStorage.setItem('groq_key_biblia', document.getElementById('api-key').value); fecharConfig(); }
 
-        // ================= SIDEBAR & VIEWS =================
+        // ================= SIDEBAR =================
         const sidebar = document.getElementById('sidebar');
         const mainWrapper = document.getElementById('main-wrapper');
         
@@ -487,13 +478,35 @@
         }
         function finalizarSelecaoBiblia(ref) { document.getElementById('texto-biblico').value = ref; fecharBiblia(); }
 
-        // ================= IA: FUNÇÕES DE GERAÇÃO =================
+        // ================= EXTRATOR UNIVERSAL DE TEXTO DA IA =================
+        function extrairTextoDoJSON(obj) {
+            if (!obj) return "";
+            let keys = Object.keys(obj);
+            if (keys.length === 0) return "";
+            
+            // Pega o primeiro campo do JSON (não importa como a IA nomeou a chave)
+            let val = obj[keys[0]]; 
+            
+            if (Array.isArray(val)) {
+                // Se a IA criou uma lista (Array de objetos ou strings)
+                return val.map(item => {
+                    if (typeof item === 'object') return Object.values(item).join(' — ');
+                    return String(item);
+                }).join('\n\n');
+            } else if (typeof val === 'object') {
+                // Se ela criou um JSON aninhado
+                return Object.values(val).join('\n\n');
+            }
+            return String(val); // Se ela seguiu a regra certinho
+        }
+
+        // ================= IA GERAÇÃO =================
         let estudoGlobal = {};
         let contextoCopia = ""; 
 
         async function chamarAPI(promptSistema, promptUsuario, loadingMsg) {
             let key = document.getElementById('api-key').value.trim();
-            if(!key || !key.startsWith('gsk_')) { alert('Acesso negado: Chave API ausente. Configure no botão ⚙️'); return null; }
+            if(!key || !key.startsWith('gsk_')) { alert('Acesso negado: Chave API ausente. Clique na engrenagem ⚙️'); return null; }
 
             document.getElementById('loading').style.display = 'block';
             document.getElementById('loading-txt').innerText = loadingMsg;
@@ -507,7 +520,7 @@
                         model: "llama-3.3-70b-versatile",
                         messages: [{ role: "system", content: promptSistema }, { role: "user", content: promptUsuario }],
                         response_format: { type: "json_object" },
-                        temperature: 0.6, max_tokens: 6000
+                        temperature: 0.6, max_tokens: 6500
                     })
                 });
 
@@ -518,7 +531,7 @@
                 document.getElementById('loading').style.display = 'none';
                 return result;
             } catch (e) {
-                alert('Erro de conexão neural: ' + e.message + '\n\nTente gerar novamente, a IA pode ter sofrido um corte por limite de texto.');
+                alert('Erro de processamento neural: ' + e.message);
                 document.getElementById('loading').style.display = 'none';
                 return null;
             }
@@ -544,29 +557,23 @@
             if(!texto) return alert('Selecione um texto na Bíblia.');
 
             const sys = `Você é um Ph.D. em Teologia. 
-CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT output markdown code blocks. START IMMEDIATELY WITH { AND END WITH }.
+CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. START WITH { AND END WITH }.
 {
-  "autorContexto": "Ensaio profundo histórico.", 
-  "exegeseOriginal": "Análise de 3 a 5 palavras no Grego/Hebraico.", 
-  "esbocoHomiletico": "Esboço longo com TEMA, INTRO, Tópicos e Conclusão.", 
-  "ilustracao": "Aplicação pastoral com evento histórico.", 
-  "visaoTeologica": "Tratado Sistemático."
+  "autorContexto": "Ensaio histórico profundo.", 
+  "exegeseOriginal": "Análise de originais (Grego/Heb).", 
+  "esbocoHomiletico": "Esboço completo e longo.", 
+  "ilustracao": "Aplicação pastoral com história.", 
+  "visaoTeologica": "Tratado Teológico Sistemático."
 }`;
-            let result = await chamarAPI(sys, `Ref: "${texto}"\nÊnfase: ${enfase}\nFmt: ${formato}`, "Elaborando Tratado...");
+            let result = await chamarAPI(sys, `Ref: "${texto}"\nÊnfase: ${enfase}\nFmt: ${formato}`, "Escrevendo Manuscrito...");
             if(result) {
                 estudoGlobal = result; contextoCopia = "ESTUDO";
                 
-                // Blindagem de Dados
-                for (let chave in estudoGlobal) {
-                    if (Array.isArray(estudoGlobal[chave])) estudoGlobal[chave] = estudoGlobal[chave].join('\n\n');
-                    else if (typeof estudoGlobal[chave] === 'object') estudoGlobal[chave] = JSON.stringify(estudoGlobal[chave]);
-                }
-
-                document.getElementById('res-hermeneutica').innerHTML = formatarTexto(estudoGlobal.autorContexto);
-                document.getElementById('res-exegese').innerHTML = formatarTexto(estudoGlobal.exegeseOriginal);
-                document.getElementById('res-esboco').innerHTML = formatarTexto(estudoGlobal.esbocoHomiletico);
-                document.getElementById('res-ilustracao').innerHTML = formatarTexto(estudoGlobal.ilustracao);
-                document.getElementById('res-teologia').innerHTML = formatarTexto(estudoGlobal.visaoTeologica);
+                document.getElementById('res-hermeneutica').innerHTML = formatarTexto(extrairTextoDoJSON({v: result.autorContexto}));
+                document.getElementById('res-exegese').innerHTML = formatarTexto(extrairTextoDoJSON({v: result.exegeseOriginal}));
+                document.getElementById('res-esboco').innerHTML = formatarTexto(extrairTextoDoJSON({v: result.esbocoHomiletico}));
+                document.getElementById('res-ilustracao').innerHTML = formatarTexto(extrairTextoDoJSON({v: result.ilustracao}));
+                document.getElementById('res-teologia').innerHTML = formatarTexto(extrairTextoDoJSON({v: result.visaoTeologica}));
                 
                 document.getElementById('menu-resultados-simples').style.display = 'none';
                 document.getElementById('menu-resultados').style.display = 'block';
@@ -576,19 +583,14 @@ CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT output markdown code bl
 
         async function gerarPersonagem() {
             let personagem = document.getElementById('select-personagem').value;
-            const sys = `Você é um curador e historiador teológico.
-CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT output markdown code blocks. THE VALUE OF "conteudo" MUST BE A SINGLE LONG STRING (TEXT), NOT AN ARRAY. START IMMEDIATELY WITH { AND END WITH }.
-{
-  "conteudo": "Escreva TODO o dossiê aqui em um único texto contínuo formatado em Markdown. Inclua: Biografia, Psicologia, Vitórias/Falhas, Tipologia Cristã."
-}`;
-            let result = await chamarAPI(sys, `Personagem: ${personagem}`, `Mapeando ${personagem}...`);
+            const sys = `Você é um historiador teológico.
+CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. 
+{"conteudo": "Escreva todo o dossiê detalhado (Biografia, Perfil, Vitórias, Tipologia) em um único texto longo formatado em Markdown."}`;
+            let result = await chamarAPI(sys, `Personagem: ${personagem}`, `Mapeando Dossiê...`);
             if(result) {
                 estudoGlobal = result; contextoCopia = "SIMPLES";
+                estudoGlobal.conteudo = extrairTextoDoJSON(result); // BLINDAGEM MÁXIMA
                 
-                // Blindagem de Dados
-                if (Array.isArray(estudoGlobal.conteudo)) estudoGlobal.conteudo = estudoGlobal.conteudo.join('\n\n');
-                else if (typeof estudoGlobal.conteudo === 'object') estudoGlobal.conteudo = JSON.stringify(estudoGlobal.conteudo);
-
                 document.getElementById('tit-simples').innerText = `Dossiê: ${personagem}`;
                 document.getElementById('res-simples').innerHTML = formatarTexto(estudoGlobal.conteudo);
                 document.getElementById('menu-resultados').style.display = 'none';
@@ -599,21 +601,16 @@ CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT output markdown code bl
 
         async function gerarLivros() {
             let tema = document.getElementById('texto-livros').value.trim();
-            if(!tema) return alert('Digite um tema.');
-            const sys = `Você é um curador literário teológico.
-CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT output markdown code blocks. THE VALUE OF "conteudo" MUST BE A SINGLE LONG STRING (TEXT), NEVER AN ARRAY. START IMMEDIATELY WITH { AND END WITH }.
-{
-  "conteudo": "Escreva a recomendação de 5 a 8 LIVROS reais aqui, em um único bloco de texto contínuo usando Markdown para organizar."
-}`;
+            if(!tema) return alert('Digite um tema para buscar as obras.');
+            const sys = `Você é um curador literário.
+CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT CREATE AN ARRAY OF OBJECTS. WRITE A SINGLE TEXT STRING.
+{"conteudo": "Recomende 5 a 8 livros teológicos sobre o tema. Escreva tudo como UM ÚNICO TEXTO usando markdown para destacar títulos e autores."}`;
             let result = await chamarAPI(sys, `Tema: ${tema}`, "Consultando Acervo...");
             if(result) {
                 estudoGlobal = result; contextoCopia = "SIMPLES";
-                
-                // Blindagem de Dados
-                if (Array.isArray(estudoGlobal.conteudo)) estudoGlobal.conteudo = estudoGlobal.conteudo.join('\n\n');
-                else if (typeof estudoGlobal.conteudo === 'object') estudoGlobal.conteudo = JSON.stringify(estudoGlobal.conteudo);
+                estudoGlobal.conteudo = extrairTextoDoJSON(result); // BLINDAGEM MÁXIMA
 
-                document.getElementById('tit-simples').innerText = `Bibliografia: ${tema}`;
+                document.getElementById('tit-simples').innerText = `Acervo: ${tema}`;
                 document.getElementById('res-simples').innerHTML = formatarTexto(estudoGlobal.conteudo);
                 document.getElementById('menu-resultados').style.display = 'none';
                 document.getElementById('menu-resultados-simples').style.display = 'block';
@@ -625,11 +622,11 @@ CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT output markdown code bl
         function copiarWhatsApp() {
             let txt = "";
             if (contextoCopia === "ESTUDO") {
-                txt = `*🎓 TRATADO BETHESDA:*\n\n*📜 1. CONTEXTO:*\n${estudoGlobal.autorContexto}\n\n*🔍 2. ORIGINAIS:*\n${estudoGlobal.exegeseOriginal}\n\n*🔥 3. ESBOÇO:*\n${estudoGlobal.esbocoHomiletico}\n\n*💡 4. APLICAÇÃO:*\n${estudoGlobal.ilustracao}\n\n*📚 5. SISTEMÁTICA:*\n${estudoGlobal.visaoTeologica}`;
+                txt = `*🎓 TRATADO BETHESDA:*\n\n*📜 1. CONTEXTO:*\n${extrairTextoDoJSON({v: estudoGlobal.autorContexto})}\n\n*🔍 2. ORIGINAIS:*\n${extrairTextoDoJSON({v: estudoGlobal.exegeseOriginal})}\n\n*🔥 3. ESBOÇO:*\n${extrairTextoDoJSON({v: estudoGlobal.esbocoHomiletico})}\n\n*💡 4. APLICAÇÃO:*\n${extrairTextoDoJSON({v: estudoGlobal.ilustracao})}\n\n*📚 5. SISTEMÁTICA:*\n${extrairTextoDoJSON({v: estudoGlobal.visaoTeologica})}`;
             } else if (contextoCopia === "SIMPLES") txt = `*DOCUMENTO BETHESDA:*\n\n${estudoGlobal.conteudo}`;
             if(!txt) return;
             txt = txt.replace(/<p>/g, '').replace(/<\/p>/g, '\n').replace(/<span class="topico-lista">/g, '- ').replace(/<\/span>/g, '\n').replace(/<b>/g, '*').replace(/<\/b>/g, '*');
-            navigator.clipboard.writeText(txt); alert('Exportado com sucesso!');
+            navigator.clipboard.writeText(txt); alert('Exportado para a área de transferência!');
         }
 
         function baixarPDF() {
@@ -640,6 +637,7 @@ CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT output markdown code bl
             doc.setTextColor(30, 30, 30); doc.setFontSize(10); let y = 40;
 
             function addBloco(titulo, texto) {
+                if(!texto) return;
                 if(y > 260) { doc.addPage(); y = 20; }
                 doc.setFont("helvetica", "bold"); doc.setTextColor(139, 90, 51); doc.text(titulo, 15, y); y += 8;
                 doc.setFont("helvetica", "normal"); doc.setTextColor(40, 40, 40);
@@ -650,18 +648,19 @@ CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT output markdown code bl
             }
 
             if(contextoCopia === "ESTUDO") {
-                addBloco("1. CONTEXTO HISTORICO", estudoGlobal.autorContexto);
-                addBloco("2. ANALISE DOS ORIGINAIS", estudoGlobal.exegeseOriginal);
-                addBloco("3. ESBOCO HOMILETICO", estudoGlobal.esbocoHomiletico);
-                addBloco("4. APLICACAO PASTORAL", estudoGlobal.ilustracao);
-                addBloco("5. TEOLOGIA SISTEMATICA", estudoGlobal.visaoTeologica);
+                addBloco("1. CONTEXTO HISTORICO", extrairTextoDoJSON({v: estudoGlobal.autorContexto}));
+                addBloco("2. ANALISE DOS ORIGINAIS", extrairTextoDoJSON({v: estudoGlobal.exegeseOriginal}));
+                addBloco("3. ESBOCO HOMILETICO", extrairTextoDoJSON({v: estudoGlobal.esbocoHomiletico}));
+                addBloco("4. APLICACAO PASTORAL", extrairTextoDoJSON({v: estudoGlobal.ilustracao}));
+                addBloco("5. TEOLOGIA SISTEMATICA", extrairTextoDoJSON({v: estudoGlobal.visaoTeologica}));
             } else { addBloco("DOCUMENTO", estudoGlobal.conteudo); }
             doc.save(`Bethesda_Manuscrito.pdf`);
         }
 
         function ouvirEstudo() {
             if(!estudoGlobal) return; window.speechSynthesis.cancel();
-            let texto = contextoCopia === "ESTUDO" ? estudoGlobal.esbocoHomiletico : estudoGlobal.conteudo;
+            let texto = contextoCopia === "ESTUDO" ? extrairTextoDoJSON({v: estudoGlobal.esbocoHomiletico}) : estudoGlobal.conteudo;
+            if(!texto) return;
             let synth = new SpeechSynthesisUtterance(texto.replace(/\*/g, '').replace(/-/g, 'Tópico: '));
             synth.lang = 'pt-BR'; synth.rate = 1.05; window.speechSynthesis.speak(synth);
         }

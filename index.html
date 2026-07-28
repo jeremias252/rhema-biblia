@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rhema • Estudo & Esboço Pentecostal</title>
+    <title>Rhema • Estudo Bíblico</title>
     
     <!-- Fontes e Libs -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -37,7 +37,8 @@
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
 
         header { text-align: center; padding: 30px 0 20px; }
-        .logo-title { font-family: 'Cinzel', serif; font-size: 32px; font-weight: 900; color: var(--gold-light); letter-spacing: 2px; margin: 0; }
+        .logo-title { font-family: 'Cinzel', serif; font-size: 32px; font-weight: 900; color: var(--gold-light); letter-spacing: 2px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .v2-badge { font-family: 'Poppins', sans-serif; background: var(--gold); color: #000; font-size: 12px; font-weight: 900; padding: 2px 8px; border-radius: 6px; letter-spacing: 0; }
         .logo-sub { color: var(--text-sub); font-size: 13px; margin-top: 5px; font-weight: 300; }
         .badge-pentecostal { background: rgba(217, 119, 6, 0.15); border: 1px solid var(--gold); color: var(--gold-light); font-size: 10px; font-weight: 800; padding: 4px 12px; border-radius: 99px; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 10px; }
 
@@ -96,7 +97,7 @@
     <div class="container">
         <header>
             <span class="badge-status badge-pentecostal">🔥 Teologia & Homilética Pentecostal</span>
-            <h1 class="logo-title">RHEMA • BÍBLIA</h1>
+            <h1 class="logo-title">RHEMA • BÍBLIA <span class="v2-badge">v2</span></h1>
             <p class="logo-sub">Gerador de Esboços e Exegese Bíblica Profunda</p>
         </header>
 
@@ -213,12 +214,12 @@
                 "exegeseOriginal": "Explicação exegética do que o autor estava dizendo no momento da escrita, significado das palavras no grego/hebraico e intenção primária.",
                 "esbocoHomiletico": "Um esboço pronto contendo:\\n- TÍTULO DA MENSAGEM\\n- INTRODUÇÃO\\n- PONTO 1 (Com versículo de apoio)\\n- PONTO 2 (Com versículo de apoio)\\n- PONTO 3 (Com versículo de apoio)\\n- CONCLUSAO E APELO PENTECOSTAL (Ação do Espírito Santo, Unção, Batalha Espiritual)",
                 "ilustracao": "Uma história bíblica correlata ou uma ilustração/metáfora do cotidiano para ajudar a assembleia a entender a mensagem.",
-                "visaoTeologica": "Comentário teológico enriquecedor citando princípios teológicos pentecostais e a visão de comentaristas clássicos (Ex: Bíblia de Estudo Pentecostal/Donald Stamps, Matthew Henry ou Stanley Horton)."
+                "visaoTeologica": "Comentário teológico enriquecedor citando princípios teológicos pentecostais e a visão de comentaristas clássicos."
             }
             `;
 
-            // ATUALIZADO: Usando os modelos oficiais e universais do Google AI Studio
-            const modelos = ["gemini-1.5-flash", "gemini-1.0-pro", "gemini-pro"];
+            // ATUALIZADO: Usando apenas os modelos universais confirmados que não dão erro de 'not found'
+            const modelos = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-pro"];
             let sucesso = false;
             let ultimoErro = "";
 
@@ -237,7 +238,7 @@
                     
                     if (data.error) {
                         ultimoErro = data.error.message;
-                        continue; // Se o modelo falhar, tenta automaticamente o próximo
+                        continue; // Tenta o próximo modelo
                     }
 
                     let rawText = data.candidates[0].content.parts[0].text;
@@ -255,14 +256,14 @@
                     document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
 
                     sucesso = true;
-                    break; // Se deu sucesso, sai do loop imediatamente
+                    break; // Sai do loop após o sucesso
                 } catch (e) {
                     ultimoErro = e.message;
                 }
             }
 
             if (!sucesso) {
-                alert('❌ Erro na API do Google: ' + ultimoErro + '\n\nPor favor, verifique se a sua chave do AI Studio está correta e ativa.');
+                alert('❌ Erro na API do Google: ' + ultimoErro + '\n\nSe o erro persistir, gere uma nova chave no AI Studio.');
             }
 
             document.getElementById('loading').style.display = 'none';

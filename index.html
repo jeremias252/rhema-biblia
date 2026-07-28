@@ -41,7 +41,7 @@
         /* HEADER */
         header { text-align: center; padding: 30px 0 20px; }
         .logo-title { font-family: 'Cinzel', serif; font-size: 32px; font-weight: 900; color: var(--gold-light); letter-spacing: 2px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-shadow: 0 5px 15px rgba(217, 119, 6, 0.4);}
-        .v10-badge { font-family: 'Poppins', sans-serif; background: var(--grad-btn); color: #fff; font-size: 11px; font-weight: 900; padding: 4px 12px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 15px var(--gold-glow);}
+        .v11-badge { font-family: 'Poppins', sans-serif; background: #ef4444; color: #fff; font-size: 11px; font-weight: 900; padding: 4px 12px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);}
         .logo-sub { color: var(--text-sub); font-size: 14px; margin-top: 5px; font-weight: 400; }
         .badge-pentecostal { background: rgba(217, 119, 6, 0.1); border: 1px solid var(--gold); color: var(--gold-light); font-size: 10px; font-weight: 800; padding: 5px 14px; border-radius: 99px; text-transform: uppercase; letter-spacing: 1.5px; display: inline-block; margin-bottom: 12px; }
 
@@ -116,7 +116,7 @@
     <div class="container">
         <header>
             <span class="badge-status badge-pentecostal">Teologia & Exegese Profunda</span>
-            <h1 class="logo-title">RHEMA PREMIUM <span class="v10-badge">v10.0</span></h1>
+            <h1 class="logo-title">RHEMA PREMIUM <span class="v11-badge">v11.0 BLINDADO</span></h1>
             <p class="logo-sub">Estudos, Originais Grego/Hebraico e Homilética</p>
         </header>
 
@@ -161,7 +161,7 @@
             <small style="color:var(--text-sub)">Processando exegese, traduções literais e contexto histórico.</small>
         </div>
 
-        <!-- CONTAINER DAS ABAS (OCULTO ATÉ GERAR O ESTUDO) -->
+        <!-- CONTAINER DAS ABAS -->
         <div class="tabs-container" id="area-estudo">
             
             <div class="actions-bar">
@@ -170,7 +170,6 @@
                 <button class="btn-sec" onclick="ouvirEstudo()">🔊 Ouvir Mensagem</button>
             </div>
 
-            <!-- MENU DAS ABAS -->
             <div class="tabs-list" id="nav-tabs">
                 <button class="tab-btn active" onclick="abrirAba('hermeneutica', this)">📜 Contexto</button>
                 <button class="tab-btn" onclick="abrirAba('exegese', this)">🔍 Grego/Hebraico</button>
@@ -179,7 +178,6 @@
                 <button class="tab-btn" onclick="abrirAba('teologia', this)">📚 Teologia</button>
             </div>
 
-            <!-- CONTEÚDO DAS ABAS -->
             <div id="tab-hermeneutica" class="tab-content active">
                 <div class="card-estudo">
                     <h3>📜 Contexto Hermenêutico</h3>
@@ -219,17 +217,12 @@
     </div>
 
     <script>
-        // Função para alternar entre as abas
         function abrirAba(idAba, elementoBotao) {
-            // Esconde todos os conteúdos
             let conteudos = document.querySelectorAll('.tab-content');
             conteudos.forEach(c => c.classList.remove('active'));
-            
-            // Remove a classe 'active' de todos os botões
             let botoes = document.querySelectorAll('.tab-btn');
             botoes.forEach(b => b.classList.remove('active'));
             
-            // Mostra o conteúdo escolhido e ativa o botão clicado
             document.getElementById('tab-' + idAba).classList.add('active');
             elementoBotao.classList.add('active');
         }
@@ -257,7 +250,6 @@
             document.getElementById('btn-gerar').disabled = true;
 
             try {
-                // PROMPT ULTRA PROFUNDO (ENGENHARIA DE PROMPT PREMIUM)
                 const promptSistema = `
                 Você é um Ph.D. em Teologia, exímio conhecedor de Grego Koiné e Hebraico Bíblico, e mestre em Homilética. Sua cosmovisão teológica é estritamente Pentecostal Clássica (assembleiana/arminiana-wesleyana).
                 
@@ -272,7 +264,7 @@
                     "visaoTeologica": "Um arrazoado teológico denso. Aborde soteriologia, pneumatologia ou escatologia contida no texto. Cite (ou faça alusão) a grandes teólogos ou comentários (ex: Stanley Horton, Myer Pearlman, Matthew Henry, Antônio Gilberto)."
                 }
                 
-                Retorne APENAS o JSON válido. Nenhuma letra fora das chaves do JSON.`;
+                Retorne APENAS o JSON válido. Nenhuma letra fora das chaves do JSON. Garanta que o valor de CADA CHAVE do JSON seja um TEXTO SIMPLES (String) e não uma lista (Array).`;
 
                 const promptUsuario = `Texto bíblico: "${texto}"\nÊnfase: ${enfase}\nFormato: ${formato}`;
 
@@ -307,30 +299,39 @@
                 let rawText = data.choices[0].message.content;
                 estudoGlobal = JSON.parse(rawText);
 
-                // Preencher as janelas com o conteúdo formatado
+                // --- SISTEMA DE BLINDAGEM DE DADOS ---
+                // Verifica e converte todas as respostas da IA para string (texto simples), evitando o erro 'replace is not a function'
+                for (let chave in estudoGlobal) {
+                    if (Array.isArray(estudoGlobal[chave])) {
+                        estudoGlobal[chave] = estudoGlobal[chave].join('\n\n'); // Se for array, junta tudo
+                    } else if (typeof estudoGlobal[chave] === 'object') {
+                        estudoGlobal[chave] = JSON.stringify(estudoGlobal[chave], null, 2); // Se for objeto puro, converte pra texto
+                    } else {
+                        estudoGlobal[chave] = String(estudoGlobal[chave]); // Garante que é string
+                    }
+                }
+
                 document.getElementById('res-hermeneutica').innerHTML = formatarTexto(estudoGlobal.autorContexto);
                 document.getElementById('res-exegese').innerHTML = formatarTexto(estudoGlobal.exegeseOriginal);
                 document.getElementById('res-esboco').innerHTML = formatarTexto(estudoGlobal.esbocoHomiletico);
                 document.getElementById('res-ilustracao').innerHTML = formatarTexto(estudoGlobal.ilustracao);
                 document.getElementById('res-teologia').innerHTML = formatarTexto(estudoGlobal.visaoTeologica);
 
-                // Exibir a área de estudos e voltar para a primeira aba
                 document.getElementById('area-estudo').style.display = 'block';
                 document.querySelectorAll('.tab-btn')[0].click();
                 document.getElementById('area-estudo').scrollIntoView({ behavior: 'smooth' });
 
             } catch (e) {
-                alert('⚠️ Ocorreu um erro ao formatar o estudo: ' + e.message);
+                alert('⚠️ Ocorreu um erro ao processar os dados: ' + e.message);
             } finally {
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('btn-gerar').disabled = false;
             }
         }
 
-        // Função simples para dar negrito em títulos e textos entre asteriscos
+        // Formata os títulos e negritos vindos do Markdown
         function formatarTexto(texto) {
             if(!texto) return '';
-            // Troca os asteriscos do markdown para tag <b> HTML
             return texto.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<b>$1</b>');
         }
 
@@ -366,11 +367,9 @@
                 doc.text(titulo, 15, y); y += 6;
                 doc.setFont("helvetica", "normal"); doc.setTextColor(40, 40, 40);
                 
-                // Limpa os asteriscos para o PDF não ficar sujo
                 let cleanText = texto.replace(/\*\*/g, '').replace(/\*/g, '');
                 let linhas = doc.splitTextToSize(cleanText, 180);
                 
-                // Verifica quebra de página no meio do bloco
                 if (y + (linhas.length * 5) > 280) { doc.addPage(); y = 20; }
                 
                 doc.text(linhas, 15, y);
@@ -390,12 +389,11 @@
             if(!estudoGlobal.esbocoHomiletico) return;
             window.speechSynthesis.cancel();
             
-            // Limpa formatação para o robô ler certinho
             let textoLer = `Esboço da Pregação. ${estudoGlobal.esbocoHomiletico}`.replace(/\*/g, '');
             
             let synth = new SpeechSynthesisUtterance(textoLer);
             synth.lang = 'pt-BR';
-            synth.rate = 1.05; // Levemente mais rápido
+            synth.rate = 1.05; 
             window.speechSynthesis.speak(synth);
         }
     </script>

@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bethesda Majestic • Master Seminary</title>
+    <title>Bethesda Ultimate • Master Seminary</title>
     
     <!-- Fontes Premium -->
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- MOTORES PROFISSIONAIS DE LEITURA E PDF -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
-        /* TEMA MAJESTIC */
+        /* TEMA MAJESTIC ULTIMATE */
         :root {
             --bg-base: #030305;
             --surface: rgba(255, 255, 255, 0.03);
@@ -33,23 +36,17 @@
         }
 
         * { box-sizing: border-box; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--gold-main); }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 10px; }
 
         .ambient-light {
             position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
             background: radial-gradient(circle, rgba(212,163,115,0.08) 0%, transparent 70%);
             z-index: -1; filter: blur(60px); animation: float 15s ease-in-out infinite alternate;
         }
-        .ambient-light.two {
-            top: auto; bottom: -10%; left: auto; right: -10%;
-            background: radial-gradient(circle, rgba(139,90,51,0.08) 0%, transparent 70%);
-            animation-delay: -5s;
-        }
 
         @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(5%, 10%) scale(1.1); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
         /* TELA DE LOGIN */
         #login-screen {
@@ -57,25 +54,19 @@
             background: var(--bg-base); z-index: 9999; display: flex; flex-direction: column; 
             align-items: center; justify-content: center; padding: 20px; transition: 0.8s ease;
         }
-        .login-verse { max-width: 500px; text-align: center; margin-bottom: 50px; }
-        .login-verse h2 {
-            font-family: 'Playfair Display', serif; color: var(--gold-light); font-size: 26px; 
-            font-style: italic; line-height: 1.5; font-weight: 400; margin-bottom: 20px; opacity: 0.9;
-        }
-        .login-verse span { color: var(--text-muted); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; }
-        
         .login-box {
             background: var(--surface); border: 1px solid var(--border); padding: 50px; 
             border-radius: 32px; text-align: center; backdrop-filter: var(--glass-blur); 
             box-shadow: 0 30px 60px rgba(0,0,0,0.5); width: 100%; max-width: 420px;
         }
-        .login-box h1 { font-family: 'Playfair Display', serif; color: white; font-size: 40px; margin: 0 0 30px; letter-spacing: 2px; }
+        .login-box h1 { font-family: 'Playfair Display', serif; color: white; font-size: 38px; margin: 0 0 10px; letter-spacing: 2px; }
+        .login-box p { color: var(--gold-main); font-size: 11px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px;}
         .login-box input {
             width: 100%; padding: 18px; border-radius: 16px; background: rgba(0,0,0,0.4);
-            border: 1px solid var(--border); color: white; font-family: inherit;
-            text-align: center; letter-spacing: 5px; margin-bottom: 30px; font-size: 16px; transition: 0.3s;
+            border: 1px solid var(--border); color: white; text-align: center; letter-spacing: 5px; 
+            margin-bottom: 30px; font-size: 16px; transition: 0.3s; outline: none;
         }
-        .login-box input:focus { border-color: var(--gold-main); outline: none; box-shadow: var(--glow); }
+        .login-box input:focus { border-color: var(--gold-main); box-shadow: var(--glow); }
 
         .btn-luxury {
             background: var(--text-title); color: var(--bg-base); border: none;
@@ -84,22 +75,22 @@
         }
         .btn-luxury:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: var(--glow); }
 
-        /* SIDEBAR */
+        /* SIDEBAR LATERAL */
         .sidebar {
             width: 280px; height: 100vh; position: fixed; top: 0; left: 0; z-index: 100;
             background: rgba(3, 3, 5, 0.7); backdrop-filter: var(--glass-blur); border-right: 1px solid var(--border);
-            display: flex; flex-direction: column; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             padding: 40px 0; overflow-y: auto;
         }
         .sidebar.closed { transform: translateX(-100%); }
         
         .sidebar-header { padding: 0 30px 40px; position: relative; }
-        .sidebar-header h1 { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--gold-light); margin: 0; letter-spacing: 1px;}
+        .sidebar-header h1 { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--gold-light); margin: 0;}
         .sidebar-header p { color: var(--text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin: 5px 0 0;}
         .btn-config { position: absolute; right: 25px; top: 0; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted); transition: 0.3s;}
         .btn-config:hover { color: var(--gold-main); transform: rotate(90deg);}
 
-        .menu-group { padding: 0 20px; margin-bottom: 40px; }
+        .menu-group { padding: 0 20px; margin-bottom: 30px; }
         .menu-title { font-size: 10px; font-weight: 700; color: var(--gold-dark); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; padding-left: 10px;}
         
         .menu-link {
@@ -109,6 +100,7 @@
         .menu-link:hover { background: var(--surface-hover); color: var(--text-body); }
         .menu-link.active { background: var(--text-title); color: var(--bg-base); font-weight: 700; }
         
+        /* BOTÕES DE RESULTADO DA SIDEBAR */
         .menu-result-link {
             display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--text-muted); 
             font-size: 13px; font-weight: 500; border-radius: 14px; margin-bottom: 5px; transition: 0.3s; cursor: pointer;
@@ -118,54 +110,60 @@
         .menu-result-link.active { color: var(--gold-light); font-weight: 600; background: var(--surface); }
         .menu-result-link.active::before { background: var(--gold-main); transform: scale(1.5); box-shadow: 0 0 10px var(--gold-main);}
 
-        /* MAIN WRAPPER */
-        .main-wrapper { flex: 1; margin-left: 280px; min-height: 100vh; padding: 40px; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* ÁREA PRINCIPAL */
+        .main-wrapper { flex: 1; margin-left: 280px; min-height: 100vh; padding: 40px; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .main-wrapper.expanded { margin-left: 0; }
         
         .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
-        .btn-toggle-menu { background: var(--surface); border: 1px solid var(--border); color: var(--text-title); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; backdrop-filter: var(--glass-blur);}
+        .btn-toggle-menu { background: var(--surface); border: 1px solid var(--border); color: var(--text-title); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center;}
         .btn-toggle-menu:hover { background: var(--surface-hover); border-color: var(--gold-main); color: var(--gold-main); }
         .page-title { font-family: 'Playfair Display', serif; color: var(--text-title); font-size: 32px; font-weight: 600; margin: 0;}
 
-        .view-section { display: none; animation: fadeIn 0.6s ease; max-width: 1000px; margin: 0 auto; }
+        /* SEÇÕES (VIEWS) */
+        .view-section { display: none; animation: fadeIn 0.5s ease; max-width: 900px; margin: 0 auto; }
         .view-section.active { display: block; }
 
+        .bento-card { background: var(--surface); border: 1px solid var(--border); border-radius: 32px; padding: 40px; backdrop-filter: var(--glass-blur); margin-bottom: 24px;}
         .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
-        .bento-card { background: var(--surface); border: 1px solid var(--border); border-radius: 32px; padding: 40px; backdrop-filter: var(--glass-blur); transition: 0.3s; }
-        .bento-card.full { grid-column: 1 / -1; }
         
-        label.bento-label { font-size: 10px; font-weight: 700; color: var(--gold-main); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 20px;}
+        label.bento-label { font-size: 10px; font-weight: 700; color: var(--gold-main); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 15px;}
         
         .input-wrapper { position: relative; }
-        textarea, select {
-            width: 100%; padding: 24px; border-radius: 20px; background: rgba(0, 0, 0, 0.3);
+        textarea, select, input[type="text"] {
+            width: 100%; padding: 20px; border-radius: 20px; background: rgba(0, 0, 0, 0.3);
             border: 1px solid var(--border); color: var(--text-title); font-family: inherit; 
-            font-size: 16px; transition: 0.3s; font-weight: 500; resize: none;
+            font-size: 15px; transition: 0.3s; font-weight: 500; outline: none; resize: none;
         }
-        textarea:focus, select:focus { border-color: var(--gold-main); outline: none; background: rgba(0,0,0,0.5); }
+        textarea:focus, select:focus, input[type="text"]:focus { border-color: var(--gold-main); background: rgba(0,0,0,0.5); }
         
         .btn-bible {
             position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
             background: var(--surface); border: 1px solid var(--border); color: var(--text-body); 
-            padding: 12px 24px; border-radius: 14px; font-size: 12px; font-weight: 600; 
-            cursor: pointer; transition: 0.3s; text-transform: uppercase; backdrop-filter: blur(10px);
+            padding: 10px 20px; border-radius: 12px; font-size: 11px; font-weight: 700; 
+            cursor: pointer; transition: 0.3s; text-transform: uppercase;
         }
         .btn-bible:hover { background: var(--text-title); color: var(--bg-base); }
 
-        /* MODO LEITURA */
+        /* MODO LEITURA (MOTOR MARKDOWN ATIVADO) */
         .reader-content { display: none; }
-        .reader-content.active { display: block; animation: fadeIn 0.6s; }
+        .reader-content.active { display: block; animation: fadeIn 0.5s; }
         
-        .book-card { background: var(--surface); border: 1px solid var(--border); border-radius: 40px; padding: 60px; backdrop-filter: var(--glass-blur); box-shadow: 0 40px 80px rgba(0,0,0,0.3); }
-        .book-card h3 { font-family: 'Playfair Display', serif; color: var(--gold-light); font-size: 42px; font-weight: 600; margin: 0 0 40px; letter-spacing: -0.5px; }
-        .book-card p { font-family: 'Playfair Display', serif; font-size: 19px; line-height: 1.9; color: #d1d5db; margin: 0 0 25px; font-weight: 400; text-align: justify; }
-        .book-card p b { color: var(--text-title); font-weight: 700; font-size: 20px;}
-        .book-card p i { color: var(--gold-main); font-style: italic;}
-        .topico-lista { display: block; margin-left: 30px; position: relative; margin-bottom: 15px; }
-        .topico-lista::before { content: '—'; color: var(--gold-main); position: absolute; left: -25px; font-weight: 700; }
+        .book-card { background: var(--surface); border: 1px solid var(--border); border-radius: 32px; padding: 50px; backdrop-filter: var(--glass-blur); box-shadow: 0 40px 80px rgba(0,0,0,0.3); }
+        
+        /* ESTILOS INJETADOS PELO MARKED.JS */
+        .book-card h1, .book-card h2, .book-card h3 { font-family: 'Playfair Display', serif; color: var(--gold-light); margin-top: 30px; margin-bottom: 15px; line-height: 1.3;}
+        .book-card h1 { font-size: 36px; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-top: 0;}
+        .book-card h2 { font-size: 28px; }
+        .book-card h3 { font-size: 22px; color: var(--gold-main); }
+        .book-card p { font-size: 17px; line-height: 1.9; color: #d1d5db; margin-bottom: 20px; text-align: justify;}
+        .book-card strong { color: var(--text-title); font-weight: 700; }
+        .book-card em { color: var(--gold-main); font-style: italic; }
+        .book-card ul, .book-card ol { font-size: 17px; line-height: 1.9; color: #d1d5db; margin-bottom: 20px; padding-left: 20px; }
+        .book-card li { margin-bottom: 10px; }
+        .book-card blockquote { border-left: 4px solid var(--gold-main); padding-left: 20px; margin-left: 0; font-style: italic; color: var(--text-muted); }
 
         .actions-bar { display: flex; gap: 15px; justify-content: flex-end; margin-bottom: 25px; }
-        .btn-icon { background: var(--surface); border: 1px solid var(--border); color: var(--text-body); padding: 14px 24px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-icon { background: var(--surface); border: 1px solid var(--border); color: var(--text-body); padding: 12px 20px; border-radius: 12px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
         .btn-icon:hover { background: var(--text-title); color: var(--bg-base); }
 
         /* LOADING & MODAIS */
@@ -173,20 +171,19 @@
         .spinner { width: 60px; height: 60px; border: 2px solid var(--border); border-top-color: var(--gold-main); border-radius: 50%; animation: spin 1s infinite cubic-bezier(0.6, 0.2, 0.4, 0.8); margin: 0 auto 30px; }
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3,3,5,0.9); backdrop-filter: blur(20px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
-        .modal-content { background: var(--bg-base); border: 1px solid var(--border); width: 100%; max-width: 700px; border-radius: 32px; padding: 40px; max-height: 85vh; overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
+        .modal-content { background: var(--bg-base); border: 1px solid var(--border); width: 100%; max-width: 600px; border-radius: 32px; padding: 40px; max-height: 85vh; overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .modal-header h2 { font-family: 'Playfair Display', serif; color: var(--text-title); margin: 0; font-size: 28px; }
+        .modal-header h2 { font-family: 'Playfair Display', serif; color: var(--text-title); margin: 0; font-size: 24px; }
         .close-modal { background: none; border: none; color: var(--text-muted); font-size: 32px; cursor: pointer; transition: 0.3s;}
         .close-modal:hover { color: var(--gold-main); transform: rotate(90deg);}
         
-        .grid-biblia { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
-        .biblia-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-body); padding: 16px; border-radius: 16px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; font-family: inherit; }
+        .grid-biblia { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+        .biblia-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-body); padding: 14px; border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; text-align: center; }
         .biblia-btn:hover { background: var(--text-title); color: var(--bg-base); }
-        
-        .grid-numeros { display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; display: none;}
-        .num-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-body); padding: 18px 0; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .grid-numeros { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; display: none;}
+        .num-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-body); padding: 15px 0; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s; }
         .num-btn:hover { background: var(--gold-main); color: var(--bg-base); border-color: var(--gold-main);}
-        .num-btn.wide { grid-column: 1 / -1; background: var(--text-title); color: var(--bg-base); text-transform: uppercase; font-size: 12px; letter-spacing: 2px;}
+        .num-btn.wide { grid-column: 1 / -1; background: var(--text-title); color: var(--bg-base); text-transform: uppercase; font-size: 11px; letter-spacing: 2px;}
 
         @media (max-width: 900px) {
             .bento-grid { grid-template-columns: 1fr; }
@@ -194,8 +191,8 @@
             .sidebar.mobile-open { transform: translateX(0); }
             .main-wrapper { margin-left: 0; padding: 20px; }
             .book-card { padding: 30px; border-radius: 24px; }
-            .book-card h3 { font-size: 32px; }
-            .book-card p { font-size: 17px; }
+            .book-card h1 { font-size: 28px; }
+            .book-card p { font-size: 16px; }
         }
     </style>
 </head>
@@ -206,15 +203,11 @@
 
     <!-- TELA DE LOGIN -->
     <div id="login-screen">
-        <div class="login-verse">
-            <h2>"Mas a sua palavra era em meu coração como fogo ardente..."</h2>
-            <span>Jeremias 20:9</span>
-        </div>
         <div class="login-box">
-            <h1 style="position: relative;">BETHESDA <span style="position:absolute; top:-10px; right: 20px; font-size:12px; color:var(--gold-main); font-family: 'Manrope';">v21.0</span></h1>
-            <p style="color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:2px; margin-bottom:25px;">Núcleo Titanium • Resenha Ativa</p>
-            <input type="password" id="senha-login" placeholder="Código de Acesso" onkeypress="verificarEnter(event)">
-            <button class="btn-luxury" onclick="fazerLogin()">Entrar no Santuário</button>
+            <h1>BETHESDA</h1>
+            <p>Master Seminary • v22</p>
+            <input type="password" id="senha-login" placeholder="Sua Senha" onkeypress="verificarEnter(event)">
+            <button class="btn-luxury" onclick="fazerLogin()">Entrar no Sistema</button>
         </div>
     </div>
 
@@ -226,9 +219,8 @@
                 <button class="close-modal" onclick="fecharConfig()">&times;</button>
             </div>
             <label class="bento-label">Chave GROQ (Llama 3.3)</label>
-            <input type="password" id="api-key" placeholder="gsk_..." style="margin-bottom:10px; text-align:center;">
-            <p style="color:var(--text-muted); font-size:12px; text-align:center; margin-bottom:25px;">A Biblioteca e a Extração foram consertadas.</p>
-            <button class="btn-luxury" onclick="salvarConfig()">Salvar Credenciais</button>
+            <input type="password" id="api-key" placeholder="gsk_..." style="margin-bottom:20px; text-align:center; width: 100%; padding: 18px; border-radius: 16px; background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: white; outline: none;">
+            <button class="btn-luxury" onclick="salvarConfig()">Salvar Chave</button>
         </div>
     </div>
 
@@ -239,7 +231,7 @@
                 <h2 id="modal-biblia-title">Selecione o Livro</h2>
                 <button class="close-modal" onclick="fecharBiblia()">&times;</button>
             </div>
-            <div id="view-livros">
+            <div id="view-livros-biblia">
                 <label class="bento-label">Antigo Testamento</label>
                 <div class="grid-biblia" id="grid-vt" style="margin-bottom: 30px;"></div>
                 <label class="bento-label">Novo Testamento</label>
@@ -261,21 +253,23 @@
             <div class="menu-title">Ferramentas</div>
             <a class="menu-link active" id="nav-tool-estudo" onclick="mostrarFerramenta('estudo')">Tratado Exegético</a>
             <a class="menu-link" id="nav-tool-personagem" onclick="mostrarFerramenta('personagem')">Dossiê de Personagem</a>
-            <a class="menu-link" id="nav-tool-livros" onclick="mostrarFerramenta('livros')">Resumo de Obras</a>
+            <a class="menu-link" id="nav-tool-livros" onclick="mostrarFerramenta('livros')">Resenha de Obras</a>
         </div>
 
-        <div class="menu-group" id="menu-resultados" style="display: none;">
+        <!-- MENU DE RESULTADOS DO TRATADO -->
+        <div class="menu-group" id="menu-resultados-estudo" style="display: none;">
             <div class="menu-title">Sumário do Estudo</div>
-            <a class="menu-result-link active" id="nav-res-hermeneutica" onclick="mostrarResultado('hermeneutica')">Contexto Histórico</a>
-            <a class="menu-result-link" id="nav-res-exegese" onclick="mostrarResultado('exegese')">Análise de Originais</a>
-            <a class="menu-result-link" id="nav-res-esboco" onclick="mostrarResultado('esboco')">Esboço Homilético</a>
-            <a class="menu-result-link" id="nav-res-ilustracao" onclick="mostrarResultado('ilustracao')">Aplicação Pastoral</a>
-            <a class="menu-result-link" id="nav-res-teologia" onclick="mostrarResultado('teologia')">Teologia Sistemática</a>
+            <a class="menu-result-link active" id="nav-res-hermeneutica" onclick="mostrarAbaEstudo('hermeneutica')">Contexto Histórico</a>
+            <a class="menu-result-link" id="nav-res-exegese" onclick="mostrarAbaEstudo('exegese')">Análise de Originais</a>
+            <a class="menu-result-link" id="nav-res-esboco" onclick="mostrarAbaEstudo('esboco')">Esboço Homilético</a>
+            <a class="menu-result-link" id="nav-res-ilustracao" onclick="mostrarAbaEstudo('ilustracao')">Aplicação Pastoral</a>
+            <a class="menu-result-link" id="nav-res-teologia" onclick="mostrarAbaEstudo('teologia')">Teologia Sistemática</a>
         </div>
         
+        <!-- MENU DE RESULTADOS SIMPLES (Livros / Personagem) -->
         <div class="menu-group" id="menu-resultados-simples" style="display: none;">
-            <div class="menu-title">Documento</div>
-            <a class="menu-result-link active" id="nav-res-simples" onclick="mostrarResultadoSimples()">Ler Manuscrito</a>
+            <div class="menu-title">Documento Gerado</div>
+            <a class="menu-result-link active" id="nav-res-simples" onclick="mostrarAbaSimples()">Ler Manuscrito</a>
         </div>
     </nav>
 
@@ -323,26 +317,17 @@
             <div class="view-section" id="view-personagem">
                 <div class="bento-card full">
                     <label class="bento-label">Perfil Biográfico</label>
-                    <select id="select-personagem" style="margin-bottom: 30px;">
-                        <option value="Abraão">Abraão (O Patriarca)</option>
-                        <option value="Davi">Davi (O Rei Segundo o Coração de Deus)</option>
-                        <option value="Apóstolo Paulo">Paulo (O Apóstolo dos Gentios)</option>
-                        <option value="Moisés">Moisés (O Grande Legislador)</option>
-                        <option value="Ester">Ester (A Rainha Corajosa)</option>
-                        <option value="Elias">Elias (O Profeta do Fogo)</option>
-                        <option value="Maria">Maria (Mãe de Jesus)</option>
-                        <option value="Apóstolo Pedro">Pedro (A Coluna da Igreja)</option>
-                    </select>
-                    <button class="btn-luxury" onclick="gerarPersonagem()">Gerar Dossiê</button>
+                    <input type="text" id="texto-personagem" placeholder="Ex: Rei Davi, Apóstolo Paulo, Rute..." style="margin-bottom: 30px;">
+                    <button class="btn-luxury" onclick="gerarPersonagem()">Gerar Dossiê do Personagem</button>
                 </div>
             </div>
 
-            <!-- TOOL 3: LIVROS (ATUALIZADA) -->
+            <!-- TOOL 3: LIVROS -->
             <div class="view-section" id="view-livros">
                 <div class="bento-card full">
-                    <label class="bento-label">Resenha Literária por Personagem ou Tema</label>
-                    <textarea id="texto-livros" rows="2" placeholder="Ex: 'Resumo de livros sobre o Rei Davi' ou 'Obras sobre Escatologia'..." style="margin-bottom:30px;"></textarea>
-                    <button class="btn-luxury" onclick="gerarLivros()">Gerar Resumos das Obras</button>
+                    <label class="bento-label">Resumos de Livros sobre Personagem/Tema</label>
+                    <input type="text" id="texto-livros" placeholder="Ex: Livros sobre o Rei Davi, Escatologia..." style="margin-bottom: 30px;">
+                    <button class="btn-luxury" onclick="gerarLivros()">Pesquisar Obras e Resumir</button>
                 </div>
             </div>
 
@@ -350,24 +335,25 @@
             <div class="loading" id="loading">
                 <div class="spinner"></div>
                 <p style="font-family:'Playfair Display',serif; font-size:24px; color:var(--text-title);" id="loading-txt">Sondando os Arquivos...</p>
-                <small style="color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:2px;">Motor Llama 3.3</small>
+                <small style="color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:2px;">Processando com Marked.js</small>
             </div>
 
             <!-- MODO LEITURA -->
             <div class="view-section" id="view-leitura">
                 <div class="actions-bar">
-                    <button class="btn-icon" onclick="copiarWhatsApp()">Exportar Texto</button>
-                    <button class="btn-icon" onclick="baixarPDF()">Imprimir PDF</button>
-                    <button class="btn-icon" onclick="ouvirEstudo()">Áudio</button>
+                    <button class="btn-icon" onclick="copiarWhatsApp()">Copiar Texto</button>
+                    <button class="btn-icon" onclick="baixarPDF()">Salvar PDF</button>
                 </div>
                 
-                <div class="reader-content" id="reader-hermeneutica"><div class="book-card"><h3 id="tit-hermeneutica">Contexto Histórico</h3><p id="res-hermeneutica"></p></div></div>
-                <div class="reader-content" id="reader-exegese"><div class="book-card"><h3 id="tit-exegese">Morfologia e Originais</h3><p id="res-exegese"></p></div></div>
-                <div class="reader-content" id="reader-esboco"><div class="book-card"><h3 id="tit-esboco">Esboço Expositivo</h3><p id="res-esboco"></p></div></div>
-                <div class="reader-content" id="reader-ilustracao"><div class="book-card"><h3 id="tit-ilustracao">Aplicação Pastoral</h3><p id="res-ilustracao"></p></div></div>
-                <div class="reader-content" id="reader-teologia"><div class="book-card"><h3 id="tit-teologia">Teologia Sistemática</h3><p id="res-teologia"></p></div></div>
+                <!-- Abas do Tratado -->
+                <div class="reader-content" id="reader-hermeneutica"><div class="book-card" id="res-hermeneutica"></div></div>
+                <div class="reader-content" id="reader-exegese"><div class="book-card" id="res-exegese"></div></div>
+                <div class="reader-content" id="reader-esboco"><div class="book-card" id="res-esboco"></div></div>
+                <div class="reader-content" id="reader-ilustracao"><div class="book-card" id="res-ilustracao"></div></div>
+                <div class="reader-content" id="reader-teologia"><div class="book-card" id="res-teologia"></div></div>
 
-                <div class="reader-content" id="reader-simples"><div class="book-card"><h3 id="tit-simples">Manuscrito</h3><p id="res-simples"></p></div></div>
+                <!-- Aba Simples (Livros e Personagens) -->
+                <div class="reader-content" id="reader-simples"><div class="book-card" id="res-simples"></div></div>
             </div>
         </div>
     </div>
@@ -388,12 +374,15 @@
         window.onload = () => {
             let keySalva = localStorage.getItem('groq_key_biblia');
             if(keySalva) document.getElementById('api-key').value = keySalva;
+            
+            // Configurar Marked.js para quebrar linha automaticamente (fica mais bonito)
+            marked.setOptions({ breaks: true });
         }
         function abrirConfig() { document.getElementById('modal-config').style.display = 'flex'; }
         function fecharConfig() { document.getElementById('modal-config').style.display = 'none'; }
         function salvarConfig() { localStorage.setItem('groq_key_biblia', document.getElementById('api-key').value); fecharConfig(); }
 
-        // ================= SIDEBAR =================
+        // ================= SIDEBAR E NAVEGAÇÃO =================
         const sidebar = document.getElementById('sidebar');
         const mainWrapper = document.getElementById('main-wrapper');
         
@@ -402,23 +391,23 @@
             else { sidebar.classList.toggle('closed'); mainWrapper.classList.toggle('expanded'); }
         }
 
-        function esconderFerramentas() {
+        function esconderTudo() {
             document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-            document.getElementById('menu-resultados').style.display = 'none';
+            document.getElementById('menu-resultados-estudo').style.display = 'none';
             document.getElementById('menu-resultados-simples').style.display = 'none';
             document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
             if(window.innerWidth <= 900) sidebar.classList.remove('mobile-open');
         }
 
         function mostrarFerramenta(nome) {
-            esconderFerramentas();
+            esconderTudo();
             document.getElementById(`view-${nome}`).classList.add('active');
             document.getElementById(`nav-tool-${nome}`).classList.add('active');
-            let titulos = { 'estudo': 'Tratado Exegético', 'personagem': 'Dossiê Biográfico', 'livros': 'Resenha de Obras Teológicas' };
+            let titulos = { 'estudo': 'Tratado Exegético', 'personagem': 'Dossiê Biográfico', 'livros': 'Resenha Literária' };
             document.getElementById('topbar-title').innerText = titulos[nome];
         }
 
-        function mostrarResultado(aba) {
+        function mostrarAbaEstudo(aba) {
             document.getElementById('view-estudo').classList.remove('active');
             document.getElementById('view-leitura').classList.add('active');
             document.querySelectorAll('.reader-content').forEach(r => r.classList.remove('active'));
@@ -429,16 +418,16 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function mostrarResultadoSimples() {
+        function mostrarAbaSimples() {
             document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
             document.getElementById('view-leitura').classList.add('active');
             document.querySelectorAll('.reader-content').forEach(r => r.classList.remove('active'));
-            document.getElementById(`reader-simples`).classList.add('active');
+            document.getElementById('reader-simples').classList.add('active');
             if(window.innerWidth <= 900) sidebar.classList.remove('mobile-open');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ================= NAVEGADOR BÍBLICO =================
+        // ================= BÍBLIA =================
         const vt = ["Gênesis", "Êxodo", "Levítico", "Números", "Deuteronômio", "Josué", "Juízes", "Rute", "1 Samuel", "2 Samuel", "1 Reis", "2 Reis", "1 Crônicas", "2 Crônicas", "Esdras", "Neemias", "Ester", "Jó", "Salmos", "Provérbios", "Eclesiastes", "Cânticos", "Isaías", "Jeremias", "Lamentações", "Ezequiel", "Daniel", "Oseias", "Joel", "Amós", "Obadias", "Jonas", "Miqueias", "Naum", "Habacuque", "Sofonias", "Ageu", "Zacarias", "Malaquias"];
         const nt = ["Mateus", "Marcos", "Lucas", "João", "Atos", "Romanos", "1 Coríntios", "2 Coríntios", "Gálatas", "Efésios", "Filipenses", "Colossenses", "1 Tessalonicenses", "2 Tessalonicenses", "1 Timóteo", "2 Timóteo", "Tito", "Filemom", "Hebreus", "Tiago", "1 Pedro", "2 Pedro", "1 João", "2 João", "3 João", "Judas", "Apocalipse"];
         let navState = { livro: "", capitulo: "" };
@@ -451,7 +440,7 @@
 
         function abrirBiblia() {
             navState = { livro: "", capitulo: "" };
-            document.getElementById('view-livros').style.display = 'block';
+            document.getElementById('view-livros-biblia').style.display = 'block';
             document.getElementById('view-numeros').style.display = 'none';
             document.getElementById('modal-biblia-title').innerText = "Selecione o Livro";
             document.getElementById('modal-biblia').style.display = 'flex';
@@ -460,7 +449,7 @@
 
         function selecionarLivro(livro) {
             navState.livro = livro;
-            document.getElementById('view-livros').style.display = 'none';
+            document.getElementById('view-livros-biblia').style.display = 'none';
             let numGrid = document.getElementById('view-numeros');
             numGrid.style.display = 'grid';
             let maxCap = livro === "Salmos" ? 150 : (livro === "Obadias" || livro === "Filemom" || livro === "2 João" || livro === "3 João" || livro === "Judas" ? 1 : 66);
@@ -480,20 +469,14 @@
         }
         function finalizarSelecaoBiblia(ref) { document.getElementById('texto-biblico').value = ref; fecharBiblia(); }
 
-        // ================= NOVO MOTOR DE INTELIGÊNCIA =================
-        let estudoGlobal = {};
-        let contextoCopia = ""; 
 
-        function extrairTagXML(texto, tag) {
-            let regex = new RegExp(`<${tag}>([\\s\\S]*?)(?:<\\/${tag}>|$)`, 'i');
-            let match = texto.match(regex);
-            return match ? match[1].trim() : "A Inteligência não processou esta seção ou foi cortada.";
-        }
+        // ================= MOTOR NÚCLEO (API GROQ COM TEXTO CRÚ) =================
+        let estadoConteudo = {}; 
 
-        async function chamarAPI_Livre(promptSistema, promptUsuario, loadingMsg) {
+        async function invocarInteligencia(promptSistema, promptUsuario, loadingMsg) {
             let key = document.getElementById('api-key').value.trim();
             if(!key || !key.startsWith('gsk_')) { 
-                alert('Acesso Negado: Insira a Chave da Groq na Engrenagem ⚙️ no topo esquerdo.'); 
+                alert('Acesso Negado: Insira a Chave da Groq na Engrenagem ⚙️'); 
                 return null; 
             }
 
@@ -519,194 +502,172 @@
                 let data = await response.json();
                 if (data.error) throw new Error(data.error.message);
 
-                let content = data.choices[0].message.content;
                 document.getElementById('loading').style.display = 'none';
+                return data.choices[0].message.content; 
                 
-                return content; 
             } catch (e) {
-                alert('Erro de conexão neural: ' + e.message);
+                alert('Falha na conexão: ' + e.message);
                 document.getElementById('loading').style.display = 'none';
                 return null;
             }
         }
 
-        // FORMATADOR PODEROSO DE TEXTO (Ignora sujeiras e lê Títulos em Markdown)
-        function formatarTexto(texto) {
-            if(!texto) return '';
-            let html = String(texto);
-            
-            // Troca Negrito e Itálico
-            html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-            html = html.replace(/\*(.*?)\*/g, '<i>$1</i>');
-            
-            // Troca Títulos Markdown (###, ##, #) por textos destacados em Ouro
-            html = html.replace(/^### (.*$)/gim, '<br><b style="color:var(--gold-main); font-size:1.1em;">$1</b>');
-            html = html.replace(/^## (.*$)/gim, '<br><b style="color:var(--gold-main); font-size:1.2em;">$1</b>');
-            html = html.replace(/^# (.*$)/gim, '<br><b style="color:var(--gold-main); font-size:1.3em;">$1</b>');
-            
-            let linhas = html.split('\n');
-            let resultadoFinal = [];
-            
-            for(let i=0; i < linhas.length; i++) {
-                let linhaAtual = linhas[i].trim();
-                if(linhaAtual === '') continue; // Pula linhas vazias inúteis
-                
-                // Pula Tags XML escondidas
-                if(linhaAtual.startsWith('<') && linhaAtual.endsWith('>') && !linhaAtual.includes('<b>') && !linhaAtual.includes('<i>') && !linhaAtual.includes('<br>')) continue;
-                
-                if (linhaAtual.startsWith('- ')) {
-                    resultadoFinal.push(`<span class="topico-lista">${linhaAtual.substring(2)}</span>`);
-                } else {
-                    resultadoFinal.push(`<p>${linhaAtual}</p>`);
-                }
-            }
-            return resultadoFinal.join('');
-        }
+        // ================= FUNÇÕES DE GERAÇÃO =================
 
-        // ================= GERAÇÕES =================
-
-        // 1. TRATADO 
+        // 1. TRATADO (Usa separador seguro ===SEPARADOR===)
         async function gerarEstudoElite() {
             let texto = document.getElementById('texto-biblico').value.trim();
             let enfase = document.getElementById('enfase').value;
-            let formato = document.getElementById('formato').value;
-            if(!texto) return alert('Selecione um texto na Bíblia.');
+            if(!texto) return alert('Selecione um texto bíblico primeiro.');
 
-            const sys = `Você é um Ph.D. em Teologia. Escreva um Tratado Profundo.
-REGRAS ABSOLUTAS: NÃO USE JSON. ESREVA EM TEXTO LIVRE.
-Você DEVE separar o seu texto usando exatamente as seguintes Tags XML:
-<contexto> texto histórico aqui </contexto>
-<exegese> análise no grego/hebraico aqui </exegese>
-<esboco> esboço da pregação aqui </esboco>
-<ilustracao> aplicação pastoral aqui </ilustracao>
-<teologia> tratado sistemático aqui </teologia>`;
+            const sys = `Você é um Teólogo. Escreva um Tratado Profundo formatado em Markdown.
+OBRIGATÓRIO: Você DEVE separar as 5 seções do estudo usando a exata linha "===SEPARADOR===" entre elas.
+A ordem deve ser:
+Contexto Histórico
+===SEPARADOR===
+Análise de Originais (Grego/Hebraico)
+===SEPARADOR===
+Esboço Homilético
+===SEPARADOR===
+Aplicação Pastoral
+===SEPARADOR===
+Teologia Sistemática`;
             
-            let resultText = await chamarAPI_Livre(sys, `Referência: "${texto}"\nÊnfase: ${enfase}\nFormato: ${formato}`, "Escrevendo Manuscrito...");
-            if(resultText) {
-                estudoGlobal = {
-                    autorContexto: extrairTagXML(resultText, 'contexto'),
-                    exegeseOriginal: extrairTagXML(resultText, 'exegese'),
-                    esbocoHomiletico: extrairTagXML(resultText, 'esboco'),
-                    ilustracao: extrairTagXML(resultText, 'ilustracao'),
-                    visaoTeologica: extrairTagXML(resultText, 'teologia')
-                };
-                contextoCopia = "ESTUDO";
+            let resultadoCru = await invocarInteligencia(sys, `Ref: "${texto}"\nÊnfase: ${enfase}`, "Escrevendo Manuscrito...");
+            if(resultadoCru) {
+                // Separa o texto pelo marcador que a IA criou
+                let partes = resultadoCru.split('===SEPARADOR===');
                 
-                document.getElementById('res-hermeneutica').innerHTML = formatarTexto(estudoGlobal.autorContexto);
-                document.getElementById('res-exegese').innerHTML = formatarTexto(estudoGlobal.exegeseOriginal);
-                document.getElementById('res-esboco').innerHTML = formatarTexto(estudoGlobal.esbocoHomiletico);
-                document.getElementById('res-ilustracao').innerHTML = formatarTexto(estudoGlobal.ilustracao);
-                document.getElementById('res-teologia').innerHTML = formatarTexto(estudoGlobal.visaoTeologica);
+                // Se a IA não obedeceu o separador, colocamos tudo na primeira aba para não perder nada.
+                if(partes.length < 5) {
+                    partes = [resultadoCru, "Não gerado.", "Não gerado.", "Não gerado.", "Não gerado."];
+                }
+
+                estadoConteudo = {
+                    tipo: "ESTUDO",
+                    hermeneutica: partes[0].trim(),
+                    exegese: partes[1].trim(),
+                    esboco: partes[2].trim(),
+                    ilustracao: partes[3].trim(),
+                    teologia: partes[4].trim()
+                };
+                
+                // O Marked.js faz a mágica de transformar markdown em HTML bonito
+                document.getElementById('res-hermeneutica').innerHTML = "<h1>📜 Contexto Histórico</h1>" + marked.parse(estadoConteudo.hermeneutica);
+                document.getElementById('res-exegese').innerHTML = "<h1>🔍 Originais</h1>" + marked.parse(estadoConteudo.exegese);
+                document.getElementById('res-esboco').innerHTML = "<h1>🔥 Esboço Expositivo</h1>" + marked.parse(estadoConteudo.esboco);
+                document.getElementById('res-ilustracao').innerHTML = "<h1>💡 Aplicação Pastoral</h1>" + marked.parse(estadoConteudo.ilustracao);
+                document.getElementById('res-teologia').innerHTML = "<h1>📚 Sistemática</h1>" + marked.parse(estadoConteudo.teologia);
                 
                 document.getElementById('menu-resultados-simples').style.display = 'none';
-                document.getElementById('menu-resultados').style.display = 'block';
-                mostrarResultado('hermeneutica');
+                document.getElementById('menu-resultados-estudo').style.display = 'block';
+                mostrarAbaEstudo('hermeneutica');
             }
         }
 
-        // 2. PERSONAGEM 
+        // 2. PERSONAGEM
         async function gerarPersonagem() {
-            let personagem = document.getElementById('select-personagem').value;
-            const sys = `Você é um historiador teológico. Escreva um Dossiê profundo.
-REGRAS ABSOLUTAS: NÃO USE JSON. ESREVA EM TEXTO LIVRE COM MARKDOWN.
-Crie um texto espetacular com Biografia, Perfil, Vitórias e Tipologia Cristã do personagem.`;
+            let personagem = document.getElementById('texto-personagem').value.trim();
+            if(!personagem) return alert('Digite o nome do personagem.');
 
-            let resultText = await chamarAPI_Livre(sys, `Personagem: ${personagem}`, `Mapeando Dossiê...`);
-            if(resultText) {
-                estudoGlobal = { conteudo: resultText }; 
-                contextoCopia = "SIMPLES";
+            const sys = `Você é um historiador teológico. Escreva um Dossiê profundo e completo sobre o personagem solicitado. Escreva em formato Markdown usando títulos (##), listas e parágrafos. Inclua Biografia, Traços Psicológicos, Falhas/Vitórias e Tipologia Cristã.`;
+
+            let resultadoCru = await invocarInteligencia(sys, `Personagem: ${personagem}`, `Mapeando Dossiê...`);
+            if(resultadoCru) {
+                estadoConteudo = { tipo: "SIMPLES", textoOriginal: resultadoCru }; 
                 
-                document.getElementById('tit-simples').innerText = `Dossiê: ${personagem}`;
-                document.getElementById('res-simples').innerHTML = formatarTexto(estudoGlobal.conteudo);
-                document.getElementById('menu-resultados').style.display = 'none';
+                document.getElementById('res-simples').innerHTML = `<h1>👤 Dossiê: ${personagem}</h1>` + marked.parse(resultadoCru);
+                
+                document.getElementById('menu-resultados-estudo').style.display = 'none';
                 document.getElementById('menu-resultados-simples').style.display = 'block';
-                mostrarResultadoSimples();
+                mostrarAbaSimples();
             }
         }
 
-        // 3. RESENHA DE LIVROS (CORRIGIDO)
+        // 3. LIVROS (SOLUÇÃO DEFINITIVA)
         async function gerarLivros() {
             let tema = document.getElementById('texto-livros').value.trim();
-            if(!tema) return alert('Digite um tema ou personagem para buscar os resumos.');
+            if(!tema) return alert('Digite o personagem ou tema para buscar as obras.');
             
-            const sys = `Você é um curador e crítico literário cristão.
-O usuário pedirá recomendações sobre um personagem ou tema bíblico.
-REGRAS ABSOLUTAS: 
-1. NÃO USE JSON. NÃO FAÇA TABELAS DE CÓDIGO.
-2. Escreva o texto de forma livre, apenas destacando o Título do livro em Negrito.
-3. Escolha de 3 a 5 livros teológicos reais e famosos.
-4. Para cada livro, escreva pelo menos 2 parágrafos profundos fazendo um grande resumo do que a obra trata e as lições que ela traz.`;
+            const sys = `Atue como um curador literário teológico sênior. 
+O usuário pedirá resumos de livros sobre um personagem ou tema bíblico.
+SUA TAREFA: 
+Selecione de 4 a 6 livros teológicos excepcionais sobre o assunto (clássicos ou modernos). 
+Para cada livro, escreva um resumo rico e profundo do conteúdo, explicando por que ele é recomendado.
+Use formatação Markdown. Use Títulos (##) para o nome do Livro.`;
 
-            let resultText = await chamarAPI_Livre(sys, `Quero resumos de livros sobre: ${tema}`, "Resumindo Obras Literárias...");
-            if(resultText) {
-                estudoGlobal = { conteudo: resultText }; 
-                contextoCopia = "SIMPLES";
+            let resultadoCru = await invocarInteligencia(sys, `Quero recomendações e resumos de livros sobre: ${tema}`, "Buscando Obras Literárias...");
+            if(resultadoCru) {
+                estadoConteudo = { tipo: "SIMPLES", textoOriginal: resultadoCru }; 
 
-                document.getElementById('tit-simples').innerText = `Resenha Literária: ${tema}`;
-                document.getElementById('res-simples').innerHTML = formatarTexto(estudoGlobal.conteudo);
-                document.getElementById('menu-resultados').style.display = 'none';
+                document.getElementById('res-simples').innerHTML = `<h1>📚 Resenha Literária</h1>` + marked.parse(resultadoCru);
+                
+                document.getElementById('menu-resultados-estudo').style.display = 'none';
                 document.getElementById('menu-resultados-simples').style.display = 'block';
-                mostrarResultadoSimples();
+                mostrarAbaSimples();
             }
         }
 
-        // ================= EXPORTAÇÃO =================
+        // ================= EXPORTAÇÃO (WHATSAPP E PDF) =================
         function copiarWhatsApp() {
             let txt = "";
-            if (contextoCopia === "ESTUDO") {
-                txt = `*🎓 TRATADO BETHESDA:*\n\n*📜 1. CONTEXTO:*\n${estudoGlobal.autorContexto}\n\n*🔍 2. ORIGINAIS:*\n${estudoGlobal.exegeseOriginal}\n\n*🔥 3. ESBOÇO:*\n${estudoGlobal.esbocoHomiletico}\n\n*💡 4. APLICAÇÃO:*\n${estudoGlobal.ilustracao}\n\n*📚 5. SISTEMÁTICA:*\n${estudoGlobal.visaoTeologica}`;
-            } else if (contextoCopia === "SIMPLES") txt = `*DOCUMENTO BETHESDA:*\n\n${estudoGlobal.conteudo}`;
-            if(!txt) return;
+            if (estadoConteudo.tipo === "ESTUDO") {
+                txt = `*🎓 TRATADO BETHESDA:*\n\n`+
+                      `*📜 1. CONTEXTO:*\n${estadoConteudo.hermeneutica}\n\n`+
+                      `*🔍 2. ORIGINAIS:*\n${estadoConteudo.exegese}\n\n`+
+                      `*🔥 3. ESBOÇO:*\n${estadoConteudo.esboco}\n\n`+
+                      `*💡 4. APLICAÇÃO:*\n${estadoConteudo.ilustracao}\n\n`+
+                      `*📚 5. SISTEMÁTICA:*\n${estadoConteudo.teologia}`;
+            } else {
+                txt = `*DOCUMENTO BETHESDA:*\n\n${estadoConteudo.textoOriginal}`;
+            }
             
-            // Limpa as tags HTML pesadas para o WhatsApp
-            txt = txt.replace(/<p>/g, '').replace(/<\/p>/g, '\n').replace(/<br>/g, '\n');
-            txt = txt.replace(/<b style=".*?">/g, '*').replace(/<\/b>/g, '*');
-            txt = txt.replace(/<span class="topico-lista">/g, '- ').replace(/<\/span>/g, '\n');
-            txt = txt.replace(/<b>/g, '*').replace(/<i>/g, '_').replace(/<\/i>/g, '_');
-            
-            navigator.clipboard.writeText(txt); alert('Exportado para a área de transferência!');
+            // Remove hashtags do Markdown para não ficar feio no Zap, mantém asteriscos para negrito
+            txt = txt.replace(/### /g, '').replace(/## /g, '').replace(/# /g, '');
+            navigator.clipboard.writeText(txt); 
+            alert('Texto pronto! Pode colar no seu WhatsApp.');
         }
 
         function baixarPDF() {
-            if(!estudoGlobal) return;
+            if(!estadoConteudo.tipo) return;
             const { jsPDF } = window.jspdf; const doc = new jsPDF({ format: 'a4' });
+            
             doc.setFillColor(3, 3, 5); doc.rect(0, 0, 210, 30, 'F');
             doc.setTextColor(212, 163, 115); doc.setFontSize(18); doc.text("BETHESDA MAJESTIC", 15, 20);
-            doc.setTextColor(30, 30, 30); doc.setFontSize(10); let y = 40;
+            let y = 40;
 
-            function addBloco(titulo, texto) {
-                if(!texto) return;
+            function printSessao(titulo, textoMd) {
+                if(!textoMd) return;
                 if(y > 260) { doc.addPage(); y = 20; }
-                doc.setFont("helvetica", "bold"); doc.setTextColor(139, 90, 51); doc.text(titulo, 15, y); y += 8;
-                doc.setFont("helvetica", "normal"); doc.setTextColor(40, 40, 40);
                 
-                // Limpa tags para o PDF
-                let cleanText = String(texto).replace(/<[^>]*>?/gm, ''); 
-                let linhas = doc.splitTextToSize(cleanText, 180);
+                doc.setFont("helvetica", "bold"); doc.setTextColor(139, 90, 51); doc.setFontSize(12);
+                doc.text(titulo, 15, y); y += 8;
                 
-                for(let i=0; i<linhas.length; i++) { if (y > 280) { doc.addPage(); y = 20; } doc.text(linhas[i], 15, y); y += 6; }
+                doc.setFont("helvetica", "normal"); doc.setTextColor(40, 40, 40); doc.setFontSize(10);
+                
+                // Limpeza rápida de markdown para o PDF
+                let txtLimpo = textoMd.replace(/\*\*/g, '').replace(/\*/g, '').replace(/#/g, '');
+                let linhas = doc.splitTextToSize(txtLimpo, 180);
+                
+                for(let i=0; i<linhas.length; i++) { 
+                    if (y > 280) { doc.addPage(); y = 20; } 
+                    doc.text(linhas[i], 15, y); y += 6; 
+                }
                 y += 10;
             }
 
-            if(contextoCopia === "ESTUDO") {
-                addBloco("1. CONTEXTO HISTORICO", estudoGlobal.autorContexto);
-                addBloco("2. ANALISE DOS ORIGINAIS", estudoGlobal.exegeseOriginal);
-                addBloco("3. ESBOCO HOMILETICO", estudoGlobal.esbocoHomiletico);
-                addBloco("4. APLICACAO PASTORAL", estudoGlobal.ilustracao);
-                addBloco("5. TEOLOGIA SISTEMATICA", estudoGlobal.visaoTeologica);
-            } else { addBloco("DOCUMENTO", estudoGlobal.conteudo); }
+            if(estadoConteudo.tipo === "ESTUDO") {
+                printSessao("CONTEXTO HISTÓRICO", estadoConteudo.hermeneutica);
+                printSessao("ANÁLISE DE ORIGINAIS", estadoConteudo.exegese);
+                printSessao("ESBOÇO HOMILÉTICO", estadoConteudo.esboco);
+                printSessao("APLICAÇÃO PASTORAL", estadoConteudo.ilustracao);
+                printSessao("TEOLOGIA SISTEMÁTICA", estadoConteudo.teologia);
+            } else { 
+                printSessao("DOCUMENTO COMPLETO", estadoConteudo.textoOriginal); 
+            }
             doc.save(`Bethesda_Manuscrito.pdf`);
         }
 
-        function ouvirEstudo() {
-            if(!estudoGlobal) return; window.speechSynthesis.cancel();
-            let texto = contextoCopia === "ESTUDO" ? estudoGlobal.esbocoHomiletico : estudoGlobal.conteudo;
-            if(!texto) return;
-            
-            let cleanText = String(texto).replace(/<[^>]*>?/gm, '').replace(/-/g, 'Tópico: ');
-            let synth = new SpeechSynthesisUtterance(cleanText);
-            synth.lang = 'pt-BR'; synth.rate = 1.05; window.speechSynthesis.speak(synth);
-        }
     </script>
 </body>
 </html>

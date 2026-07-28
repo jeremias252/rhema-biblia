@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rhema • Estudo & Esboço Pentecostal</title>
+    
+    <!-- Fontes e Libs -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0b0d14;
+            --panel-bg: rgba(18, 22, 34, 0.85);
+            --gold: #d97706;
+            --gold-glow: rgba(217, 119, 6, 0.3);
+            --gold-light: #fbbf24;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border-color: rgba(217, 119, 6, 0.25);
+            --card-bg: rgba(15, 19, 32, 0.7);
+        }
+
+        body {
+            margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark); color: var(--text-main);
+            background-image: radial-gradient(circle at 50% 0%, rgba(217, 119, 6, 0.12), transparent 40rem),
+                              linear-gradient(180deg, #0b0d14 0%, #050609 100%);
+            background-attachment: fixed; min-height: 100vh;
+        }
+
+        * { box-sizing: border-box; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        /* CABEÇALHO */
+        header { text-align: center; padding: 30px 0 20px; }
+        .logo-title { font-family: 'Cinzel', serif; font-size: 32px; font-weight: 900; color: var(--gold-light); letter-spacing: 2px; margin: 0; }
+        .logo-sub { color: var(--text-sub); font-size: 13px; margin-top: 5px; font-weight: 300; }
+        .badge-pentecostal { background: rgba(217, 119, 6, 0.15); border: 1px solid var(--gold); color: var(--gold-light); font-size: 10px; font-weight: 800; padding: 4px 12px; border-radius: 99px; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 10px; }
+
+        /* PANEL */
+        .panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 25px; backdrop-filter: blur(15px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin-bottom: 25px; }
+
+        label { font-size: 12px; font-weight: 700; color: var(--gold-light); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px; }
+        
+        textarea, input, select {
+            width: 100%; padding: 14px; border-radius: 16px; background: rgba(5, 7, 12, 0.8);
+            border: 1px solid var(--border-color); color: var(--text-main); font-family: inherit; font-size: 14px; margin-bottom: 15px; transition: 0.3s;
+        }
+        textarea:focus, input:focus, select:focus { border-color: var(--gold-light); box-shadow: 0 0 15px var(--gold-glow); outline: none; }
+
+        .btn {
+            background: linear-gradient(135deg, #d97706, #b45309); color: white; border: none;
+            padding: 16px; border-radius: 18px; width: 100%; font-weight: 800; font-size: 15px;
+            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 25px var(--gold-glow);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 15px 30px var(--gold-glow); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .btn-sec { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 16px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-sec:hover { background: rgba(217, 119, 6, 0.2); }
+
+        /* ÁREA DE RESULTADO DO ESTUDO */
+        #resultado { display: none; }
+
+        .card-estudo {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 20px; padding: 22px; margin-bottom: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; overflow: hidden;
+        }
+        .card-estudo::before {
+            content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--gold);
+        }
+        .card-estudo h3 { margin: 0 0 12px; font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 18px; display: flex; align-items: center; gap: 8px; }
+        .card-estudo p { margin: 0; font-size: 14px; line-height: 1.7; color: #cbd5e1; white-space: pre-line; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        /* BARRAS DE AÇÃO */
+        .actions-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+
+        /* LOADING SPINNER */
+        .loading { display: none; text-align: center; padding: 30px 0; }
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(217,119,6,0.2); border-top-color: var(--gold-light); border-radius: 50%; animation: spin 1s infinite linear; margin: 0 auto 15px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* CHAVE API MODAL */
+        .api-config { background: rgba(217, 119, 6, 0.08); border: 1px dashed var(--gold); padding: 15px; border-radius: 16px; margin-bottom: 20px; text-align: center; }
+
+        @media (max-width: 600px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .logo-title { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <span class="badge-status badge-pentecostal">🔥 Teologia & Homilética Pentecostal</span>
+            <h1 class="logo-title">RHEMA • BÍBLIA</h1>
+            <p class="logo-sub">Gerador de Esboços e Exegese Bíblica Profunda</p>
+        </header>
+
+        <!-- AVISO DE CHAVE DE API DO GOOGLE GEMINI -->
+        <div class="api-config" id="box-api">
+            <span style="font-size:12px; color:var(--gold-light); font-weight:700;">🔑 Chave da API do Google Gemini (Gratuito):</span>
+            <input type="password" id="api-key" placeholder="Cole sua chave API aqui (AI Studio)..." style="margin-top:8px; margin-bottom:8px; text-align:center;">
+            <small style="color:var(--text-sub); font-size:11px;">
+                Obtenha uma chave grátis no site <b>aistudio.google.com</b> para gerar estudos ilimitados.
+            </small>
+        </div>
+
+        <!-- FORMULÁRIO DE ENTRADA -->
+        <div class="panel">
+            <label>📖 Texto ou Passagem Bíblica:</label>
+            <textarea id="texto-biblico" rows="4" placeholder="Cole o versículo ou digite a referência... Ex: 'João 3:16-21' ou 'Porque Deus amou o mundo de tal maneira...'"></textarea>
+
+            <div class="grid-2">
+                <div>
+                    <label>🎯 Ênfase da Mensagem:</label>
+                    <select id="enfase">
+                        <option value="Avivamento e Espírito Santo">🔥 Avivamento & Unção do Espírito</option>
+                        <option value="Fé e Milagres">🛡️ Fé, Cura & Batalha Espiritual</option>
+                        <option value="Ensino Doutrinário">📚 Ensino & Edificação da Igreja</option>
+                        <option value="Evangelístico e Salvação">🌱 Evangelismo & Salvação</option>
+                    </select>
+                </div>
+                <div>
+                    <label>🏛️ Formato do Esboço:</label>
+                    <select id="formato">
+                        <option value="Pregação Temática">Sermão Temático (3 Pontos)</option>
+                        <option value="Estudo Expositivo">Estudo Expositivo Versículo a Versículo</option>
+                        <option value="Palavra para EBD">Lição para Escola Dominical (EBD)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn" id="btn-gerar" onclick="gerarEstudoPentecostal()">
+                <span>⚡ GERAR ESBOÇO PENTECOSTAL</span>
+            </button>
+        </div>
+
+        <!-- INDICADOR DE CARREGAMENTO -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="color:var(--gold-light); font-weight:700;">Consultando as Escrituras e Fontes Teológicas...</p>
+            <small style="color:var(--text-sub)">Analisando autor, contexto histórico e aplicações pentecostais...</small>
+        </div>
+
+        <!-- RESULTADO GERADO -->
+        <div id="resultado">
+            <div class="actions-bar">
+                <button class="btn-sec" onclick="copiarWhatsApp()">📲 Copiar p/ WhatsApp</button>
+                <button class="btn-sec" onclick="baixarPDF()">📄 Baixar PDF</button>
+                <button class="btn-sec" onclick="ouvirEstudo()">🔊 Ouvir Estudo</button>
+            </div>
+
+            <!-- CARDS DE CONTEÚDO -->
+            <div class="card-estudo">
+                <h3>📜 1. Contexto Hermenêutico (Autor & Época)</h3>
+                <p id="res-hermeneutica"></p>
+            </div>
+
+            <div class="card-estudo">
+                <h3>🔍 2. Exegese (O que o Texto Dizia no Original)</h3>
+                <p id="res-exegese"></p>
+            </div>
+
+            <div class="card-estudo">
+                <h3>🔥 3. Esboço Homilético p/ Pregador</h3>
+                <p id="res-esboco"></p>
+            </div>
+
+            <div class="card-estudo">
+                <h3>💡 4. Ilustração & Aplicação Prática</h3>
+                <p id="res-ilustracao"></p>
+            </div>
+
+            <div class="card-estudo">
+                <h3>📚 5. Visão Teológica Pentecostal</h3>
+                <p id="res-teologia"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Carrega Chave Salva
+        window.onload = () => {
+            let keySalva = localStorage.getItem('gemini_key_biblia');
+            if(keySalva) document.getElementById('api-key').value = keySalva;
+        }
+
+        let estudoGlobal = {};
+
+        async function gerarEstudoPentecostal() {
+            let texto = document.getElementById('texto-biblico').value.trim();
+            let key = document.getElementById('api-key').value.trim();
+            let enfase = document.getElementById('enfase').value;
+            let formato = document.getElementById('formato').value;
+
+            if(!texto) return alert('⚠️ Por favor, digite ou cole um texto bíblico!');
+            if(!key) return alert('⚠️ Por favor, insira sua chave gratuita da API do Gemini!');
+
+            localStorage.setItem('gemini_key_biblia', key);
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultado').style.display = 'none';
+            document.getElementById('btn-gerar').disabled = true;
+
+            const promptEspecial = `
+            Você é um teólogo doutor em Hermenêutica Bíblica e mestre em Homilética com cosmovisão estritamente PENTECOSTAL (alinhado com a Declaração de Fé das Assembleias de Deus e autores como Donald Stamps, Stanley Horton, Orlando Boyer, Antonio Gilberto e Myer Pearlman).
+
+            Análise a seguinte passagem/texto bíblico: "${texto}".
+            Ênfase solicitada: ${enfase}.
+            Formato: ${formato}.
+
+            Responda ESTRITAMENTE em formato JSON com o seguinte esquema sem formatação markdown em volta do JSON:
+            {
+                "autorContexto": "Informações sobre QUEM escreveu (biografia), QUANDO escreveu (data aproximada e contexto histórico/cultural) e PARA QUEM escreveu.",
+                "exegeseOriginal": "Explicação exegética do que o autor estava dizendo no momento da escrita, significado das palavras no grego/hebraico e intenção primária.",
+                "esbocoHomiletico": "Um esboço pronto contendo:\\n- TÍTULO DA MENSAGEM\\n- INTRODUÇÃO\\n- PONTO 1 (Com versículo de apoio)\\n- PONTO 2 (Com versículo de apoio)\\n- PONTO 3 (Com versículo de apoio)\\n- CONCLUSAO E APELO PENTECOSTAL (Ação do Espírito Santo, Unção, Batalha Espiritual)",
+                "ilustracao": "Uma história bíblica correlata ou uma ilustração/metáfora do cotidiano para ajudar a assembleia a entender a mensagem.",
+                "visaoTeologica": "Comentário teológico enriquecedor citando princípios teológicos pentecostais e a visão de comentaristas clássicos (Ex: Bíblia de Estudo Pentecostal/Donald Stamps, Matthew Henry ou Stanley Horton)."
+            }
+            `;
+
+            try {
+                let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
+                let response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: promptEspecial }] }]
+                    })
+                });
+
+                let data = await response.json();
+                
+                if (data.error) {
+                    alert('❌ Erro na API: ' + data.error.message);
+                    return;
+                }
+
+                let rawText = data.candidates[0].content.parts[0].text;
+                // Limpa marcações markdown de JSON se houver
+                rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+
+                estudoGlobal = JSON.parse(rawText);
+
+                // Preenche a tela
+                document.getElementById('res-hermeneutica').innerText = estudoGlobal.autorContexto;
+                document.getElementById('res-exegese').innerText = estudoGlobal.exegeseOriginal;
+                document.getElementById('res-esboco').innerText = estudoGlobal.esbocoHomiletico;
+                document.getElementById('res-ilustracao').innerText = estudoGlobal.ilustracao;
+                document.getElementById('res-teologia').innerText = estudoGlobal.visaoTeologica;
+
+                document.getElementById('resultado').style.display = 'block';
+                document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+
+            } catch (e) {
+                alert('⚠️ Falha ao gerar o estudo. Verifique sua chave API ou conexão.');
+                console.error(e);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('btn-gerar').disabled = false;
+            }
+        }
+
+        // COPIAR PARA WHATSAPP
+        function copiarWhatsApp() {
+            if(!estudoGlobal.esbocoHomiletico) return;
+            let txt = `*🔥 ESTUDO BÍBLICO PENTECOSTAL*\n\n` +
+                      `*📜 CONTEXTO HISTÓRICO:*\n${estudoGlobal.autorContexto}\n\n` +
+                      `*🔥 ESBOÇO DA PREGAÇÃO:*\n${estudoGlobal.esbocoHomiletico}\n\n` +
+                      `*💡 ILUSTRAÇÃO:*\n${estudoGlobal.ilustracao}\n\n` +
+                      `_Gerado pelo App Rhema Bíblia_`;
+
+            navigator.clipboard.writeText(txt);
+            alert('✅ Esboço copiado! Cole no WhatsApp.');
+        }
+
+        // GERAR PDF
+        function baixarPDF() {
+            if(!estudoGlobal.esbocoHomiletico) return;
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ format: 'a4' });
+
+            doc.setFillColor(15, 19, 32);
+            doc.rect(0, 0, 210, 30, 'F');
+            doc.setTextColor(217, 119, 6);
+            doc.setFontSize(16); doc.setFont("helvetica", "bold");
+            doc.text("RHEMA • ESBOÇO E ESTUDO PENTECOSTAL", 15, 18);
+
+            doc.setTextColor(30, 30, 30); doc.setFontSize(10); doc.setFont("helvetica", "bold");
+            let y = 40;
+
+            function addBloco(titulo, texto) {
+                if(y > 260) { doc.addPage(); y = 20; }
+                doc.setFont("helvetica", "bold"); doc.setTextColor(180, 83, 9);
+                doc.text(titulo, 15, y); y += 6;
+                doc.setFont("helvetica", "normal"); doc.setTextColor(40, 40, 40);
+                let linhas = doc.splitTextToSize(texto, 180);
+                doc.text(linhas, 15, y);
+                y += (linhas.length * 5) + 10;
+            }
+
+            addBloco("1. HERMENÊUTICA & CONTEXTO HISTÓRICO", estudoGlobal.autorContexto);
+            addBloco("2. EXEGESE DO TEXTO", estudoGlobal.exegeseOriginal);
+            addBloco("3. ESBOÇO HOMILÉTICO", estudoGlobal.esbocoHomiletico);
+            addBloco("4. ILUSTRAÇÃO", estudoGlobal.ilustracao);
+            addBloco("5. NOTAS TEOLÓGICAS PENTECOSTAIS", estudoGlobal.visaoTeologica);
+
+            doc.save(`Esboco_Pentecostal.pdf`);
+        }
+
+        // OUVIR ESTUDO (VOZ)
+        function ouvirEstudo() {
+            if(!estudoGlobal.esbocoHomiletico) return;
+            window.speechSynthesis.cancel();
+            let textoLer = `Esboço bíblico. ${estudoGlobal.esbocoHomiletico}`;
+            let synth = new SpeechSynthesisUtterance(textoLer);
+            synth.lang = 'pt-BR';
+            window.speechSynthesis.speak(synth);
+        }
+    </script>
+</body>
+</html>

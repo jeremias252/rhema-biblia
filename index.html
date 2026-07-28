@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rhema • Estudo Bíblico v4</title>
+    <title>Rhema • Estudo Bíblico v5</title>
     
     <!-- Fontes e Libs -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -38,8 +38,9 @@
 
         header { text-align: center; padding: 30px 0 20px; }
         .logo-title { font-family: 'Cinzel', serif; font-size: 26px; font-weight: 900; color: var(--gold-light); letter-spacing: 1px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
-        .v4-badge { font-family: 'Poppins', sans-serif; background: #10b981; color: #000; font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
+        
+        /* NOVO SELO V5 AZUL */
+        .v5-badge { font-family: 'Poppins', sans-serif; background: #3b82f6; color: #fff; font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; }
 
         .logo-sub { color: var(--text-sub); font-size: 13px; margin-top: 5px; font-weight: 300; }
         .badge-pentecostal { background: rgba(217, 119, 6, 0.15); border: 1px solid var(--gold); color: var(--gold-light); font-size: 10px; font-weight: 800; padding: 4px 12px; border-radius: 99px; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 10px; }
@@ -99,7 +100,7 @@
     <div class="container">
         <header>
             <span class="badge-status badge-pentecostal">🔥 Teologia & Homilética Pentecostal</span>
-            <h1 class="logo-title">RHEMA • BÍBLIA <span class="v4-badge">v4.0 ONLINE</span></h1>
+            <h1 class="logo-title">RHEMA • BÍBLIA <span class="v5-badge">v5.0 ESTÁVEL</span></h1>
             <p class="logo-sub">Gerador de Esboços e Exegese Bíblica Profunda</p>
         </header>
 
@@ -142,8 +143,8 @@
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="color:var(--gold-light); font-weight:700;" id="loading-txt">Sincronizando com o Google AI...</p>
-            <small style="color:var(--text-sub)">Analisando autor, contexto histórico e aplicações pentecostais...</small>
+            <p style="color:var(--gold-light); font-weight:700;" id="loading-txt">Gerando estudo na API Estável (v1)...</p>
+            <small style="color:var(--text-sub)">Isso pode levar alguns segundos...</small>
         </div>
 
         <div id="resultado">
@@ -204,40 +205,6 @@
             document.getElementById('btn-gerar').disabled = true;
 
             try {
-                document.getElementById('loading-txt').innerText = "Verificando modelos liberados na sua chave...";
-                
-                // 1. Busca quais modelos estão liberados para a chave informada
-                let resModels = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
-                let dataModels = await resModels.json();
-
-                if (dataModels.error) {
-                    alert('❌ Chave API inválida ou incorreta:\n' + dataModels.error.message + '\n\nPor favor, recopie a chave no aistudio.google.com');
-                    return;
-                }
-
-                if (!dataModels.models || dataModels.models.length === 0) {
-                    alert('❌ Nenhum modelo de IA encontrado para esta conta.');
-                    return;
-                }
-
-                // 2. Filtra modelos que aceitam "generateContent"
-                let modelosValidos = dataModels.models.filter(m => 
-                    m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent')
-                );
-
-                if (modelosValidos.length === 0) {
-                    alert('❌ Nenhum modelo de geração de texto disponível para sua chave.');
-                    return;
-                }
-
-                // 3. Escolhe o melhor modelo disponível
-                let modeloEscolhido = modelosValidos.find(m => m.name.includes('flash')) || 
-                                      modelosValidos.find(m => m.name.includes('pro')) || 
-                                      modelosValidos[0];
-
-                let nomeModeloCompleto = modeloEscolhido.name; // Ex: "models/gemini-1.5-flash"
-                document.getElementById('loading-txt').innerText = `Gerando estudo via ${nomeModeloCompleto.replace('models/', '')}...`;
-
                 const promptEspecial = `
                 Você é um teólogo doutor em Hermenêutica Bíblica e mestre em Homilética com cosmovisão estritamente PENTECOSTAL (alinhado com a Declaração de Fé das Assembleias de Deus e autores como Donald Stamps, Stanley Horton, Orlando Boyer, Antonio Gilberto e Myer Pearlman).
 
@@ -255,8 +222,9 @@
                 }
                 `;
 
-                // 4. Executa a requisição com o modelo autodetectado
-                let url = `https://generativelanguage.googleapis.com/v1beta/${nomeModeloCompleto}:generateContent?key=${key}`;
+                // Rota V1 Estável Forçada (Sem V1beta, sem ListModels)
+                let url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${key}`;
+                
                 let response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -268,7 +236,7 @@
                 let data = await response.json();
                 
                 if (data.error) {
-                    alert('❌ Erro na geração: ' + data.error.message);
+                    alert('❌ Erro direto da API do Google:\n' + data.error.message + '\n\nSe o erro persistir, gere uma nova chave no AI Studio.');
                     return;
                 }
 
@@ -287,7 +255,7 @@
                 document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
 
             } catch (e) {
-                alert('⚠️ Falha de comunicação: ' + e.message + '\n\nVerifique se a chave API está correta.');
+                alert('⚠️ Falha de comunicação ou formatação JSON inválida: ' + e.message);
             } finally {
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('btn-gerar').disabled = false;

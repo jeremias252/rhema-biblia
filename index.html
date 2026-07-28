@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rhema Premium • Teologia Profunda</title>
+    <title>Rhema Premium • Teologia Ultra Profunda</title>
     
     <!-- Fontes e Libs -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,14 +21,14 @@
             --text-sub: #94a3b8;
             --border-color: rgba(217, 119, 6, 0.3);
             --card-bg: rgba(10, 12, 18, 0.85);
-            --grad-btn: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
+            --grad-btn: linear-gradient(135deg, #78350f, #b45309, #d97706);
         }
 
         body {
             margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
             background-color: var(--bg-dark); color: var(--text-main);
             background-image: radial-gradient(circle at 50% 0%, rgba(217, 119, 6, 0.15), transparent 45rem),
-                              linear-gradient(180deg, #050608 0%, #0a0c12 100%);
+                              linear-gradient(180deg, #020305 0%, #0a0c12 100%);
             background-attachment: fixed; min-height: 100vh;
         }
 
@@ -36,12 +36,12 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background: rgba(217, 119, 6, 0.5); border-radius: 10px; }
 
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 950px; margin: 0 auto; padding: 20px; }
 
         /* HEADER */
         header { text-align: center; padding: 30px 0 20px; }
-        .logo-title { font-family: 'Cinzel', serif; font-size: 32px; font-weight: 900; color: var(--gold-light); letter-spacing: 2px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-shadow: 0 5px 15px rgba(217, 119, 6, 0.4);}
-        .v12-badge { font-family: 'Poppins', sans-serif; background: #000; border: 1px solid var(--gold); color: var(--gold-light); font-size: 11px; font-weight: 900; padding: 4px 12px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 15px var(--gold-glow);}
+        .logo-title { font-family: 'Cinzel', serif; font-size: 34px; font-weight: 900; color: var(--gold-light); letter-spacing: 2px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-shadow: 0 5px 15px rgba(217, 119, 6, 0.4);}
+        .v13-badge { font-family: 'Poppins', sans-serif; background: #7f1d1d; border: 1px solid #dc2626; color: #fff; font-size: 11px; font-weight: 900; padding: 4px 12px; border-radius: 8px; letter-spacing: 1.5px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);}
         .logo-sub { color: var(--text-sub); font-size: 14px; margin-top: 5px; font-weight: 400; }
         .badge-pentecostal { background: rgba(217, 119, 6, 0.1); border: 1px solid var(--gold); color: var(--gold-light); font-size: 10px; font-weight: 800; padding: 5px 14px; border-radius: 99px; text-transform: uppercase; letter-spacing: 1.5px; display: inline-block; margin-bottom: 12px; }
 
@@ -62,7 +62,7 @@
             cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 30px var(--gold-glow);
             display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase;
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(217, 119, 6, 0.4); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(217, 119, 6, 0.5); }
         .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
         /* ABAS (TABS) PREMIUM */
@@ -78,19 +78,19 @@
         /* ÁREA DO ESTUDO */
         .card-estudo {
             background: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 24px; padding: 30px; margin-bottom: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4); position: relative;
+            border-radius: 24px; padding: 40px; margin-bottom: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5); position: relative;
         }
-        .card-estudo h3 { margin: 0 0 20px; font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 22px; border-bottom: 1px solid rgba(217, 119, 6, 0.2); padding-bottom: 12px; }
+        .card-estudo h3 { margin: 0 0 25px; font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 26px; border-bottom: 1px solid rgba(217, 119, 6, 0.2); padding-bottom: 15px; }
         
-        /* FORMATAÇÃO PROFUNDA DO TEXTO */
-        .card-estudo p { margin: 0; font-size: 15px; line-height: 1.8; color: #e2e8f0; white-space: pre-wrap; font-weight: 300;}
-        .card-estudo p b { color: var(--gold-light); font-weight: 700; font-size: 15.5px; }
-        .card-estudo p i { color: #94a3b8; }
+        /* FORMATAÇÃO PROFUNDA DO TEXTO (Long-form reading) */
+        .card-estudo p { margin: 0 0 20px 0; font-size: 16px; line-height: 1.9; color: #f1f5f9; white-space: pre-wrap; font-weight: 300; text-align: justify;}
+        .card-estudo p b { color: var(--gold-light); font-weight: 700; font-size: 16.5px; }
+        .card-estudo p i { color: #cbd5e1; }
         
         /* ESTILO PARA AS LISTAS E TÓPICOS DO ESBOÇO */
-        .topico-lista { display: block; margin-left: 20px; position: relative; }
-        .topico-lista::before { content: '•'; color: var(--gold); position: absolute; left: -15px; font-weight: bold; }
+        .topico-lista { display: block; margin-left: 25px; position: relative; margin-bottom: 12px;}
+        .topico-lista::before { content: '•'; color: var(--gold); position: absolute; left: -18px; font-weight: bold; font-size: 20px; top: -4px;}
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .actions-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; justify-content: center;}
@@ -99,7 +99,7 @@
         .btn-sec:hover { background: var(--gold); border-color: var(--gold-light); color: white;}
 
         /* LOADING */
-        .loading { display: none; text-align: center; padding: 40px 0; }
+        .loading { display: none; text-align: center; padding: 50px 0; }
         .spinner { width: 50px; height: 50px; border: 4px solid rgba(217,119,6,0.1); border-top-color: var(--gold-light); border-radius: 50%; animation: spin 1s infinite cubic-bezier(0.55, 0.15, 0.45, 0.85); margin: 0 auto 20px; }
         
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -109,10 +109,11 @@
 
         @media (max-width: 600px) {
             .grid-2 { grid-template-columns: 1fr; }
-            .logo-title { font-size: 20px; }
+            .logo-title { font-size: 24px; }
             .panel { padding: 20px; }
             .tabs-list { padding: 6px; }
             .tab-btn { padding: 10px 16px; font-size: 12px; }
+            .card-estudo { padding: 25px; }
         }
     </style>
 </head>
@@ -120,15 +121,15 @@
 
     <div class="container">
         <header>
-            <span class="badge-status badge-pentecostal">Teologia & Exegese Profunda</span>
-            <h1 class="logo-title">RHEMA PREMIUM <span class="v12-badge">v12.0 DEEP THEOLOGY</span></h1>
-            <p class="logo-sub">Pesquisa avançada em comentários e originais</p>
+            <span class="badge-status badge-pentecostal">Teologia & Exegese Ultra Profunda</span>
+            <h1 class="logo-title">RHEMA PREMIUM <span class="v13-badge">v13.0 MASTER SEMINARY</span></h1>
+            <p class="logo-sub">Ensaios teológicos, análise morfológica e exposição exaustiva</p>
         </header>
 
         <div class="api-config" id="box-api">
             <span style="font-size:11px; color:var(--text-sub); font-weight:700; text-transform:uppercase; letter-spacing:1px;">🔑 Chave da API Groq:</span>
             <input type="password" id="api-key" placeholder="Cole sua chave gsk_... aqui" style="margin-top:10px; margin-bottom:10px; text-align:center; padding:12px;">
-            <small style="color:var(--text-sub); font-size:11px;">Motor Llama 3.3. Obtenha a chave em <b>console.groq.com/keys</b>.</small>
+            <small style="color:var(--text-sub); font-size:11px;">Motor de Alta Capacidade Ativado. Obtenha a chave em <b>console.groq.com/keys</b>.</small>
         </div>
 
         <div class="panel">
@@ -139,81 +140,81 @@
                 <div>
                     <label>🎯 Ênfase Teológica:</label>
                     <select id="enfase">
-                        <option value="Profunda - Exegese e Doutrina">🎓 Profundo (Seminário & Doutrina)</option>
-                        <option value="Avivamento e Ação do Espírito Santo">🔥 Avivamento & Espírito Santo</option>
-                        <option value="Batalha Espiritual e Milagres">🛡️ Batalha Espiritual & Fé</option>
-                        <option value="Evangelismo e Salvação">🌱 Evangelismo & Graça</option>
+                        <option value="Profunda - Exegese e Doutrina">🎓 Seminário Maior (Teologia Sistemática)</option>
+                        <option value="Avivamento e Ação do Espírito Santo">🔥 Pneumatologia & Avivamento Histórico</option>
+                        <option value="Batalha Espiritual e Milagres">🛡️ Batalha Espiritual & Exegese de Fé</option>
+                        <option value="Evangelismo e Salvação">🌱 Soteriologia & Graça Irresistível</option>
                     </select>
                 </div>
                 <div>
                     <label>🏛️ Formato do Esboço:</label>
                     <select id="formato">
-                        <option value="Sermão Temático Profundo">Pregação Temática (3 a 4 Pontos)</option>
-                        <option value="Estudo Expositivo">Estudo Expositivo (Versículo a Versículo)</option>
-                        <option value="Escola Bíblica Dominical">Aula para Escola Dominical (EBD)</option>
+                        <option value="Sermão Temático Profundo">Sermão Expositivo Magistral (Estruturado)</option>
+                        <option value="Estudo Expositivo">Estudo Versículo a Versículo (Exaustivo)</option>
+                        <option value="Escola Bíblica Dominical">Tratado Teológico para EBD Avançada</option>
                     </select>
                 </div>
             </div>
 
             <button class="btn" id="btn-gerar" onclick="gerarEstudoPremium()">
-                <span>⚡ Gerar Estudo Profundo</span>
+                <span>⚡ Gerar Tratado Teológico</span>
             </button>
         </div>
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="color:var(--gold-light); font-weight:800; font-size:16px;" id="loading-txt">Varrendo Bibliotecas Teológicas...</p>
-            <small style="color:var(--text-sub)">Cruzando dados de Matthew Henry, Beacon e originais.</small>
+            <p style="color:var(--gold-light); font-weight:800; font-size:16px;" id="loading-txt">Elaborando Ensaio Teológico...</p>
+            <small style="color:var(--text-sub)">Isso exigirá alto processamento. Analisando gramática grega/hebraica e bibliografia.</small>
         </div>
 
         <!-- CONTAINER DAS ABAS -->
         <div class="tabs-container" id="area-estudo">
             
             <div class="actions-bar">
-                <button class="btn-sec" onclick="copiarWhatsApp()">📲 Enviar WhatsApp</button>
-                <button class="btn-sec" onclick="baixarPDF()">📄 Imprimir PDF</button>
-                <button class="btn-sec" onclick="ouvirEstudo()">🔊 Ouvir Mensagem</button>
+                <button class="btn-sec" onclick="copiarWhatsApp()">📲 Enviar WhatsApp Completo</button>
+                <button class="btn-sec" onclick="baixarPDF()">📄 Imprimir Apostila (PDF)</button>
+                <button class="btn-sec" onclick="ouvirEstudo()">🔊 Ouvir Tratado</button>
             </div>
 
             <div class="tabs-list" id="nav-tabs">
-                <button class="tab-btn active" onclick="abrirAba('hermeneutica', this)">📜 Contexto</button>
-                <button class="tab-btn" onclick="abrirAba('exegese', this)">🔍 Grego/Hebraico</button>
-                <button class="tab-btn" onclick="abrirAba('esboco', this)">🔥 Esboço</button>
-                <button class="tab-btn" onclick="abrirAba('ilustracao', this)">💡 Ilustração</button>
-                <button class="tab-btn" onclick="abrirAba('teologia', this)">📚 Teologia</button>
+                <button class="tab-btn active" onclick="abrirAba('hermeneutica', this)">📜 Contexto Histórico</button>
+                <button class="tab-btn" onclick="abrirAba('exegese', this)">🔍 Morfologia & Originais</button>
+                <button class="tab-btn" onclick="abrirAba('esboco', this)">🔥 Esboço Expositivo</button>
+                <button class="tab-btn" onclick="abrirAba('ilustracao', this)">💡 Aplicação Pastoral</button>
+                <button class="tab-btn" onclick="abrirAba('teologia', this)">📚 Teologia Sistemática</button>
             </div>
 
             <div id="tab-hermeneutica" class="tab-content active">
                 <div class="card-estudo">
-                    <h3>📜 Contexto Hermenêutico</h3>
+                    <h3>📜 Investigação Histórica e Hermenêutica</h3>
                     <p id="res-hermeneutica"></p>
                 </div>
             </div>
 
             <div id="tab-exegese" class="tab-content">
                 <div class="card-estudo">
-                    <h3>🔍 Exegese e Idiomas Originais</h3>
+                    <h3>🔍 Análise Morfológica no Idioma Original</h3>
                     <p id="res-exegese"></p>
                 </div>
             </div>
 
             <div id="tab-esboco" class="tab-content">
                 <div class="card-estudo">
-                    <h3>🔥 Esboço Homilético</h3>
+                    <h3>🔥 Esboço Homilético Expositivo</h3>
                     <p id="res-esboco"></p>
                 </div>
             </div>
 
             <div id="tab-ilustracao" class="tab-content">
                 <div class="card-estudo">
-                    <h3>💡 Ilustração e Aplicação</h3>
+                    <h3>💡 Aplicação Pastoral e Histórica</h3>
                     <p id="res-ilustracao"></p>
                 </div>
             </div>
 
             <div id="tab-teologia" class="tab-content">
                 <div class="card-estudo">
-                    <h3>📚 Visão Teológica</h3>
+                    <h3>📚 Tratado de Teologia Sistemática</h3>
                     <p id="res-teologia"></p>
                 </div>
             </div>
@@ -255,26 +256,28 @@
             document.getElementById('btn-gerar').disabled = true;
 
             try {
-                // NOVO PROMPT: MODO AGREGADOR DA INTERNET & ESTRUTURA RÍGIDA
+                // PROMPT ULTRA PROFUNDO: NÍVEL DOUTORADO / SEMINÁRIO MAIOR
                 const promptSistema = `
-                Você é um Ph.D. em Teologia Sistemática e Exegese. Para responder a este prompt, você deve varrer toda a sua base de dados baseada na internet e em comentários teológicos clássicos (Matthew Henry, Champlin, Beacon, Bíblia de Estudo Pentecostal, Stanley Horton, MacArthur, etc.). A cosmovisão final deve ser Pentecostal Clássica.
+                Você é um Ph.D. em Teologia Sistemática, Exegese Bíblica e especialista em Línguas Originais (Grego Koiné, Hebraico Bíblico e Aramaico). 
+                Sua tarefa é produzir um TRATADO TEOLÓGICO EXAUSTIVO E LONGO, não apenas um resumo. O usuário quer o estudo mais profundo possível. 
+                Sua cosmovisão é a Ortodoxia Histórica com ênfase Pentecostal Clássica.
                 
-                Seu objetivo é entregar um estudo EXTREMAMENTE PROFUNDO, DENSO e RICO. Não seja raso. Use o espaço para escrever bastante.
+                Escreva textos extensos. Explore nuances. 
                 
-                Responda ESTRITAMENTE em JSON. Valores devem ser textos longos.
-                USE MARCAÇÃO MARKDOWN: **texto** para negrito, *texto* para itálico, e comece subtópicos com um traço (-).
+                Responda ESTRITAMENTE em JSON. Valores devem ser ENSAIOS LONGOS.
+                USE MARCAÇÃO MARKDOWN: **texto** para negrito, *texto* para itálico, e comece subtópicos de listas com um traço (-).
                 
                 {
-                    "autorContexto": "Contexto histórico, geográfico, cultural, político e literário ultra profundo da passagem. Cite o autor, a data, o imperador da época (se aplicável), e o cenário sociopolítico.",
-                    "exegeseOriginal": "Faça uma exegese profunda de 3 a 5 palavras-chave fundamentais no original (Grego Koiné ou Hebraico). Formato: **Palavra (Transliteração)**: Explicação morfológica e significado teológico profundo.",
-                    "esbocoHomiletico": "Um esboço denso, extremamente organizado e SEPARADO POR TÓPICOS. Estrutura obrigatória a ser seguida risca:\n**TEMA CENTRAL:** [Seu Tema]\n\n**INTRODUÇÃO:**\n[Texto da introdução]\n\n**I. PRIMEIRO TÓPICO:**\n- [Subtópico A com referências cruzadas]\n- [Subtópico B]\n\n**II. SEGUNDO TÓPICO:**\n- [Subtópico A]\n- [Subtópico B]\n\n**III. TERCEIRO TÓPICO:**\n- [Subtópico A]\n- [Subtópico B]\n\n**CONCLUSÃO E APELO:**\n[Texto]",
-                    "ilustracao": "Uma ilustração histórica real ou narrativa teológica profunda que se conecte brilhantemente ao tema. Nada superficial.",
-                    "visaoTeologica": "Sintetize a doutrina principal (Soteriologia, Cristologia, etc.). Cite textualmente a visão de grandes teólogos clássicos e comentários renomados a respeito deste texto."
+                    "autorContexto": "Escreva um ensaio longo sobre o contexto histórico, literário, geopolítico, econômico e cultural. Qual era a situação do Império/Reino no momento? Quem era o autor? Qual era a crise da audiência original? Aprofunde na hermenêutica do período.",
+                    "exegeseOriginal": "Selecione de 4 a 6 palavras principais do texto no original. Para CADA palavra, forneça: 1) A palavra em caracteres originais, 2) Transliteração, 3) ANÁLISE MORFOLÓGICA (ex: Aoristo, Particípio, Voz Passiva, Piel, Qal), 4) Significado etimológico profundo, 5) Como a gramática afeta a interpretação direta do versículo.",
+                    "esbocoHomiletico": "Esboço longuíssimo e ultra-organizado. \n**TEMA CENTRAL:** [Tema]\n\n**INTRODUÇÃO:**\n[Texto longo]\n\n**I. PRIMEIRO TÓPICO:**\n- [Subtópico detalhado]\n- [Subtópico detalhado com referências bíblicas cruzadas]\n\n**II. SEGUNDO TÓPICO:**\n- [Subtópico detalhado]\n- [Subtópico detalhado com referências]\n\n**III. TERCEIRO TÓPICO:**\n- [Subtópico detalhado]\n- [Subtópico detalhado com referências]\n\n**CONCLUSÃO E APELO:**\n[Conclusão profunda]",
+                    "ilustracao": "Desenvolva uma Aplicação Pastoral profunda combinada com uma ilustração da história da Igreja (ex: Agostinho, Lutero, Wesley, Spurgeon, Seymour) ou um evento histórico marcante. Como esse texto cura, confronta ou edifica a igreja de hoje?",
+                    "visaoTeologica": "Escreva um ensaio de Teologia Sistemática baseado neste texto. Qual doutrina rege este texto (Soteriologia, Cristologia, Pneumatologia, etc.)? Cite textualmente visões de comentários bíblicos respeitados (Ex: Comentário Beacon, Champlin, Stanley Horton). Construa um argumento teológico denso."
                 }
                 
-                Retorne APENAS o JSON válido. Certifique-se de que cada valor do JSON seja uma STRING única formatada.`;
+                Retorne APENAS o JSON válido. Certifique-se de que cada valor do JSON seja uma STRING (texto formatado), NÃO USE ARRAYS (listas de chaves).`;
 
-                const promptUsuario = `Texto bíblico: "${texto}"\nÊnfase: ${enfase}\nFormato: ${formato}`;
+                const promptUsuario = `Texto bíblico: "${texto}"\nÊnfase Teológica: ${enfase}\nFormato Desejado: ${formato}`;
 
                 let url = `https://api.groq.com/openai/v1/chat/completions`;
                 
@@ -291,8 +294,8 @@
                             { role: "user", content: promptUsuario }
                         ],
                         response_format: { type: "json_object" },
-                        temperature: 0.7, // Um pouco menor para garantir estrutura rígida
-                        max_tokens: 4000 // Garante que a IA tenha espaço para textos gigantes
+                        temperature: 0.65, // Reduzido levemente para manter foco teológico preciso
+                        max_tokens: 6000 // Permitir que a resposta seja gigante
                     })
                 });
 
@@ -308,7 +311,7 @@
                 let rawText = data.choices[0].message.content;
                 estudoGlobal = JSON.parse(rawText);
 
-                // Blindagem de Dados
+                // Blindagem de Dados de Alta Resiliência
                 for (let chave in estudoGlobal) {
                     if (Array.isArray(estudoGlobal[chave])) {
                         estudoGlobal[chave] = estudoGlobal[chave].join('\n\n');
@@ -337,43 +340,50 @@
             }
         }
 
-        // Função Avançada para transformar Markdown em visual bonito na tela
+        // Função Avançada de Formatação de Texto Longo (Ensaio)
         function formatarTexto(texto) {
             if(!texto) return '';
             
-            // 1. Trata negritos e itálicos
+            // Tratamento de Negritos e Itálicos
             let html = texto.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
             html = html.replace(/\*(.*?)\*/g, '<i>$1</i>');
             
-            // 2. Trata quebras de linha para manter a formatação do JSON
-            // html = html.replace(/\n/g, '<br>');
-            
-            // 3. Destaca os marcadores de lista (-) criando classes CSS para recuo
+            // Tratamento de Listas para recuo visual perfeito
             let linhas = html.split('\n');
+            let resultadoFinal = [];
+            
             for(let i=0; i < linhas.length; i++) {
-                if (linhas[i].trim().startsWith('- ')) {
-                    linhas[i] = `<span class="topico-lista">${linhas[i].replace('- ', '')}</span>`;
+                let linhaAtual = linhas[i].trim();
+                
+                if (linhaAtual.startsWith('- ')) {
+                    resultadoFinal.push(`<span class="topico-lista">${linhaAtual.substring(2)}</span>`);
+                } else if (linhaAtual.length > 0) {
+                    // Adiciona tag de parágrafo para manter espaçamento elegante em textos grandes
+                    resultadoFinal.push(`<p>${linhaAtual}</p>`);
                 }
             }
             
-            return linhas.join('\n');
+            return resultadoFinal.join('');
         }
 
         function copiarWhatsApp() {
             if(!estudoGlobal.esbocoHomiletico) return;
-            let txt = `*🔥 ESTUDO BÍBLICO PROFUNDO*\n\n` +
-                      `*📜 CONTEXTO:*\n${estudoGlobal.autorContexto}\n\n` +
-                      `*🔍 ORIGINAIS (Grego/Hebraico):*\n${estudoGlobal.exegeseOriginal}\n\n` +
-                      `*🔥 ESBOÇO DA PREGAÇÃO:*\n${estudoGlobal.esbocoHomiletico}\n\n` +
-                      `_Gerado pelo Rhema Premium_`;
+            let txt = `*🎓 TRATADO TEOLÓGICO:*\n\n` +
+                      `*📜 1. CONTEXTO HISTÓRICO:*\n${estudoGlobal.autorContexto}\n\n` +
+                      `*🔍 2. ANÁLISE MORFOLÓGICA (Originais):*\n${estudoGlobal.exegeseOriginal}\n\n` +
+                      `*🔥 3. ESBOÇO EXPOSITIVO:*\n${estudoGlobal.esbocoHomiletico}\n\n` +
+                      `*💡 4. APLICAÇÃO PASTORAL:*\n${estudoGlobal.ilustracao}\n\n` +
+                      `*📚 5. TEOLOGIA SISTEMÁTICA:*\n${estudoGlobal.visaoTeologica}\n\n` +
+                      `_Estudo produzido via Rhema Master Seminary_`;
 
             // Limpa formatação HTML para o WhatsApp
-            txt = txt.replace(/<span class="topico-lista">/g, '- ').replace(/<\/span>/g, '');
+            txt = txt.replace(/<p>/g, '').replace(/<\/p>/g, '\n');
+            txt = txt.replace(/<span class="topico-lista">/g, '- ').replace(/<\/span>/g, '\n');
             txt = txt.replace(/<b>/g, '*').replace(/<\/b>/g, '*');
             txt = txt.replace(/<i>/g, '_').replace(/<\/i>/g, '_');
 
             navigator.clipboard.writeText(txt);
-            alert('✅ Estudo copiado! Cole no WhatsApp.');
+            alert('✅ Ensaio completo copiado! (Pode ser grande para uma única mensagem, cole no WhatsApp e divida se necessário).');
         }
 
         function baixarPDF() {
@@ -385,41 +395,45 @@
             doc.rect(0, 0, 210, 30, 'F');
             doc.setTextColor(217, 119, 6);
             doc.setFontSize(18); doc.setFont("helvetica", "bold");
-            doc.text("RHEMA PREMIUM • TEOLOGIA E ESBOÇO", 15, 20);
+            doc.text("RHEMA • TRATADO TEOLÓGICO", 15, 20);
 
             doc.setTextColor(30, 30, 30); doc.setFontSize(10); doc.setFont("helvetica", "bold");
             let y = 40;
 
             function addBloco(titulo, texto) {
                 if(y > 260) { doc.addPage(); y = 20; }
+                
                 doc.setFont("helvetica", "bold"); doc.setTextColor(180, 83, 9);
-                doc.text(titulo, 15, y); y += 6;
+                doc.text(titulo, 15, y); y += 8;
+                
                 doc.setFont("helvetica", "normal"); doc.setTextColor(40, 40, 40);
                 
                 // Limpa marcações markdown para PDF limpo
                 let cleanText = texto.replace(/\*\*/g, '').replace(/\*/g, '');
                 let linhas = doc.splitTextToSize(cleanText, 180);
                 
-                if (y + (linhas.length * 5) > 280) { doc.addPage(); y = 20; }
-                
-                doc.text(linhas, 15, y);
-                y += (linhas.length * 5) + 12;
+                for(let i=0; i<linhas.length; i++) {
+                    if (y > 280) { doc.addPage(); y = 20; }
+                    doc.text(linhas[i], 15, y);
+                    y += 5;
+                }
+                y += 10;
             }
 
             addBloco("1. CONTEXTO HISTÓRICO E HERMENÊUTICO", estudoGlobal.autorContexto);
-            addBloco("2. EXEGESE NOS IDIOMAS ORIGINAIS", estudoGlobal.exegeseOriginal);
-            addBloco("3. ESBOÇO HOMILÉTICO", estudoGlobal.esbocoHomiletico);
-            addBloco("4. ILUSTRAÇÃO", estudoGlobal.ilustracao);
-            addBloco("5. SÍNTESE TEOLÓGICA", estudoGlobal.visaoTeologica);
+            addBloco("2. ANÁLISE MORFOLÓGICA NOS ORIGINAIS", estudoGlobal.exegeseOriginal);
+            addBloco("3. ESBOÇO HOMILÉTICO EXPOSITIVO", estudoGlobal.esbocoHomiletico);
+            addBloco("4. APLICAÇÃO PASTORAL E HISTÓRICA", estudoGlobal.ilustracao);
+            addBloco("5. TRATADO DE TEOLÓGICA SISTEMÁTICA", estudoGlobal.visaoTeologica);
 
-            doc.save(`Estudo_Premium_Rhema.pdf`);
+            doc.save(`Rhema_Seminario_Master.pdf`);
         }
 
         function ouvirEstudo() {
             if(!estudoGlobal.esbocoHomiletico) return;
             window.speechSynthesis.cancel();
             
-            let textoLer = `Esboço da Pregação. ${estudoGlobal.esbocoHomiletico}`.replace(/\*/g, '').replace(/-/g, 'Tópico: ');
+            let textoLer = `Tratado Teológico. Esboço Principal. ${estudoGlobal.esbocoHomiletico}`.replace(/\*/g, '').replace(/-/g, 'Tópico: ');
             
             let synth = new SpeechSynthesisUtterance(textoLer);
             synth.lang = 'pt-BR';

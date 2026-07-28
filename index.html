@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rhema • Estudo Bíblico v5</title>
+    <title>Rhema • Estudo Bíblico v6</title>
     
     <!-- Fontes e Libs -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -39,8 +39,8 @@
         header { text-align: center; padding: 30px 0 20px; }
         .logo-title { font-family: 'Cinzel', serif; font-size: 26px; font-weight: 900; color: var(--gold-light); letter-spacing: 1px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
         
-        /* NOVO SELO V5 AZUL */
-        .v5-badge { font-family: 'Poppins', sans-serif; background: #3b82f6; color: #fff; font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; }
+        /* NOVO SELO V6 ROXO */
+        .v6-badge { font-family: 'Poppins', sans-serif; background: #8b5cf6; color: #fff; font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; }
 
         .logo-sub { color: var(--text-sub); font-size: 13px; margin-top: 5px; font-weight: 300; }
         .badge-pentecostal { background: rgba(217, 119, 6, 0.15); border: 1px solid var(--gold); color: var(--gold-light); font-size: 10px; font-weight: 800; padding: 4px 12px; border-radius: 99px; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 10px; }
@@ -100,7 +100,7 @@
     <div class="container">
         <header>
             <span class="badge-status badge-pentecostal">🔥 Teologia & Homilética Pentecostal</span>
-            <h1 class="logo-title">RHEMA • BÍBLIA <span class="v5-badge">v5.0 ESTÁVEL</span></h1>
+            <h1 class="logo-title">RHEMA • BÍBLIA <span class="v6-badge">v6.0 DEFINITIVA</span></h1>
             <p class="logo-sub">Gerador de Esboços e Exegese Bíblica Profunda</p>
         </header>
 
@@ -143,7 +143,7 @@
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="color:var(--gold-light); font-weight:700;" id="loading-txt">Gerando estudo na API Estável (v1)...</p>
+            <p style="color:var(--gold-light); font-weight:700;" id="loading-txt">Gerando estudo na API Universal (Gemini Pro)...</p>
             <small style="color:var(--text-sub)">Isso pode levar alguns segundos...</small>
         </div>
 
@@ -222,8 +222,8 @@
                 }
                 `;
 
-                // Rota V1 Estável Forçada (Sem V1beta, sem ListModels)
-                let url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${key}`;
+                // Rota Estável Clássica - GEMINI-PRO (Universal e livre de restrições regionais/chaves novas)
+                let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${key}`;
                 
                 let response = await fetch(url, {
                     method: 'POST',
@@ -236,7 +236,9 @@
                 let data = await response.json();
                 
                 if (data.error) {
-                    alert('❌ Erro direto da API do Google:\n' + data.error.message + '\n\nSe o erro persistir, gere uma nova chave no AI Studio.');
+                    alert('❌ Erro da API: ' + data.error.message);
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('btn-gerar').disabled = false;
                     return;
                 }
 
@@ -255,7 +257,7 @@
                 document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
 
             } catch (e) {
-                alert('⚠️ Falha de comunicação ou formatação JSON inválida: ' + e.message);
+                alert('⚠️ Falha de comunicação ou JSON inválido: ' + e.message);
             } finally {
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('btn-gerar').disabled = false;

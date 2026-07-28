@@ -12,206 +12,284 @@
     <style>
         /* TEMA LUXURY (OLED BLACK & CHAMPAGNE GOLD) */
         :root {
-            --bg-dark: #0a0a0a;
-            --bg-panel: rgba(18, 18, 18, 0.85);
+            --bg-dark: #070709;
+            --bg-panel: rgba(18, 18, 20, 0.85);
             --gold-light: #e6c587;
             --gold-main: #c99e52;
             --gold-dark: #8c6a2f;
             --text-main: #f0f0f0;
             --text-sub: #a1a1aa;
-            --border-glow: rgba(201, 158, 82, 0.2);
+            --border-glow: rgba(201, 158, 82, 0.25);
             --gradient-gold: linear-gradient(135deg, #e6c587, #c99e52, #8c6a2f);
         }
 
         body {
             margin: 0; padding: 0; font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-dark); color: var(--text-main);
-            background-image: radial-gradient(circle at 50% -20%, rgba(201, 158, 82, 0.15), transparent 50rem);
-            background-attachment: fixed; min-height: 100vh;
-            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% -20%, rgba(201, 158, 82, 0.12), transparent 50rem);
+            background-attachment: fixed; min-height: 100vh; overflow-x: hidden;
         }
 
         * { box-sizing: border-box; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 10px; }
 
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; position: relative;}
 
         /* ================= TELA DE LOGIN ================= */
         #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: var(--bg-dark); z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+            z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease; padding: 20px;
         }
+        .login-verse {
+            max-width: 500px; text-align: center; margin-bottom: 40px;
+        }
+        .login-verse h2 {
+            font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 22px; font-weight: 400; font-style: italic;
+            line-height: 1.6; text-shadow: 0 4px 20px rgba(201, 158, 82, 0.3); margin-bottom: 15px;
+        }
+        .login-verse span { color: var(--gold-dark); font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;}
+        
         .login-box {
-            background: var(--bg-panel); border: 1px solid var(--border-glow);
-            padding: 50px 40px; border-radius: 20px; text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8); backdrop-filter: blur(20px);
-            max-width: 400px; width: 90%;
+            background: rgba(10,10,12,0.8); border: 1px solid var(--border-glow);
+            padding: 40px; border-radius: 20px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8); backdrop-filter: blur(20px); width: 100%; max-width: 380px;
         }
-        .login-box h1 { font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 36px; margin: 0 0 10px; letter-spacing: 3px; }
-        .login-box p { color: var(--text-sub); font-size: 14px; margin-bottom: 30px; }
+        .login-box h1 { font-family: 'Cinzel', serif; color: white; font-size: 28px; margin: 0 0 25px; letter-spacing: 4px; }
         .login-box input {
-            width: 100%; padding: 15px; border-radius: 12px; background: rgba(0,0,0,0.5);
+            width: 100%; padding: 16px; border-radius: 12px; background: rgba(0,0,0,0.6);
             border: 1px solid rgba(255,255,255,0.1); color: white; font-family: inherit;
-            text-align: center; letter-spacing: 2px; margin-bottom: 20px; font-size: 16px; transition: 0.3s;
+            text-align: center; letter-spacing: 4px; margin-bottom: 25px; font-size: 16px; transition: 0.3s;
         }
         .login-box input:focus { border-color: var(--gold-main); outline: none; box-shadow: 0 0 15px var(--border-glow); }
-        
+
         /* ================= HEADER DO APP ================= */
-        header { text-align: center; padding: 30px 0 20px; }
+        header { text-align: center; padding: 30px 0 20px; position: relative;}
         .logo-title { font-family: 'Cinzel', serif; font-size: 32px; font-weight: 800; color: var(--gold-light); letter-spacing: 2px; margin: 0; text-shadow: 0 4px 20px rgba(201, 158, 82, 0.3);}
         .elite-badge { background: var(--gradient-gold); color: #000; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 6px; letter-spacing: 1.5px; vertical-align: middle; margin-left: 10px; }
         .logo-sub { color: var(--text-sub); font-size: 13px; margin-top: 5px; font-weight: 300; letter-spacing: 1px; text-transform: uppercase; }
 
-        /* ================= PAINEL ================= */
-        .panel { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); margin-bottom: 25px; }
-
-        label { font-size: 11px; font-weight: 700; color: var(--gold-main); text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 8px; }
-        
-        .input-group { position: relative; margin-bottom: 20px; }
-        textarea, input, select {
-            width: 100%; padding: 16px; border-radius: 14px; background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255,255,255,0.08); color: var(--text-main); font-family: inherit; font-size: 14px; transition: 0.3s;
+        .btn-settings-top {
+            position: absolute; top: 30px; right: 0; background: transparent; border: none;
+            font-size: 24px; cursor: pointer; color: var(--text-sub); transition: 0.3s;
         }
-        textarea:focus, input:focus, select:focus { border-color: var(--gold-main); outline: none; }
+        .btn-settings-top:hover { color: var(--gold-light); transform: rotate(45deg); }
+
+        /* ================= PAINEL PRINCIPAL ================= */
+        .panel { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 35px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); margin-bottom: 25px; }
+
+        label.section-title { font-size: 11px; font-weight: 700; color: var(--gold-main); text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;}
+        
+        .input-group { position: relative; margin-bottom: 30px; }
+        textarea {
+            width: 100%; padding: 18px; border-radius: 14px; background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255,255,255,0.08); color: var(--gold-light); font-family: inherit; font-size: 15px; transition: 0.3s; font-weight: 600; resize: none;
+        }
+        textarea:focus { border-color: var(--gold-main); outline: none; box-shadow: 0 0 15px rgba(201,158,82,0.1);}
         
         .btn-bible {
-            position: absolute; right: 10px; top: 35px; background: rgba(201, 158, 82, 0.15);
-            border: 1px solid var(--gold-main); color: var(--gold-light); padding: 8px 15px;
-            border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase;
+            position: absolute; right: 12px; top: 40px; background: var(--gradient-gold);
+            border: none; color: #000; padding: 8px 16px;
+            border-radius: 10px; font-size: 11px; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; box-shadow: 0 4px 15px rgba(201,158,82,0.3);
         }
-        .btn-bible:hover { background: var(--gold-main); color: #000; }
+        .btn-bible:hover { transform: scale(1.05); }
+
+        /* CARDS SELECIONÁVEIS (SUBSTITUI O SELECT) */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;}
+        .radio-group { display: flex; flex-direction: column; gap: 10px; }
+        .radio-label { position: relative; cursor: pointer; }
+        .radio-label input { display: none; }
+        .radio-card {
+            padding: 14px 18px; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
+            background: rgba(0,0,0,0.4); color: var(--text-sub); transition: 0.3s; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 10px;
+        }
+        .radio-label input:checked + .radio-card {
+            border-color: var(--gold-main); background: rgba(201, 158, 82, 0.1); color: var(--gold-light); box-shadow: inset 0 0 15px rgba(201,158,82,0.1);
+        }
 
         .btn {
             background: var(--gradient-gold); color: #000; border: none;
-            padding: 18px; border-radius: 14px; width: 100%; font-weight: 800; font-size: 15px; letter-spacing: 1px;
+            padding: 20px; border-radius: 14px; width: 100%; font-weight: 800; font-size: 16px; letter-spacing: 1.5px;
             cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 25px var(--border-glow);
-            text-transform: uppercase; font-family: inherit; margin-top: 10px;
+            text-transform: uppercase; font-family: inherit;
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 15px 30px rgba(201, 158, 82, 0.4); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(201, 158, 82, 0.4); }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
-        /* ================= MODAL BÍBLIA ================= */
+        /* ================= MODAIS (BÍBLIA & CONFIG) ================= */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
-            display: none; align-items: center; justify-content: center; z-index: 1000;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(15px);
+            display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px;
         }
         .modal-content {
-            background: #121212; border: 1px solid var(--gold-dark); width: 90%; max-width: 600px;
-            border-radius: 20px; padding: 25px; max-height: 85vh; overflow-y: auto;
+            background: #0f0f11; border: 1px solid var(--gold-dark); width: 100%; max-width: 650px;
+            border-radius: 24px; padding: 30px; max-height: 85vh; overflow-y: auto; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.9);
         }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px; }
-        .modal-header h2 { font-family: 'Cinzel', serif; color: var(--gold-light); margin: 0; font-size: 20px; }
-        .close-modal { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 15px; margin-bottom: 20px; }
+        .modal-header h2 { font-family: 'Cinzel', serif; color: var(--gold-light); margin: 0; font-size: 22px; }
+        .close-modal { background: none; border: none; color: white; font-size: 28px; cursor: pointer; transition: 0.2s;}
+        .close-modal:hover { color: var(--gold-main); }
+        .btn-voltar { background: transparent; border: 1px solid var(--text-sub); color: var(--text-main); padding: 6px 12px; border-radius: 8px; font-size: 11px; cursor: pointer; margin-right: 15px; font-weight: 600;}
         
-        .testament-title { color: var(--text-sub); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin: 20px 0 10px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 5px; }
-        .books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
-        .book-btn {
-            background: rgba(255,255,255,0.05); border: 1px solid transparent; color: #ccc;
-            padding: 10px; border-radius: 8px; font-size: 12px; cursor: pointer; transition: 0.2s; font-family: inherit;
+        .testament-title { color: var(--gold-main); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 25px 0 15px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 8px; }
+        
+        .grid-biblia { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+        .grid-numeros { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 8px; display: none;}
+        
+        .biblia-btn {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: #d4d4d8;
+            padding: 12px 5px; border-radius: 10px; font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.2s; font-family: inherit; text-align: center;
         }
-        .book-btn:hover { background: rgba(201, 158, 82, 0.1); border-color: var(--gold-dark); color: var(--gold-light); }
+        .biblia-btn:hover { background: rgba(201, 158, 82, 0.15); border-color: var(--gold-main); color: var(--gold-light); }
+        
+        .num-btn {
+            background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: white;
+            padding: 12px 0; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s;
+        }
+        .num-btn:hover { background: var(--gold-main); color: black; border-color: var(--gold-light);}
+        .num-btn.wide { grid-column: 1 / -1; background: rgba(201,158,82,0.1); color: var(--gold-light); border-color: var(--gold-dark); text-transform: uppercase; font-size: 12px; letter-spacing: 1px;}
+
+        /* MODAL CONFIGURAÇÃO */
+        .config-input { width: 100%; padding: 15px; border-radius: 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--gold-dark); color: white; font-size: 13px; margin-bottom: 20px; }
 
         /* ================= ÁREA DO ESTUDO ================= */
-        #app-content { display: none; } /* Oculto até logar */
+        #app-content { display: none; }
         .tabs-container { display: none; margin-top: 30px;}
-        .tabs-list { display: flex; gap: 8px; background: rgba(0,0,0,0.6); padding: 8px; border-radius: 16px; overflow-x: auto; margin-bottom: 20px; }
+        .tabs-list { display: flex; gap: 8px; background: rgba(0,0,0,0.6); padding: 8px; border-radius: 16px; overflow-x: auto; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05);}
         .tab-btn { background: transparent; border: none; color: var(--text-sub); font-weight: 600; padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-size: 13px; }
         .tab-btn.active { background: var(--gradient-gold); color: #000; font-weight: 800;}
         
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.5s; }
 
-        .card-estudo { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .card-estudo h3 { font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 24px; border-bottom: 1px solid rgba(201,158,82,0.2); padding-bottom: 15px; margin-top:0; }
-        .card-estudo p { margin: 0 0 20px; font-size: 15px; line-height: 2; color: #d4d4d8; white-space: pre-wrap; font-weight: 300; text-align: justify;}
-        .card-estudo p b { color: var(--gold-light); font-weight: 600; }
-        .topico-lista { display: block; margin-left: 20px; position: relative; margin-bottom: 10px; }
-        .topico-lista::before { content: '♦'; color: var(--gold-main); position: absolute; left: -18px; font-size: 12px; top: 2px; }
+        .card-estudo { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); border-radius: 24px; padding: 45px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .card-estudo h3 { font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 26px; border-bottom: 1px solid rgba(201,158,82,0.2); padding-bottom: 15px; margin-top:0; }
+        .card-estudo p { margin: 0 0 20px; font-size: 15.5px; line-height: 2; color: #d4d4d8; white-space: pre-wrap; font-weight: 300; text-align: justify;}
+        .card-estudo p b { color: var(--gold-light); font-weight: 600; font-size: 16px;}
+        .topico-lista { display: block; margin-left: 20px; position: relative; margin-bottom: 12px; }
+        .topico-lista::before { content: '♦'; color: var(--gold-main); position: absolute; left: -18px; font-size: 12px; top: 4px; }
 
-        .actions-bar { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
-        .btn-sec { background: transparent; border: 1px solid var(--text-sub); color: var(--text-main); padding: 10px 18px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        .btn-sec:hover { border-color: var(--gold-main); color: var(--gold-light); }
+        .actions-bar { display: flex; gap: 10px; justify-content: center; margin-bottom: 25px; }
+        .btn-sec { background: transparent; border: 1px solid var(--text-sub); color: var(--text-main); padding: 12px 20px; border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-sec:hover { border-color: var(--gold-main); color: var(--gold-light); background: rgba(201,158,82,0.05);}
 
         .loading { display: none; text-align: center; padding: 50px 0; }
-        .spinner { width: 40px; height: 40px; border: 3px solid rgba(201,158,82,0.2); border-top-color: var(--gold-light); border-radius: 50%; animation: spin 1s infinite linear; margin: 0 auto 20px; }
+        .spinner { width: 45px; height: 45px; border: 3px solid rgba(201,158,82,0.1); border-top-color: var(--gold-light); border-radius: 50%; animation: spin 1s infinite cubic-bezier(0.55, 0.15, 0.45, 0.85); margin: 0 auto 20px; }
         
         @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .api-config { text-align: center; margin-bottom: 20px; }
-        .api-config input { width: 100%; max-width: 400px; padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.5); border: 1px dashed var(--gold-dark); color: white; text-align: center; font-size: 12px; margin-top: 5px;}
-
+        @media (max-width: 700px) {
+            .grid-2 { grid-template-columns: 1fr; gap: 20px;}
+            .logo-title { font-size: 26px; }
+            .panel { padding: 25px; }
+            .card-estudo { padding: 25px; }
+        }
     </style>
 </head>
 <body>
 
     <!-- TELA DE LOGIN EXCLUSIVA -->
     <div id="login-screen">
+        <div class="login-verse">
+            <h2>"Mas a sua palavra era em meu coração como fogo ardente, encerrado nos meus ossos; e estou fatigado de sofrê-lo, e não posso mais."</h2>
+            <span>- Jeremias 20:9</span>
+        </div>
         <div class="login-box">
             <h1>RHEMA</h1>
-            <p style="letter-spacing: 2px; text-transform: uppercase; font-size: 11px;">Master Seminary Edition</p>
-            <input type="password" id="senha-login" placeholder="Sua Senha de Acesso" onkeypress="verificarEnter(event)">
-            <button class="btn" onclick="fazerLogin()">Entrar</button>
+            <input type="password" id="senha-login" placeholder="Sua Senha" onkeypress="verificarEnter(event)">
+            <button class="btn" onclick="fazerLogin()">Acessar Santuário</button>
         </div>
     </div>
 
-    <!-- MODAL DO SELETOR BÍBLICO -->
+    <!-- MODAL BÍBLIA INTERATIVA -->
     <div class="modal-overlay" id="modal-biblia">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Selecione o Livro</h2>
-                <button class="close-modal" onclick="fecharBíblia()">&times;</button>
+                <div style="display:flex; align-items:center;">
+                    <button class="btn-voltar" id="btn-voltar-biblia" onclick="voltarBiblia()" style="display:none;">← Voltar</button>
+                    <h2 id="modal-biblia-title">Selecione o Livro</h2>
+                </div>
+                <button class="close-modal" onclick="fecharBiblia()">&times;</button>
             </div>
             
-            <div class="testament-title">Antigo Testamento</div>
-            <div class="books-grid" id="grid-vt"></div>
+            <!-- VIEW 1: LIVROS -->
+            <div id="view-livros">
+                <div class="testament-title">Antigo Testamento</div>
+                <div class="grid-biblia" id="grid-vt"></div>
+                <div class="testament-title" style="margin-top: 30px;">Novo Testamento</div>
+                <div class="grid-biblia" id="grid-nt"></div>
+            </div>
 
-            <div class="testament-title" style="margin-top: 30px;">Novo Testamento</div>
-            <div class="books-grid" id="grid-nt"></div>
+            <!-- VIEW 2: NÚMEROS (CAPÍTULOS/VERSÍCULOS) -->
+            <div id="view-numeros" class="grid-numeros"></div>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIGURAÇÕES (API) -->
+    <div class="modal-overlay" id="modal-config">
+        <div class="modal-content" style="max-width: 450px;">
+            <div class="modal-header">
+                <h2>Cofre de Sistema</h2>
+                <button class="close-modal" onclick="fecharConfig()">&times;</button>
+            </div>
+            <label class="section-title">Chave API Groq (Llama 3.3)</label>
+            <input type="password" class="config-input" id="api-key" placeholder="gsk_...">
+            <button class="btn" onclick="salvarConfig()">Salvar Chave</button>
         </div>
     </div>
 
     <!-- APLICATIVO PRINCIPAL -->
     <div class="container" id="app-content">
         <header>
-            <h1 class="logo-title">RHEMA <span class="elite-badge">ELITE v14</span></h1>
+            <h1 class="logo-title">RHEMA <span class="elite-badge">SUPREME v15</span></h1>
             <p class="logo-sub">Exegese, Originais & Teologia Sistemática</p>
+            <button class="btn-settings-top" onclick="abrirConfig()" title="Configurações">⚙️</button>
         </header>
-
-        <div class="api-config">
-            <label>Chave API Groq (Llama 3.3)</label>
-            <input type="password" id="api-key" placeholder="Cole sua chave gsk_... aqui">
-        </div>
 
         <div class="panel">
             <div class="input-group">
-                <label>📖 Texto Base ou Tema:</label>
-                <textarea id="texto-biblico" rows="3" placeholder="Digite o tema ou selecione na Bíblia..."></textarea>
-                <button class="btn-bible" onclick="abrirBiblia()">Abrir Bíblia</button>
+                <label class="section-title">📖 Texto Base ou Tema:</label>
+                <textarea id="texto-biblico" rows="3" placeholder="Selecione na Bíblia ao lado ou digite um tema..." readonly style="cursor: pointer;" onclick="abrirBiblia()"></textarea>
+                <button class="btn-bible" onclick="abrirBiblia()">📚 Abrir Bíblia</button>
             </div>
 
             <div class="grid-2">
                 <div>
-                    <label>🎯 Nível Teológico:</label>
-                    <select id="enfase">
-                        <option value="Seminário Avançado e Teologia Sistemática">🎓 Doutorado (Teologia Sistemática)</option>
-                        <option value="Pneumatologia e Ação do Espírito Santo">🔥 Pentecostal Clássico (Avivamento)</option>
-                        <option value="Batalha Espiritual e Milagres">🛡️ Batalha Espiritual & Cura</option>
-                        <option value="Soteriologia e Salvação">🌱 Soteriologia & Graça</option>
-                    </select>
+                    <label class="section-title">🎯 Nível Teológico:</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="enfase" value="Doutorado e Teologia Sistemática" checked>
+                            <div class="radio-card">🎓 Doutorado (Sistemática)</div>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="enfase" value="Pentecostal Clássico e Avivamento">
+                            <div class="radio-card">🔥 Pentecostal Clássico</div>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="enfase" value="Soteriologia e Graça">
+                            <div class="radio-card">🌱 Soteriologia & Graça</div>
+                        </label>
+                    </div>
                 </div>
                 <div>
-                    <label>🏛️ Formato do Documento:</label>
-                    <select id="formato">
-                        <option value="Sermão Expositivo Completo">Sermão Expositivo (Tratado Completo)</option>
-                        <option value="Estudo Versículo a Versículo">Exegese Versículo a Versículo</option>
-                        <option value="Lição para Escola Dominical">Material Didático para EBD</option>
-                    </select>
+                    <label class="section-title">🏛️ Formato do Tratado:</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="formato" value="Sermão Expositivo Completo" checked>
+                            <div class="radio-card">📖 Sermão Expositivo</div>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="formato" value="Exegese Versículo a Versículo">
+                            <div class="radio-card">🔍 Versículo a Versículo</div>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="formato" value="Material Didático para EBD Avançada">
+                            <div class="radio-card">📚 Aula EBD Avançada</div>
+                        </label>
+                    </div>
                 </div>
             </div>
 
@@ -222,16 +300,16 @@
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="color:var(--gold-light); font-weight:700; letter-spacing: 1px;" id="loading-txt">Elaborando Ensaio Teológico...</p>
-            <small style="color:var(--text-sub)">Conectando ao núcleo Groq Llama 3.3...</small>
+            <p style="color:var(--gold-light); font-weight:700; letter-spacing: 1px;" id="loading-txt">Sondando as Escrituras...</p>
+            <small style="color:var(--text-sub)">Processamento neural Llama 3.3 em andamento.</small>
         </div>
 
         <!-- ÁREA DOS RESULTADOS -->
         <div class="tabs-container" id="area-estudo">
             <div class="actions-bar">
-                <button class="btn-sec" onclick="copiarWhatsApp()">📲 WhatsApp</button>
-                <button class="btn-sec" onclick="baixarPDF()">📄 Gerar PDF</button>
-                <button class="btn-sec" onclick="ouvirEstudo()">🔊 Áudio</button>
+                <button class="btn-sec" onclick="copiarWhatsApp()">📲 Compartilhar WhatsApp</button>
+                <button class="btn-sec" onclick="baixarPDF()">📄 Imprimir Apostila</button>
+                <button class="btn-sec" onclick="ouvirEstudo()">🔊 Ouvir Tratado</button>
             </div>
 
             <div class="tabs-list">
@@ -252,7 +330,7 @@
 
     <script>
         // ================= SISTEMA DE LOGIN =================
-        const SENHA_CORRETA = "rhema"; // Altere sua senha aqui!
+        const SENHA_CORRETA = "rhema"; 
 
         function fazerLogin() {
             let senha = document.getElementById('senha-login').value;
@@ -261,44 +339,98 @@
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('app-content').style.display = 'block';
-                }, 600);
+                }, 800);
             } else {
-                alert("❌ Senha incorreta. Tente novamente.");
+                alert("❌ Acesso Negado.");
                 document.getElementById('senha-login').value = "";
             }
         }
+        function verificarEnter(e) { if (e.key === 'Enter') fazerLogin(); }
 
-        function verificarEnter(e) {
-            if (e.key === 'Enter') fazerLogin();
+        // ================= CONFIGURAÇÕES (API) =================
+        window.onload = () => {
+            let keySalva = localStorage.getItem('groq_key_biblia');
+            if(keySalva) document.getElementById('api-key').value = keySalva;
+        }
+        function abrirConfig() { document.getElementById('modal-config').style.display = 'flex'; }
+        function fecharConfig() { document.getElementById('modal-config').style.display = 'none'; }
+        function salvarConfig() {
+            localStorage.setItem('groq_key_biblia', document.getElementById('api-key').value);
+            fecharConfig();
         }
 
-        // ================= SELETOR BÍBLICO =================
+        // ================= NAVEGADOR BÍBLICO INTERATIVO =================
         const vt = ["Gênesis", "Êxodo", "Levítico", "Números", "Deuteronômio", "Josué", "Juízes", "Rute", "1 Samuel", "2 Samuel", "1 Reis", "2 Reis", "1 Crônicas", "2 Crônicas", "Esdras", "Neemias", "Ester", "Jó", "Salmos", "Provérbios", "Eclesiastes", "Cânticos", "Isaías", "Jeremias", "Lamentações", "Ezequiel", "Daniel", "Oseias", "Joel", "Amós", "Obadias", "Jonas", "Miqueias", "Naum", "Habacuque", "Sofonias", "Ageu", "Zacarias", "Malaquias"];
         const nt = ["Mateus", "Marcos", "Lucas", "João", "Atos", "Romanos", "1 Coríntios", "2 Coríntios", "Gálatas", "Efésios", "Filipenses", "Colossenses", "1 Tessalonicenses", "2 Tessalonicenses", "1 Timóteo", "2 Timóteo", "Tito", "Filemom", "Hebreus", "Tiago", "1 Pedro", "2 Pedro", "1 João", "2 João", "3 João", "Judas", "Apocalipse"];
+        
+        let navState = { livro: "", capitulo: "" };
 
-        function renderizarBiblia() {
-            let htmlVT = vt.map(livro => `<button class="book-btn" onclick="selecionarLivro('${livro}')">${livro}</button>`).join('');
-            let htmlNT = nt.map(livro => `<button class="book-btn" onclick="selecionarLivro('${livro}')">${livro}</button>`).join('');
-            document.getElementById('grid-vt').innerHTML = htmlVT;
-            document.getElementById('grid-nt').innerHTML = htmlNT;
+        function renderizarBibliaInit() {
+            document.getElementById('grid-vt').innerHTML = vt.map(l => `<button class="biblia-btn" onclick="selecionarLivro('${l}')">${l}</button>`).join('');
+            document.getElementById('grid-nt').innerHTML = nt.map(l => `<button class="biblia-btn" onclick="selecionarLivro('${l}')">${l}</button>`).join('');
         }
+        renderizarBibliaInit();
 
         function abrirBiblia() {
+            navState = { livro: "", capitulo: "" };
+            document.getElementById('view-livros').style.display = 'block';
+            document.getElementById('view-numeros').style.display = 'none';
+            document.getElementById('btn-voltar-biblia').style.display = 'none';
+            document.getElementById('modal-biblia-title').innerText = "Selecione o Livro";
             document.getElementById('modal-biblia').style.display = 'flex';
         }
-        function fecharBíblia() {
-            document.getElementById('modal-biblia').style.display = 'none';
+        
+        function fecharBiblia() { document.getElementById('modal-biblia').style.display = 'none'; }
+        
+        function voltarBiblia() {
+            if(navState.capitulo !== "") {
+                selecionarLivro(navState.livro); // Volta pra escolha de capítulo
+            } else {
+                abrirBiblia(); // Volta pros livros
+            }
         }
 
         function selecionarLivro(livro) {
-            let ref = prompt(`Você selecionou ${livro}.\nDigite o Capítulo e Versículo (Ex: 3:16) ou deixe em branco para estudar o livro todo:`);
-            if(ref !== null) {
-                let textoFinal = ref.trim() !== "" ? `${livro} ${ref}` : livro;
-                document.getElementById('texto-biblico').value = textoFinal;
-                fecharBíblia();
+            navState.livro = livro;
+            navState.capitulo = "";
+            document.getElementById('view-livros').style.display = 'none';
+            
+            let numGrid = document.getElementById('view-numeros');
+            numGrid.style.display = 'grid';
+            numGrid.innerHTML = '';
+            
+            // Gerar 150 capítulos (Maior livro é Salmos 150)
+            let maxCap = livro === "Salmos" ? 150 : (livro === "Obadias" || livro === "Filemom" || livro === "2 João" || livro === "3 João" || livro === "Judas" ? 1 : 66);
+            
+            let html = `<button class="num-btn wide" onclick="finalizarSelecaoBiblia('${livro}')">Estudar Livro Completo</button>`;
+            for(let i=1; i<=maxCap; i++) {
+                html += `<button class="num-btn" onclick="selecionarCapitulo(${i})">${i}</button>`;
             }
+            numGrid.innerHTML = html;
+            
+            document.getElementById('modal-biblia-title').innerText = `${livro} - Capítulo`;
+            document.getElementById('btn-voltar-biblia').style.display = 'block';
         }
-        renderizarBiblia(); // Inicializa os botões da bíblia
+
+        function selecionarCapitulo(capitulo) {
+            navState.capitulo = capitulo;
+            let numGrid = document.getElementById('view-numeros');
+            numGrid.innerHTML = '';
+            
+            // Gerar 176 versículos (Máximo Salmo 119)
+            let html = `<button class="num-btn wide" onclick="finalizarSelecaoBiblia('${navState.livro} ${navState.capitulo}')">Capítulo Completo</button>`;
+            for(let i=1; i<=176; i++) {
+                html += `<button class="num-btn" onclick="finalizarSelecaoBiblia('${navState.livro} ${navState.capitulo}:${i}')">${i}</button>`;
+            }
+            numGrid.innerHTML = html;
+            
+            document.getElementById('modal-biblia-title').innerText = `${navState.livro} ${capitulo} - Versículo`;
+        }
+
+        function finalizarSelecaoBiblia(referenciaFinal) {
+            document.getElementById('texto-biblico').value = referenciaFinal;
+            fecharBiblia();
+        }
 
         // ================= SISTEMA DE ABAS =================
         function abrirAba(idAba, elementoBotao) {
@@ -309,23 +441,14 @@
         }
 
         // ================= INTELIGÊNCIA ARTIFICIAL =================
-        window.onload = () => {
-            let keySalva = localStorage.getItem('groq_key_biblia');
-            if(keySalva) document.getElementById('api-key').value = keySalva;
-        }
-
-        let estudoGlobal = {};
-
         async function gerarEstudoElite() {
             let texto = document.getElementById('texto-biblico').value.trim();
             let key = document.getElementById('api-key').value.trim();
-            let enfase = document.getElementById('enfase').value;
-            let formato = document.getElementById('formato').value;
+            let enfase = document.querySelector('input[name="enfase"]:checked').value;
+            let formato = document.querySelector('input[name="formato"]:checked').value;
 
-            if(!texto) return alert('⚠️ Por favor, digite um texto ou selecione na Bíblia!');
-            if(!key || !key.startsWith('gsk_')) return alert('⚠️ Insira sua chave Groq válida.');
-
-            localStorage.setItem('groq_key_biblia', key);
+            if(!texto) return alert('⚠️ Por favor, clique em Abrir Bíblia e selecione o texto!');
+            if(!key || !key.startsWith('gsk_')) return alert('⚠️ Configure sua Chave Groq no ícone da Engrenagem ⚙️ no topo.');
 
             document.getElementById('loading').style.display = 'block';
             document.getElementById('area-estudo').style.display = 'none';
@@ -345,8 +468,7 @@
                     "ilustracao": "Aplicação pastoral madura com ilustração da história da igreja (ex: reforma, avivamentos).",
                     "visaoTeologica": "Tratado de Teologia Sistemática sobre o texto. Cite Comentário Beacon, Matthew Henry ou teólogos clássicos."
                 }
-                
-                Retorne APENAS o JSON válido. Cada chave deve conter apenas uma String.`;
+                Retorne APENAS o JSON válido.`;
 
                 const promptUsuario = `Referência: "${texto}"\nÊnfase: ${enfase}\nFormato: ${formato}`;
 
@@ -354,24 +476,16 @@
                 
                 let response = await fetch(url, {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${key}`
-                    },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
                     body: JSON.stringify({
                         model: "llama-3.3-70b-versatile",
-                        messages: [
-                            { role: "system", content: promptSistema },
-                            { role: "user", content: promptUsuario }
-                        ],
+                        messages: [{ role: "system", content: promptSistema }, { role: "user", content: promptUsuario }],
                         response_format: { type: "json_object" },
-                        temperature: 0.65,
-                        max_tokens: 6500
+                        temperature: 0.65, max_tokens: 6500
                     })
                 });
 
                 let data = await response.json();
-                
                 if (data.error) throw new Error(data.error.message);
 
                 estudoGlobal = JSON.parse(data.choices[0].message.content);

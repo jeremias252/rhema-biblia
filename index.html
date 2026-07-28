@@ -211,8 +211,8 @@
             <span>Jeremias 20:9</span>
         </div>
         <div class="login-box">
-            <h1 style="position: relative;">BETHESDA <span style="position:absolute; top:-10px; right: 20px; font-size:12px; color:var(--gold-main); font-family: 'Manrope';">v20.0</span></h1>
-            <p style="color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:2px; margin-bottom:25px;">Núcleo Titanium • Zero Erros</p>
+            <h1 style="position: relative;">BETHESDA <span style="position:absolute; top:-10px; right: 20px; font-size:12px; color:var(--gold-main); font-family: 'Manrope';">v21.0</span></h1>
+            <p style="color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:2px; margin-bottom:25px;">Núcleo Titanium • Resenha Ativa</p>
             <input type="password" id="senha-login" placeholder="Código de Acesso" onkeypress="verificarEnter(event)">
             <button class="btn-luxury" onclick="fazerLogin()">Entrar no Santuário</button>
         </div>
@@ -227,7 +227,7 @@
             </div>
             <label class="bento-label">Chave GROQ (Llama 3.3)</label>
             <input type="password" id="api-key" placeholder="gsk_..." style="margin-bottom:10px; text-align:center;">
-            <p style="color:var(--text-muted); font-size:12px; text-align:center; margin-bottom:25px;">O sistema foi reescrito. <b>A Groq não vai mais travar.</b></p>
+            <p style="color:var(--text-muted); font-size:12px; text-align:center; margin-bottom:25px;">A Biblioteca e a Extração foram consertadas.</p>
             <button class="btn-luxury" onclick="salvarConfig()">Salvar Credenciais</button>
         </div>
     </div>
@@ -261,7 +261,7 @@
             <div class="menu-title">Ferramentas</div>
             <a class="menu-link active" id="nav-tool-estudo" onclick="mostrarFerramenta('estudo')">Tratado Exegético</a>
             <a class="menu-link" id="nav-tool-personagem" onclick="mostrarFerramenta('personagem')">Dossiê de Personagem</a>
-            <a class="menu-link" id="nav-tool-livros" onclick="mostrarFerramenta('livros')">Curadoria Literária</a>
+            <a class="menu-link" id="nav-tool-livros" onclick="mostrarFerramenta('livros')">Resumo de Obras</a>
         </div>
 
         <div class="menu-group" id="menu-resultados" style="display: none;">
@@ -337,12 +337,12 @@
                 </div>
             </div>
 
-            <!-- TOOL 3: LIVROS -->
+            <!-- TOOL 3: LIVROS (ATUALIZADA) -->
             <div class="view-section" id="view-livros">
                 <div class="bento-card full">
-                    <label class="bento-label">Curadoria por Tema</label>
-                    <textarea id="texto-livros" rows="2" placeholder="Ex: 'Escatologia', 'Vida de Cristo'..." style="margin-bottom:30px;"></textarea>
-                    <button class="btn-luxury" onclick="gerarLivros()">Buscar Obras</button>
+                    <label class="bento-label">Resenha Literária por Personagem ou Tema</label>
+                    <textarea id="texto-livros" rows="2" placeholder="Ex: 'Resumo de livros sobre o Rei Davi' ou 'Obras sobre Escatologia'..." style="margin-bottom:30px;"></textarea>
+                    <button class="btn-luxury" onclick="gerarLivros()">Gerar Resumos das Obras</button>
                 </div>
             </div>
 
@@ -350,7 +350,7 @@
             <div class="loading" id="loading">
                 <div class="spinner"></div>
                 <p style="font-family:'Playfair Display',serif; font-size:24px; color:var(--text-title);" id="loading-txt">Sondando os Arquivos...</p>
-                <small style="color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:2px;">Conectando Núcleo Groq</small>
+                <small style="color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:2px;">Motor Llama 3.3</small>
             </div>
 
             <!-- MODO LEITURA -->
@@ -414,7 +414,7 @@
             esconderFerramentas();
             document.getElementById(`view-${nome}`).classList.add('active');
             document.getElementById(`nav-tool-${nome}`).classList.add('active');
-            let titulos = { 'estudo': 'Tratado Exegético', 'personagem': 'Dossiê Biográfico', 'livros': 'Curadoria Literária' };
+            let titulos = { 'estudo': 'Tratado Exegético', 'personagem': 'Dossiê Biográfico', 'livros': 'Resenha de Obras Teológicas' };
             document.getElementById('topbar-title').innerText = titulos[nome];
         }
 
@@ -480,23 +480,20 @@
         }
         function finalizarSelecaoBiblia(ref) { document.getElementById('texto-biblico').value = ref; fecharBiblia(); }
 
-        // ================= NOVO MOTOR DE INTELIGÊNCIA (TEXTO LIVRE + XML TAGS) =================
-        // NUNCA MAIS USAR JSON AQUI. ISSO RESOLVE OS CRASHES.
-        
+        // ================= NOVO MOTOR DE INTELIGÊNCIA =================
         let estudoGlobal = {};
         let contextoCopia = ""; 
 
-        // Função que caça as tags no meio do texto da IA
         function extrairTagXML(texto, tag) {
             let regex = new RegExp(`<${tag}>([\\s\\S]*?)(?:<\\/${tag}>|$)`, 'i');
             let match = texto.match(regex);
-            return match ? match[1].trim() : "A Inteligência não gerou esta seção ou ela foi cortada pelo tamanho máximo.";
+            return match ? match[1].trim() : "A Inteligência não processou esta seção ou foi cortada.";
         }
 
         async function chamarAPI_Livre(promptSistema, promptUsuario, loadingMsg) {
             let key = document.getElementById('api-key').value.trim();
             if(!key || !key.startsWith('gsk_')) { 
-                alert('Acesso Negado: Insira uma Chave da Groq na Engrenagem ⚙️'); 
+                alert('Acesso Negado: Insira a Chave da Groq na Engrenagem ⚙️ no topo esquerdo.'); 
                 return null; 
             }
 
@@ -514,7 +511,6 @@
                             { role: "system", content: promptSistema }, 
                             { role: "user", content: promptUsuario }
                         ],
-                        // Sem response_format! Texto 100% Livre
                         temperature: 0.6,
                         max_tokens: 6500
                     })
@@ -534,25 +530,42 @@
             }
         }
 
+        // FORMATADOR PODEROSO DE TEXTO (Ignora sujeiras e lê Títulos em Markdown)
         function formatarTexto(texto) {
             if(!texto) return '';
-            let html = String(texto).replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<i>$1</i>');
+            let html = String(texto);
+            
+            // Troca Negrito e Itálico
+            html = html.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+            html = html.replace(/\*(.*?)\*/g, '<i>$1</i>');
+            
+            // Troca Títulos Markdown (###, ##, #) por textos destacados em Ouro
+            html = html.replace(/^### (.*$)/gim, '<br><b style="color:var(--gold-main); font-size:1.1em;">$1</b>');
+            html = html.replace(/^## (.*$)/gim, '<br><b style="color:var(--gold-main); font-size:1.2em;">$1</b>');
+            html = html.replace(/^# (.*$)/gim, '<br><b style="color:var(--gold-main); font-size:1.3em;">$1</b>');
+            
             let linhas = html.split('\n');
             let resultadoFinal = [];
+            
             for(let i=0; i < linhas.length; i++) {
                 let linhaAtual = linhas[i].trim();
-                // Ignora as tags XML puras se sobrarem
-                if(linhaAtual.startsWith('<') && linhaAtual.endsWith('>') && !linhaAtual.includes('<b>') && !linhaAtual.includes('<i>')) continue;
+                if(linhaAtual === '') continue; // Pula linhas vazias inúteis
                 
-                if (linhaAtual.startsWith('- ')) resultadoFinal.push(`<span class="topico-lista">${linhaAtual.substring(2)}</span>`);
-                else if (linhaAtual.length > 0) resultadoFinal.push(`<p>${linhaAtual}</p>`);
+                // Pula Tags XML escondidas
+                if(linhaAtual.startsWith('<') && linhaAtual.endsWith('>') && !linhaAtual.includes('<b>') && !linhaAtual.includes('<i>') && !linhaAtual.includes('<br>')) continue;
+                
+                if (linhaAtual.startsWith('- ')) {
+                    resultadoFinal.push(`<span class="topico-lista">${linhaAtual.substring(2)}</span>`);
+                } else {
+                    resultadoFinal.push(`<p>${linhaAtual}</p>`);
+                }
             }
             return resultadoFinal.join('');
         }
 
-        // ================= GERAÇÕES DA BETHESDA =================
+        // ================= GERAÇÕES =================
 
-        // 1. TRATADO (Usa Tags XML)
+        // 1. TRATADO 
         async function gerarEstudoElite() {
             let texto = document.getElementById('texto-biblico').value.trim();
             let enfase = document.getElementById('enfase').value;
@@ -560,14 +573,13 @@
             if(!texto) return alert('Selecione um texto na Bíblia.');
 
             const sys = `Você é um Ph.D. em Teologia. Escreva um Tratado Profundo.
-REGRAS ABSOLUTAS:
-1. NÃO USE JSON. ESREVA EM TEXTO LIVRE.
-2. Você DEVE obrigatoriamente separar o seu texto usando as seguintes Tags XML:
-<contexto> seu texto histórico aqui </contexto>
-<exegese> sua análise de 5 palavras no grego/hebraico aqui </exegese>
-<esboco> seu esboço da pregação aqui </esboco>
-<ilustracao> sua aplicação pastoral aqui </ilustracao>
-<teologia> seu tratado sistemático aqui </teologia>`;
+REGRAS ABSOLUTAS: NÃO USE JSON. ESREVA EM TEXTO LIVRE.
+Você DEVE separar o seu texto usando exatamente as seguintes Tags XML:
+<contexto> texto histórico aqui </contexto>
+<exegese> análise no grego/hebraico aqui </exegese>
+<esboco> esboço da pregação aqui </esboco>
+<ilustracao> aplicação pastoral aqui </ilustracao>
+<teologia> tratado sistemático aqui </teologia>`;
             
             let resultText = await chamarAPI_Livre(sys, `Referência: "${texto}"\nÊnfase: ${enfase}\nFormato: ${formato}`, "Escrevendo Manuscrito...");
             if(resultText) {
@@ -592,11 +604,11 @@ REGRAS ABSOLUTAS:
             }
         }
 
-        // 2. PERSONAGEM (Texto totalmente livre)
+        // 2. PERSONAGEM 
         async function gerarPersonagem() {
             let personagem = document.getElementById('select-personagem').value;
             const sys = `Você é um historiador teológico. Escreva um Dossiê profundo.
-REGRAS ABSOLUTAS: NÃO USE JSON. ESREVA EM TEXTO LIVRE COM MARKDOWN. Não use tags.
+REGRAS ABSOLUTAS: NÃO USE JSON. ESREVA EM TEXTO LIVRE COM MARKDOWN.
 Crie um texto espetacular com Biografia, Perfil, Vitórias e Tipologia Cristã do personagem.`;
 
             let resultText = await chamarAPI_Livre(sys, `Personagem: ${personagem}`, `Mapeando Dossiê...`);
@@ -612,20 +624,25 @@ Crie um texto espetacular com Biografia, Perfil, Vitórias e Tipologia Cristã d
             }
         }
 
-        // 3. LIVROS (Texto totalmente livre)
+        // 3. RESENHA DE LIVROS (CORRIGIDO)
         async function gerarLivros() {
             let tema = document.getElementById('texto-livros').value.trim();
-            if(!tema) return alert('Digite um tema para buscar as obras.');
-            const sys = `Você é um curador literário teológico. 
-REGRAS ABSOLUTAS: NÃO USE JSON. NÃO FAÇA TABELAS. ESREVA EM TEXTO LIVRE CORRIDO COM MARKDOWN.
-Recomende de 5 a 8 livros teológicos sobre o tema solicitado. Digite o nome do livro em negrito, o autor e um belo resumo.`;
+            if(!tema) return alert('Digite um tema ou personagem para buscar os resumos.');
+            
+            const sys = `Você é um curador e crítico literário cristão.
+O usuário pedirá recomendações sobre um personagem ou tema bíblico.
+REGRAS ABSOLUTAS: 
+1. NÃO USE JSON. NÃO FAÇA TABELAS DE CÓDIGO.
+2. Escreva o texto de forma livre, apenas destacando o Título do livro em Negrito.
+3. Escolha de 3 a 5 livros teológicos reais e famosos.
+4. Para cada livro, escreva pelo menos 2 parágrafos profundos fazendo um grande resumo do que a obra trata e as lições que ela traz.`;
 
-            let resultText = await chamarAPI_Livre(sys, `Tema: ${tema}`, "Consultando Acervo...");
+            let resultText = await chamarAPI_Livre(sys, `Quero resumos de livros sobre: ${tema}`, "Resumindo Obras Literárias...");
             if(resultText) {
                 estudoGlobal = { conteudo: resultText }; 
                 contextoCopia = "SIMPLES";
 
-                document.getElementById('tit-simples').innerText = `Acervo Literário: ${tema}`;
+                document.getElementById('tit-simples').innerText = `Resenha Literária: ${tema}`;
                 document.getElementById('res-simples').innerHTML = formatarTexto(estudoGlobal.conteudo);
                 document.getElementById('menu-resultados').style.display = 'none';
                 document.getElementById('menu-resultados-simples').style.display = 'block';
@@ -640,7 +657,13 @@ Recomende de 5 a 8 livros teológicos sobre o tema solicitado. Digite o nome do 
                 txt = `*🎓 TRATADO BETHESDA:*\n\n*📜 1. CONTEXTO:*\n${estudoGlobal.autorContexto}\n\n*🔍 2. ORIGINAIS:*\n${estudoGlobal.exegeseOriginal}\n\n*🔥 3. ESBOÇO:*\n${estudoGlobal.esbocoHomiletico}\n\n*💡 4. APLICAÇÃO:*\n${estudoGlobal.ilustracao}\n\n*📚 5. SISTEMÁTICA:*\n${estudoGlobal.visaoTeologica}`;
             } else if (contextoCopia === "SIMPLES") txt = `*DOCUMENTO BETHESDA:*\n\n${estudoGlobal.conteudo}`;
             if(!txt) return;
-            txt = txt.replace(/<p>/g, '').replace(/<\/p>/g, '\n').replace(/<span class="topico-lista">/g, '- ').replace(/<\/span>/g, '\n').replace(/<b>/g, '*').replace(/<\/b>/g, '*');
+            
+            // Limpa as tags HTML pesadas para o WhatsApp
+            txt = txt.replace(/<p>/g, '').replace(/<\/p>/g, '\n').replace(/<br>/g, '\n');
+            txt = txt.replace(/<b style=".*?">/g, '*').replace(/<\/b>/g, '*');
+            txt = txt.replace(/<span class="topico-lista">/g, '- ').replace(/<\/span>/g, '\n');
+            txt = txt.replace(/<b>/g, '*').replace(/<i>/g, '_').replace(/<\/i>/g, '_');
+            
             navigator.clipboard.writeText(txt); alert('Exportado para a área de transferência!');
         }
 
@@ -656,8 +679,11 @@ Recomende de 5 a 8 livros teológicos sobre o tema solicitado. Digite o nome do 
                 if(y > 260) { doc.addPage(); y = 20; }
                 doc.setFont("helvetica", "bold"); doc.setTextColor(139, 90, 51); doc.text(titulo, 15, y); y += 8;
                 doc.setFont("helvetica", "normal"); doc.setTextColor(40, 40, 40);
-                let cleanText = String(texto).replace(/\*\*/g, '').replace(/\*/g, '');
+                
+                // Limpa tags para o PDF
+                let cleanText = String(texto).replace(/<[^>]*>?/gm, ''); 
                 let linhas = doc.splitTextToSize(cleanText, 180);
+                
                 for(let i=0; i<linhas.length; i++) { if (y > 280) { doc.addPage(); y = 20; } doc.text(linhas[i], 15, y); y += 6; }
                 y += 10;
             }
@@ -676,7 +702,9 @@ Recomende de 5 a 8 livros teológicos sobre o tema solicitado. Digite o nome do 
             if(!estudoGlobal) return; window.speechSynthesis.cancel();
             let texto = contextoCopia === "ESTUDO" ? estudoGlobal.esbocoHomiletico : estudoGlobal.conteudo;
             if(!texto) return;
-            let synth = new SpeechSynthesisUtterance(String(texto).replace(/\*/g, '').replace(/-/g, 'Tópico: '));
+            
+            let cleanText = String(texto).replace(/<[^>]*>?/gm, '').replace(/-/g, 'Tópico: ');
+            let synth = new SpeechSynthesisUtterance(cleanText);
             synth.lang = 'pt-BR'; synth.rate = 1.05; window.speechSynthesis.speak(synth);
         }
     </script>

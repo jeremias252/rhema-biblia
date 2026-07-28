@@ -211,7 +211,7 @@
             <span>Jeremias 20:9</span>
         </div>
         <div class="login-box">
-            <h1 style="position: relative;">BETHESDA <span style="position:absolute; top:-10px; right: 20px; font-size:12px; color:var(--gold-main); font-family: 'Manrope';">v17.2</span></h1>
+            <h1 style="position: relative;">BETHESDA <span style="position:absolute; top:-10px; right: 20px; font-size:12px; color:var(--gold-main); font-family: 'Manrope';">v18.0</span></h1>
             <input type="password" id="senha-login" placeholder="Código de Acesso" onkeypress="verificarEnter(event)">
             <button class="btn-luxury" onclick="fazerLogin()">Entrar no Santuário</button>
         </div>
@@ -339,7 +339,7 @@
             <div class="view-section" id="view-livros">
                 <div class="bento-card full">
                     <label class="bento-label">Curadoria por Tema</label>
-                    <textarea id="texto-livros" rows="2" placeholder="Ex: 'Escatologia', 'A vida de Davi'..." style="margin-bottom:30px;"></textarea>
+                    <textarea id="texto-livros" rows="2" placeholder="Ex: 'Escatologia', 'Vida de Cristo'..." style="margin-bottom:30px;"></textarea>
                     <button class="btn-luxury" onclick="gerarLivros()">Buscar Obras</button>
                 </div>
             </div>
@@ -351,7 +351,7 @@
                 <small style="color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:2px;">Motor Llama 3.3</small>
             </div>
 
-            <!-- MODO LEITURA -->
+            <!-- MODO LEITURA (RESULTADOS) -->
             <div class="view-section" id="view-leitura">
                 <div class="actions-bar">
                     <button class="btn-icon" onclick="copiarWhatsApp()">Exportar Texto</button>
@@ -478,60 +478,45 @@
         }
         function finalizarSelecaoBiblia(ref) { document.getElementById('texto-biblico').value = ref; fecharBiblia(); }
 
-        // ================= EXTRATOR UNIVERSAL DE TEXTO DA IA =================
-        function extrairTextoDoJSON(obj) {
-            if (!obj) return "";
-            let keys = Object.keys(obj);
-            if (keys.length === 0) return "";
-            
-            // Pega o primeiro campo do JSON (não importa como a IA nomeou a chave)
-            let val = obj[keys[0]]; 
-            
-            if (Array.isArray(val)) {
-                // Se a IA criou uma lista (Array de objetos ou strings)
-                return val.map(item => {
-                    if (typeof item === 'object') return Object.values(item).join(' — ');
-                    return String(item);
-                }).join('\n\n');
-            } else if (typeof val === 'object') {
-                // Se ela criou um JSON aninhado
-                return Object.values(val).join('\n\n');
-            }
-            return String(val); // Se ela seguiu a regra certinho
-        }
-
-        // ================= IA GERAÇÃO =================
+        // ================= IA: DUPLA CONEXÃO (JSON e RAW TEXT) =================
         let estudoGlobal = {};
         let contextoCopia = ""; 
 
-        async function chamarAPI(promptSistema, promptUsuario, loadingMsg) {
+        // Função Flexível: Se isJson=true, exige formato JSON. Se falso, aceita texto livre (MUITO mais seguro para listas).
+        async function chamarAPI(promptSistema, promptUsuario, loadingMsg, isJson = true) {
             let key = document.getElementById('api-key').value.trim();
-            if(!key || !key.startsWith('gsk_')) { alert('Acesso negado: Chave API ausente. Clique na engrenagem ⚙️'); return null; }
+            if(!key || !key.startsWith('gsk_')) { alert('Acesso negado: Chave API ausente.'); return null; }
 
             document.getElementById('loading').style.display = 'block';
             document.getElementById('loading-txt').innerText = loadingMsg;
             document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
 
+            let bodyData = {
+                model: "llama-3.3-70b-versatile",
+                messages: [{ role: "system", content: promptSistema }, { role: "user", content: promptUsuario }],
+                temperature: 0.6, 
+                max_tokens: 6500
+            };
+            
+            // Ativa o JSON mode apenas para o Tratado que possui abas.
+            if(isJson) bodyData.response_format = { type: "json_object" };
+
             try {
                 let response = await fetch(`https://api.groq.com/openai/v1/chat/completions`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-                    body: JSON.stringify({
-                        model: "llama-3.3-70b-versatile",
-                        messages: [{ role: "system", content: promptSistema }, { role: "user", content: promptUsuario }],
-                        response_format: { type: "json_object" },
-                        temperature: 0.6, max_tokens: 6500
-                    })
+                    body: JSON.stringify(bodyData)
                 });
 
                 let data = await response.json();
                 if (data.error) throw new Error(data.error.message);
 
-                let result = JSON.parse(data.choices[0].message.content);
+                let content = data.choices[0].message.content;
                 document.getElementById('loading').style.display = 'none';
-                return result;
+                
+                return isJson ? JSON.parse(content) : content; // Retorna o texto cru se não for JSON
             } catch (e) {
-                alert('Erro de processamento neural: ' + e.message);
+                alert('Erro de conexão neural: ' + e.message);
                 document.getElementById('loading').style.display = 'none';
                 return null;
             }
@@ -550,14 +535,16 @@
             return resultadoFinal.join('');
         }
 
+        // ================= GERAÇÕES =================
+
+        // 1. TRATADO (Usa Modo JSON para dividir em abas)
         async function gerarEstudoElite() {
             let texto = document.getElementById('texto-biblico').value.trim();
             let enfase = document.getElementById('enfase').value;
             let formato = document.getElementById('formato').value;
             if(!texto) return alert('Selecione um texto na Bíblia.');
 
-            const sys = `Você é um Ph.D. em Teologia. 
-CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. START WITH { AND END WITH }.
+            const sys = `Você é um Ph.D. em Teologia. OUTPUT STRICTLY A RAW JSON OBJECT. START WITH { AND END WITH }.
 {
   "autorContexto": "Ensaio histórico profundo.", 
   "exegeseOriginal": "Análise de originais (Grego/Heb).", 
@@ -565,15 +552,14 @@ CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. START WITH { AND END WITH }.
   "ilustracao": "Aplicação pastoral com história.", 
   "visaoTeologica": "Tratado Teológico Sistemático."
 }`;
-            let result = await chamarAPI(sys, `Ref: "${texto}"\nÊnfase: ${enfase}\nFmt: ${formato}`, "Escrevendo Manuscrito...");
+            let result = await chamarAPI(sys, `Ref: "${texto}"\nÊnfase: ${enfase}\nFmt: ${formato}`, "Escrevendo Manuscrito...", true);
             if(result) {
                 estudoGlobal = result; contextoCopia = "ESTUDO";
-                
-                document.getElementById('res-hermeneutica').innerHTML = formatarTexto(extrairTextoDoJSON({v: result.autorContexto}));
-                document.getElementById('res-exegese').innerHTML = formatarTexto(extrairTextoDoJSON({v: result.exegeseOriginal}));
-                document.getElementById('res-esboco').innerHTML = formatarTexto(extrairTextoDoJSON({v: result.esbocoHomiletico}));
-                document.getElementById('res-ilustracao').innerHTML = formatarTexto(extrairTextoDoJSON({v: result.ilustracao}));
-                document.getElementById('res-teologia').innerHTML = formatarTexto(extrairTextoDoJSON({v: result.visaoTeologica}));
+                document.getElementById('res-hermeneutica').innerHTML = formatarTexto(result.autorContexto);
+                document.getElementById('res-exegese').innerHTML = formatarTexto(result.exegeseOriginal);
+                document.getElementById('res-esboco').innerHTML = formatarTexto(result.esbocoHomiletico);
+                document.getElementById('res-ilustracao').innerHTML = formatarTexto(result.ilustracao);
+                document.getElementById('res-teologia').innerHTML = formatarTexto(result.visaoTeologica);
                 
                 document.getElementById('menu-resultados-simples').style.display = 'none';
                 document.getElementById('menu-resultados').style.display = 'block';
@@ -581,37 +567,37 @@ CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. START WITH { AND END WITH }.
             }
         }
 
+        // 2. PERSONAGEM (Usa Texto Livre - Sem erro de JSON)
         async function gerarPersonagem() {
             let personagem = document.getElementById('select-personagem').value;
-            const sys = `Você é um historiador teológico.
-CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. 
-{"conteudo": "Escreva todo o dossiê detalhado (Biografia, Perfil, Vitórias, Tipologia) em um único texto longo formatado em Markdown."}`;
-            let result = await chamarAPI(sys, `Personagem: ${personagem}`, `Mapeando Dossiê...`);
+            const sys = `Você é um historiador teológico. Escreva um dossiê acadêmico detalhado em TEXTO LIVRE usando formatação Markdown. NÃO USE JSON. Estruture o documento com Biografia, Perfil, Vitórias e Tipologia Cristã.`;
+            
+            let result = await chamarAPI(sys, `Personagem: ${personagem}`, `Mapeando Dossiê...`, false);
             if(result) {
-                estudoGlobal = result; contextoCopia = "SIMPLES";
-                estudoGlobal.conteudo = extrairTextoDoJSON(result); // BLINDAGEM MÁXIMA
+                estudoGlobal = { conteudo: result }; 
+                contextoCopia = "SIMPLES";
                 
                 document.getElementById('tit-simples').innerText = `Dossiê: ${personagem}`;
-                document.getElementById('res-simples').innerHTML = formatarTexto(estudoGlobal.conteudo);
+                document.getElementById('res-simples').innerHTML = formatarTexto(result);
                 document.getElementById('menu-resultados').style.display = 'none';
                 document.getElementById('menu-resultados-simples').style.display = 'block';
                 mostrarResultadoSimples();
             }
         }
 
+        // 3. LIVROS (Usa Texto Livre - Sem erro de JSON e Tabelas)
         async function gerarLivros() {
             let tema = document.getElementById('texto-livros').value.trim();
             if(!tema) return alert('Digite um tema para buscar as obras.');
-            const sys = `Você é um curador literário.
-CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT CREATE AN ARRAY OF OBJECTS. WRITE A SINGLE TEXT STRING.
-{"conteudo": "Recomende 5 a 8 livros teológicos sobre o tema. Escreva tudo como UM ÚNICO TEXTO usando markdown para destacar títulos e autores."}`;
-            let result = await chamarAPI(sys, `Tema: ${tema}`, "Consultando Acervo...");
+            const sys = `Você é um curador literário teológico. Recomende 5 a 8 LIVROS clássicos ou contemporâneos sobre o tema solicitado. Escreva a sua recomendação em TEXTO LIVRE usando formatação Markdown (Não crie tabelas e não use JSON). Fale o Título, o Autor e um profundo resumo teológico do livro.`;
+            
+            let result = await chamarAPI(sys, `Tema: ${tema}`, "Consultando Acervo...", false);
             if(result) {
-                estudoGlobal = result; contextoCopia = "SIMPLES";
-                estudoGlobal.conteudo = extrairTextoDoJSON(result); // BLINDAGEM MÁXIMA
+                estudoGlobal = { conteudo: result }; 
+                contextoCopia = "SIMPLES";
 
-                document.getElementById('tit-simples').innerText = `Acervo: ${tema}`;
-                document.getElementById('res-simples').innerHTML = formatarTexto(estudoGlobal.conteudo);
+                document.getElementById('tit-simples').innerText = `Acervo Literário: ${tema}`;
+                document.getElementById('res-simples').innerHTML = formatarTexto(result);
                 document.getElementById('menu-resultados').style.display = 'none';
                 document.getElementById('menu-resultados-simples').style.display = 'block';
                 mostrarResultadoSimples();
@@ -622,7 +608,7 @@ CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT CREATE AN ARRAY OF OBJE
         function copiarWhatsApp() {
             let txt = "";
             if (contextoCopia === "ESTUDO") {
-                txt = `*🎓 TRATADO BETHESDA:*\n\n*📜 1. CONTEXTO:*\n${extrairTextoDoJSON({v: estudoGlobal.autorContexto})}\n\n*🔍 2. ORIGINAIS:*\n${extrairTextoDoJSON({v: estudoGlobal.exegeseOriginal})}\n\n*🔥 3. ESBOÇO:*\n${extrairTextoDoJSON({v: estudoGlobal.esbocoHomiletico})}\n\n*💡 4. APLICAÇÃO:*\n${extrairTextoDoJSON({v: estudoGlobal.ilustracao})}\n\n*📚 5. SISTEMÁTICA:*\n${extrairTextoDoJSON({v: estudoGlobal.visaoTeologica})}`;
+                txt = `*🎓 TRATADO BETHESDA:*\n\n*📜 1. CONTEXTO:*\n${estudoGlobal.autorContexto}\n\n*🔍 2. ORIGINAIS:*\n${estudoGlobal.exegeseOriginal}\n\n*🔥 3. ESBOÇO:*\n${estudoGlobal.esbocoHomiletico}\n\n*💡 4. APLICAÇÃO:*\n${estudoGlobal.ilustracao}\n\n*📚 5. SISTEMÁTICA:*\n${estudoGlobal.visaoTeologica}`;
             } else if (contextoCopia === "SIMPLES") txt = `*DOCUMENTO BETHESDA:*\n\n${estudoGlobal.conteudo}`;
             if(!txt) return;
             txt = txt.replace(/<p>/g, '').replace(/<\/p>/g, '\n').replace(/<span class="topico-lista">/g, '- ').replace(/<\/span>/g, '\n').replace(/<b>/g, '*').replace(/<\/b>/g, '*');
@@ -641,27 +627,27 @@ CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT CREATE AN ARRAY OF OBJE
                 if(y > 260) { doc.addPage(); y = 20; }
                 doc.setFont("helvetica", "bold"); doc.setTextColor(139, 90, 51); doc.text(titulo, 15, y); y += 8;
                 doc.setFont("helvetica", "normal"); doc.setTextColor(40, 40, 40);
-                let cleanText = texto.replace(/\*\*/g, '').replace(/\*/g, '');
+                let cleanText = String(texto).replace(/\*\*/g, '').replace(/\*/g, '');
                 let linhas = doc.splitTextToSize(cleanText, 180);
                 for(let i=0; i<linhas.length; i++) { if (y > 280) { doc.addPage(); y = 20; } doc.text(linhas[i], 15, y); y += 6; }
                 y += 10;
             }
 
             if(contextoCopia === "ESTUDO") {
-                addBloco("1. CONTEXTO HISTORICO", extrairTextoDoJSON({v: estudoGlobal.autorContexto}));
-                addBloco("2. ANALISE DOS ORIGINAIS", extrairTextoDoJSON({v: estudoGlobal.exegeseOriginal}));
-                addBloco("3. ESBOCO HOMILETICO", extrairTextoDoJSON({v: estudoGlobal.esbocoHomiletico}));
-                addBloco("4. APLICACAO PASTORAL", extrairTextoDoJSON({v: estudoGlobal.ilustracao}));
-                addBloco("5. TEOLOGIA SISTEMATICA", extrairTextoDoJSON({v: estudoGlobal.visaoTeologica}));
+                addBloco("1. CONTEXTO HISTORICO", estudoGlobal.autorContexto);
+                addBloco("2. ANALISE DOS ORIGINAIS", estudoGlobal.exegeseOriginal);
+                addBloco("3. ESBOCO HOMILETICO", estudoGlobal.esbocoHomiletico);
+                addBloco("4. APLICACAO PASTORAL", estudoGlobal.ilustracao);
+                addBloco("5. TEOLOGIA SISTEMATICA", estudoGlobal.visaoTeologica);
             } else { addBloco("DOCUMENTO", estudoGlobal.conteudo); }
             doc.save(`Bethesda_Manuscrito.pdf`);
         }
 
         function ouvirEstudo() {
             if(!estudoGlobal) return; window.speechSynthesis.cancel();
-            let texto = contextoCopia === "ESTUDO" ? extrairTextoDoJSON({v: estudoGlobal.esbocoHomiletico}) : estudoGlobal.conteudo;
+            let texto = contextoCopia === "ESTUDO" ? estudoGlobal.esbocoHomiletico : estudoGlobal.conteudo;
             if(!texto) return;
-            let synth = new SpeechSynthesisUtterance(texto.replace(/\*/g, '').replace(/-/g, 'Tópico: '));
+            let synth = new SpeechSynthesisUtterance(String(texto).replace(/\*/g, '').replace(/-/g, 'Tópico: '));
             synth.lang = 'pt-BR'; synth.rate = 1.05; window.speechSynthesis.speak(synth);
         }
     </script>

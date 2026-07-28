@@ -429,16 +429,12 @@
         }
 
         function mostrarResultado(aba) {
-            // Mostra a View de Leitura
             document.getElementById('view-estudo').classList.remove('active');
             document.getElementById('view-leitura').classList.add('active');
             
-            // Esconde todas as áreas do reader
             document.querySelectorAll('.reader-content').forEach(r => r.classList.remove('active'));
-            // Mostra a selecionada
             document.getElementById(`reader-${aba}`).classList.add('active');
             
-            // Gerencia os botões do menu lateral
             document.querySelectorAll('.menu-result-link').forEach(l => l.classList.remove('active'));
             document.getElementById(`nav-res-${aba}`).classList.add('active');
 
@@ -502,7 +498,7 @@
 
         // ================= IA: FUNÇÕES DE GERAÇÃO =================
         let estudoGlobal = {};
-        let contextoCopia = ""; // Para saber o que copiar pro clipboard
+        let contextoCopia = ""; 
 
         async function chamarAPI(promptSistema, promptUsuario, loadingMsg) {
             let key = document.getElementById('api-key').value.trim();
@@ -523,7 +519,8 @@
                         model: "llama-3.3-70b-versatile",
                         messages: [{ role: "system", content: promptSistema }, { role: "user", content: promptUsuario }],
                         response_format: { type: "json_object" },
-                        temperature: 0.65, max_tokens: 7000
+                        temperature: 0.5, // Reduzido para evitar divagações que quebram o JSON
+                        max_tokens: 6000
                     })
                 });
 
@@ -534,7 +531,7 @@
                 document.getElementById('loading').style.display = 'none';
                 return result;
             } catch (e) {
-                alert('⚠️ Erro na IA: ' + e.message);
+                alert('⚠️ Erro na IA: ' + e.message + '\n\nTente gerar novamente, às vezes a IA se estende muito e corta o texto.');
                 document.getElementById('loading').style.display = 'none';
                 return null;
             }
@@ -560,8 +557,16 @@
             let formato = document.getElementById('formato').value;
             if(!texto) return alert('Selecione um texto na Bíblia!');
 
-            const sys = `Você é um Ph.D. em Teologia. Responda ESTRITAMENTE em JSON com textos longos formatados com Markdown (** para negrito, - para listas).
-            {"autorContexto": "Ensaio profundo histórico.", "exegeseOriginal": "Análise de 4 a 6 palavras no Grego/Hebraico.", "esbocoHomiletico": "Esboço longo com TEMA, INTRO, Tópicos I, II, III e Conclusão.", "ilustracao": "Aplicação pastoral com evento histórico.", "visaoTeologica": "Tratado Sistemático."}`;
+            const sys = `Você é um Ph.D. em Teologia. 
+CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT output markdown code blocks like \`\`\`json. DO NOT add any preamble or postscript. START IMMEDIATELY WITH { AND END WITH }.
+Format required:
+{
+  "autorContexto": "Ensaio profundo histórico.", 
+  "exegeseOriginal": "Análise de 3 a 5 palavras no Grego/Hebraico.", 
+  "esbocoHomiletico": "Esboço longo com TEMA, INTRO, Tópicos I, II, III e Conclusão.", 
+  "ilustracao": "Aplicação pastoral com evento histórico.", 
+  "visaoTeologica": "Tratado Sistemático."
+}`;
             const usr = `Referência: "${texto}"\nÊnfase: ${enfase}\nFormato: ${formato}`;
 
             let result = await chamarAPI(sys, usr, "Elaborando Tratado Teológico...");
@@ -584,8 +589,12 @@
         async function gerarPersonagem() {
             let personagem = document.getElementById('select-personagem').value;
             
-            const sys = `Você é um historiador bíblico. Produza um DOSSIÊ COMPLETO E LONGO do personagem. Responda em JSON.
-            {"conteudo": "Escreva todo o dossiê aqui usando Markdown. Inclua: Biografia e Contexto, Perfil Psicológico/Espiritual, Principais Vitórias e Falhas, Tipologia (Como aponta para Cristo ou o oposto), e Lições Práticas."}`;
+            const sys = `Você é um historiador bíblico. 
+CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT output markdown code blocks like \`\`\`json. START IMMEDIATELY WITH { AND END WITH }.
+Format required:
+{
+  "conteudo": "Escreva todo o dossiê detalhado aqui usando Markdown. Inclua: Biografia, Perfil Psicológico, Vitórias e Falhas, Tipologia Cristã e Lições Práticas."
+}`;
             const usr = `Personagem: ${personagem}`;
 
             let result = await chamarAPI(sys, usr, `Mapeando a vida de ${personagem}...`);
@@ -606,8 +615,12 @@
             let tema = document.getElementById('texto-livros').value.trim();
             if(!tema) return alert('Digite um tema para buscar livros!');
             
-            const sys = `Você é um curador literário teológico. O usuário informará um tema. Recomende de 5 a 8 LIVROS teológicos reais (clássicos e contemporâneos). Responda em JSON.
-            {"conteudo": "Escreva a lista completa usando Markdown. Para cada livro informe: Título, Autor, Resumo denso do porquê o livro é essencial para este tema."}`;
+            const sys = `Você é um curador literário teológico. O usuário informará um tema. Recomende de 5 a 8 LIVROS teológicos reais.
+CRITICAL RULE: OUTPUT STRICTLY A RAW JSON OBJECT. DO NOT output markdown code blocks like \`\`\`json. START IMMEDIATELY WITH { AND END WITH }.
+Format required:
+{
+  "conteudo": "Escreva a lista completa usando Markdown. Para cada livro informe: Título, Autor, Resumo denso do porquê o livro é essencial."
+}`;
             const usr = `Tema: ${tema}`;
 
             let result = await chamarAPI(sys, usr, "Consultando Bibliotecas...");

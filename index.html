@@ -3,95 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rhema • Estudo Bíblico v9</title>
+    <title>Rhema Premium • Teologia Profunda</title>
     
     <!-- Fontes e Libs -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
+        /* TEMA PREMIUM ESCURO & DOURADO */
         :root {
-            --bg-dark: #0b0d14;
-            --panel-bg: rgba(18, 22, 34, 0.85);
+            --bg-dark: #050608;
+            --panel-bg: rgba(15, 18, 25, 0.75);
             --gold: #d97706;
-            --gold-glow: rgba(217, 119, 6, 0.3);
+            --gold-glow: rgba(217, 119, 6, 0.25);
             --gold-light: #fbbf24;
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
-            --border-color: rgba(217, 119, 6, 0.25);
-            --card-bg: rgba(15, 19, 32, 0.7);
+            --border-color: rgba(217, 119, 6, 0.3);
+            --card-bg: rgba(10, 12, 18, 0.85);
+            --grad-btn: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
         }
 
         body {
             margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
             background-color: var(--bg-dark); color: var(--text-main);
-            background-image: radial-gradient(circle at 50% 0%, rgba(217, 119, 6, 0.12), transparent 40rem),
-                              linear-gradient(180deg, #0b0d14 0%, #050609 100%);
+            background-image: radial-gradient(circle at 50% 0%, rgba(217, 119, 6, 0.15), transparent 45rem),
+                              linear-gradient(180deg, #050608 0%, #0a0c12 100%);
             background-attachment: fixed; min-height: 100vh;
         }
 
         * { box-sizing: border-box; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: rgba(217, 119, 6, 0.5); border-radius: 10px; }
 
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
 
+        /* HEADER */
         header { text-align: center; padding: 30px 0 20px; }
-        .logo-title { font-family: 'Cinzel', serif; font-size: 26px; font-weight: 900; color: var(--gold-light); letter-spacing: 1px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
-        
-        /* NOVO SELO V9 GROQ */
-        .v9-badge { font-family: 'Poppins', sans-serif; background: #eab308; color: #000; font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; }
+        .logo-title { font-family: 'Cinzel', serif; font-size: 32px; font-weight: 900; color: var(--gold-light); letter-spacing: 2px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-shadow: 0 5px 15px rgba(217, 119, 6, 0.4);}
+        .v10-badge { font-family: 'Poppins', sans-serif; background: var(--grad-btn); color: #fff; font-size: 11px; font-weight: 900; padding: 4px 12px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 15px var(--gold-glow);}
+        .logo-sub { color: var(--text-sub); font-size: 14px; margin-top: 5px; font-weight: 400; }
+        .badge-pentecostal { background: rgba(217, 119, 6, 0.1); border: 1px solid var(--gold); color: var(--gold-light); font-size: 10px; font-weight: 800; padding: 5px 14px; border-radius: 99px; text-transform: uppercase; letter-spacing: 1.5px; display: inline-block; margin-bottom: 12px; }
 
-        .logo-sub { color: var(--text-sub); font-size: 13px; margin-top: 5px; font-weight: 300; }
-        .badge-pentecostal { background: rgba(217, 119, 6, 0.15); border: 1px solid var(--gold); color: var(--gold-light); font-size: 10px; font-weight: 800; padding: 4px 12px; border-radius: 99px; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 10px; }
+        /* PAINEL DE ENTRADA */
+        .panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 28px; padding: 30px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 25px 60px rgba(0,0,0,0.6); margin-bottom: 25px; }
 
-        .panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 24px; padding: 25px; backdrop-filter: blur(15px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); margin-bottom: 25px; }
-
-        label { font-size: 12px; font-weight: 700; color: var(--gold-light); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px; }
+        label { font-size: 11px; font-weight: 800; color: var(--gold-light); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; }
         
         textarea, input, select {
-            width: 100%; padding: 14px; border-radius: 16px; background: rgba(5, 7, 12, 0.8);
-            border: 1px solid var(--border-color); color: var(--text-main); font-family: inherit; font-size: 14px; margin-bottom: 15px; transition: 0.3s;
+            width: 100%; padding: 16px; border-radius: 16px; background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255,255,255,0.1); color: var(--text-main); font-family: inherit; font-size: 14px; margin-bottom: 18px; transition: 0.3s;
         }
-        textarea:focus, input:focus, select:focus { border-color: var(--gold-light); box-shadow: 0 0 15px var(--gold-glow); outline: none; }
+        textarea:focus, input:focus, select:focus { border-color: var(--gold-light); box-shadow: 0 0 0 2px var(--gold-glow); outline: none; }
 
         .btn {
-            background: linear-gradient(135deg, #d97706, #b45309); color: white; border: none;
-            padding: 16px; border-radius: 18px; width: 100%; font-weight: 800; font-size: 15px;
-            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 25px var(--gold-glow);
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: var(--grad-btn); color: white; border: none;
+            padding: 18px; border-radius: 18px; width: 100%; font-weight: 800; font-size: 16px; letter-spacing: 0.5px;
+            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 30px var(--gold-glow);
+            display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase;
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 15px 30px var(--gold-glow); }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(217, 119, 6, 0.4); }
         .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-        .btn-sec { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 16px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .btn-sec:hover { background: rgba(217, 119, 6, 0.2); }
+        /* ABAS (TABS) PREMIUM */
+        .tabs-container { display: none; animation: fadeSlideUp 0.5s; }
+        .tabs-list { display: flex; gap: 8px; background: rgba(5, 7, 10, 0.8); padding: 10px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.05); overflow-x: auto; white-space: nowrap; margin-bottom: 20px; box-shadow: inset 0 4px 15px rgba(0,0,0,0.5); backdrop-filter: blur(10px); }
+        .tab-btn { background: transparent; border: none; color: var(--text-sub); font-weight: 700; padding: 12px 20px; border-radius: 16px; cursor: pointer; transition: 0.3s; font-size: 13px; }
+        .tab-btn.active { background: var(--grad-btn); color: white; box-shadow: 0 6px 20px var(--gold-glow); font-weight: 900;}
+        .tab-btn:hover:not(.active) { color: white; background: rgba(255,255,255,0.05); }
 
-        #resultado { display: none; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeSlideUp 0.4s; }
 
+        /* ÁREA DO ESTUDO */
         .card-estudo {
             background: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 20px; padding: 22px; margin-bottom: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; overflow: hidden;
+            border-radius: 24px; padding: 30px; margin-bottom: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4); position: relative;
         }
-        .card-estudo::before {
-            content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--gold);
-        }
-        .card-estudo h3 { margin: 0 0 12px; font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 18px; display: flex; align-items: center; gap: 8px; }
-        .card-estudo p { margin: 0; font-size: 14px; line-height: 1.7; color: #cbd5e1; white-space: pre-line; }
+        .card-estudo h3 { margin: 0 0 15px; font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 22px; border-bottom: 1px solid rgba(217, 119, 6, 0.2); padding-bottom: 12px; }
+        .card-estudo p { margin: 0; font-size: 15px; line-height: 1.8; color: #e2e8f0; white-space: pre-line; font-weight: 300;}
+        
+        /* DESTAQUE HEBRAICO/GREGO */
+        .card-estudo p b { color: var(--gold-light); font-weight: 700; }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .actions-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .actions-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; justify-content: center;}
+        
+        .btn-sec { background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255,255,255,0.1); color: var(--text-main); padding: 12px 20px; border-radius: 14px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px;}
+        .btn-sec:hover { background: var(--gold); border-color: var(--gold-light); color: white;}
 
-        .loading { display: none; text-align: center; padding: 30px 0; }
-        .spinner { width: 40px; height: 40px; border: 4px solid rgba(217,119,6,0.2); border-top-color: var(--gold-light); border-radius: 50%; animation: spin 1s infinite linear; margin: 0 auto 15px; }
+        /* LOADING */
+        .loading { display: none; text-align: center; padding: 40px 0; }
+        .spinner { width: 50px; height: 50px; border: 4px solid rgba(217,119,6,0.1); border-top-color: var(--gold-light); border-radius: 50%; animation: spin 1s infinite cubic-bezier(0.55, 0.15, 0.45, 0.85); margin: 0 auto 20px; }
+        
         @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .api-config { background: rgba(217, 119, 6, 0.08); border: 1px dashed var(--gold); padding: 15px; border-radius: 16px; margin-bottom: 20px; text-align: center; }
+        .api-config { background: rgba(0, 0, 0, 0.3); border: 1px dashed rgba(217, 119, 6, 0.4); padding: 15px; border-radius: 20px; margin-bottom: 25px; text-align: center; }
 
         @media (max-width: 600px) {
             .grid-2 { grid-template-columns: 1fr; }
-            .logo-title { font-size: 20px; }
+            .logo-title { font-size: 22px; }
+            .panel { padding: 20px; }
+            .tabs-list { padding: 6px; }
+            .tab-btn { padding: 10px 16px; font-size: 12px; }
         }
     </style>
 </head>
@@ -99,89 +115,125 @@
 
     <div class="container">
         <header>
-            <span class="badge-status badge-pentecostal">🔥 Teologia & Homilética Pentecostal</span>
-            <h1 class="logo-title">RHEMA • BÍBLIA <span class="v9-badge">v9.0 NOVO LLAMA</span></h1>
-            <p class="logo-sub">Gerador de Esboços e Exegese Bíblica Profunda</p>
+            <span class="badge-status badge-pentecostal">Teologia & Exegese Profunda</span>
+            <h1 class="logo-title">RHEMA PREMIUM <span class="v10-badge">v10.0</span></h1>
+            <p class="logo-sub">Estudos, Originais Grego/Hebraico e Homilética</p>
         </header>
 
         <div class="api-config" id="box-api">
-            <span style="font-size:12px; color:var(--gold-light); font-weight:700;">🔑 Chave da API Groq (Totalmente Grátis):</span>
-            <input type="password" id="api-key" placeholder="Cole sua chave API começando com gsk_..." style="margin-top:8px; margin-bottom:8px; text-align:center;">
-            <small style="color:var(--text-sub); font-size:11px;">
-                Obtenha uma chave grátis no site <b>console.groq.com/keys</b>.
-            </small>
+            <span style="font-size:11px; color:var(--text-sub); font-weight:700; text-transform:uppercase; letter-spacing:1px;">🔑 Chave da API Groq:</span>
+            <input type="password" id="api-key" placeholder="Cole sua chave gsk_... aqui" style="margin-top:10px; margin-bottom:10px; text-align:center; padding:12px;">
+            <small style="color:var(--text-sub); font-size:11px;">Motor Llama 3.3 configurado. Obtenha a chave em <b>console.groq.com/keys</b>.</small>
         </div>
 
         <div class="panel">
-            <label>📖 Texto ou Passagem Bíblica:</label>
-            <textarea id="texto-biblico" rows="4" placeholder="Cole o versículo ou digite a referência... Ex: 'João 3:16-21' ou 'Porque Deus amou o mundo de tal maneira...'"></textarea>
+            <label>📖 Texto, Passagem ou Tema:</label>
+            <textarea id="texto-biblico" rows="3" placeholder="Ex: 'Romanos 8:1-4' ou 'A justificação pela fé'"></textarea>
 
             <div class="grid-2">
                 <div>
-                    <label>🎯 Ênfase da Mensagem:</label>
+                    <label>🎯 Ênfase Teológica:</label>
                     <select id="enfase">
-                        <option value="Avivamento e Espírito Santo">🔥 Avivamento & Unção do Espírito</option>
-                        <option value="Fé e Milagres">🛡️ Fé, Cura & Batalha Espiritual</option>
-                        <option value="Ensino Doutrinário">📚 Ensino & Edificação da Igreja</option>
-                        <option value="Evangelístico e Salvação">🌱 Evangelismo & Salvação</option>
+                        <option value="Profunda - Exegese e Doutrina">🎓 Profundo (Seminário & Doutrina)</option>
+                        <option value="Avivamento e Ação do Espírito Santo">🔥 Avivamento & Espírito Santo</option>
+                        <option value="Batalha Espiritual e Milagres">🛡️ Batalha Espiritual & Fé</option>
+                        <option value="Evangelismo e Salvação">🌱 Evangelismo & Graça</option>
                     </select>
                 </div>
                 <div>
                     <label>🏛️ Formato do Esboço:</label>
                     <select id="formato">
-                        <option value="Pregação Temática">Sermão Temático (3 Pontos)</option>
-                        <option value="Estudo Expositivo">Estudo Expositivo Versículo a Versículo</option>
-                        <option value="Palavra para EBD">Lição para Escola Dominical (EBD)</option>
+                        <option value="Sermão Temático Profundo">Pregação Temática (3 a 4 Pontos)</option>
+                        <option value="Estudo Expositivo">Estudo Expositivo (Versículo a Versículo)</option>
+                        <option value="Escola Bíblica Dominical">Aula para Escola Dominical (EBD)</option>
                     </select>
                 </div>
             </div>
 
-            <button class="btn" id="btn-gerar" onclick="gerarEstudoPentecostal()">
-                <span>⚡ GERAR ESBOÇO PENTECOSTAL</span>
+            <button class="btn" id="btn-gerar" onclick="gerarEstudoPremium()">
+                <span>⚡ Gerar Estudo Premium</span>
             </button>
         </div>
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="color:var(--gold-light); font-weight:700;" id="loading-txt">Gerando estudo na API Groq (Novo Llama 3.3)...</p>
-            <small style="color:var(--text-sub)">Conectando ao servidor ultrarrápido...</small>
+            <p style="color:var(--gold-light); font-weight:800; font-size:16px;" id="loading-txt">Analisando Textos Originais...</p>
+            <small style="color:var(--text-sub)">Processando exegese, traduções literais e contexto histórico.</small>
         </div>
 
-        <div id="resultado">
+        <!-- CONTAINER DAS ABAS (OCULTO ATÉ GERAR O ESTUDO) -->
+        <div class="tabs-container" id="area-estudo">
+            
             <div class="actions-bar">
-                <button class="btn-sec" onclick="copiarWhatsApp()">📲 Copiar p/ WhatsApp</button>
-                <button class="btn-sec" onclick="baixarPDF()">📄 Baixar PDF</button>
-                <button class="btn-sec" onclick="ouvirEstudo()">🔊 Ouvir Estudo</button>
+                <button class="btn-sec" onclick="copiarWhatsApp()">📲 Enviar WhatsApp</button>
+                <button class="btn-sec" onclick="baixarPDF()">📄 Imprimir PDF</button>
+                <button class="btn-sec" onclick="ouvirEstudo()">🔊 Ouvir Mensagem</button>
             </div>
 
-            <div class="card-estudo">
-                <h3>📜 1. Contexto Hermenêutico (Autor & Época)</h3>
-                <p id="res-hermeneutica"></p>
+            <!-- MENU DAS ABAS -->
+            <div class="tabs-list" id="nav-tabs">
+                <button class="tab-btn active" onclick="abrirAba('hermeneutica', this)">📜 Contexto</button>
+                <button class="tab-btn" onclick="abrirAba('exegese', this)">🔍 Grego/Hebraico</button>
+                <button class="tab-btn" onclick="abrirAba('esboco', this)">🔥 Esboço</button>
+                <button class="tab-btn" onclick="abrirAba('ilustracao', this)">💡 Ilustração</button>
+                <button class="tab-btn" onclick="abrirAba('teologia', this)">📚 Teologia</button>
             </div>
 
-            <div class="card-estudo">
-                <h3>🔍 2. Exegese (O que o Texto Dizia no Original)</h3>
-                <p id="res-exegese"></p>
+            <!-- CONTEÚDO DAS ABAS -->
+            <div id="tab-hermeneutica" class="tab-content active">
+                <div class="card-estudo">
+                    <h3>📜 Contexto Hermenêutico</h3>
+                    <p id="res-hermeneutica"></p>
+                </div>
             </div>
 
-            <div class="card-estudo">
-                <h3>🔥 3. Esboço Homilético p/ Pregador</h3>
-                <p id="res-esboco"></p>
+            <div id="tab-exegese" class="tab-content">
+                <div class="card-estudo">
+                    <h3>🔍 Exegese e Idiomas Originais</h3>
+                    <p id="res-exegese"></p>
+                </div>
             </div>
 
-            <div class="card-estudo">
-                <h3>💡 4. Ilustração & Aplicação Prática</h3>
-                <p id="res-ilustracao"></p>
+            <div id="tab-esboco" class="tab-content">
+                <div class="card-estudo">
+                    <h3>🔥 Esboço Homilético</h3>
+                    <p id="res-esboco"></p>
+                </div>
             </div>
 
-            <div class="card-estudo">
-                <h3>📚 5. Visão Teológica Pentecostal</h3>
-                <p id="res-teologia"></p>
+            <div id="tab-ilustracao" class="tab-content">
+                <div class="card-estudo">
+                    <h3>💡 Ilustração e Aplicação</h3>
+                    <p id="res-ilustracao"></p>
+                </div>
             </div>
+
+            <div id="tab-teologia" class="tab-content">
+                <div class="card-estudo">
+                    <h3>📚 Visão Teológica</h3>
+                    <p id="res-teologia"></p>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script>
+        // Função para alternar entre as abas
+        function abrirAba(idAba, elementoBotao) {
+            // Esconde todos os conteúdos
+            let conteudos = document.querySelectorAll('.tab-content');
+            conteudos.forEach(c => c.classList.remove('active'));
+            
+            // Remove a classe 'active' de todos os botões
+            let botoes = document.querySelectorAll('.tab-btn');
+            botoes.forEach(b => b.classList.remove('active'));
+            
+            // Mostra o conteúdo escolhido e ativa o botão clicado
+            document.getElementById('tab-' + idAba).classList.add('active');
+            elementoBotao.classList.add('active');
+        }
+
         window.onload = () => {
             let keySalva = localStorage.getItem('groq_key_biblia');
             if(keySalva) document.getElementById('api-key').value = keySalva;
@@ -189,34 +241,38 @@
 
         let estudoGlobal = {};
 
-        async function gerarEstudoPentecostal() {
+        async function gerarEstudoPremium() {
             let texto = document.getElementById('texto-biblico').value.trim();
             let key = document.getElementById('api-key').value.trim();
             let enfase = document.getElementById('enfase').value;
             let formato = document.getElementById('formato').value;
 
-            if(!texto) return alert('⚠️ Por favor, digite ou cole um texto bíblico!');
-            if(!key) return alert('⚠️ Por favor, insira sua chave da API da Groq!');
-            if(!key.startsWith('gsk_')) return alert('⚠️ A chave da Groq deve começar com "gsk_". Verifique se você copiou corretamente.');
+            if(!texto) return alert('⚠️ Por favor, informe um texto bíblico ou tema!');
+            if(!key || !key.startsWith('gsk_')) return alert('⚠️ Por favor, insira uma chave Groq válida (começa com gsk_).');
 
             localStorage.setItem('groq_key_biblia', key);
 
             document.getElementById('loading').style.display = 'block';
-            document.getElementById('resultado').style.display = 'none';
+            document.getElementById('area-estudo').style.display = 'none';
             document.getElementById('btn-gerar').disabled = true;
 
             try {
+                // PROMPT ULTRA PROFUNDO (ENGENHARIA DE PROMPT PREMIUM)
                 const promptSistema = `
-                Você é um teólogo doutor em Hermenêutica Bíblica e mestre em Homilética com cosmovisão estritamente PENTECOSTAL (alinhado com a Declaração de Fé das Assembleias de Deus e autores como Donald Stamps, Stanley Horton, Orlando Boyer, Antonio Gilberto e Myer Pearlman).
+                Você é um Ph.D. em Teologia, exímio conhecedor de Grego Koiné e Hebraico Bíblico, e mestre em Homilética. Sua cosmovisão teológica é estritamente Pentecostal Clássica (assembleiana/arminiana-wesleyana).
                 
-                O usuário enviará uma passagem, formato e ênfase. Você deve retornar os dados formatados ESTRITAMENTE em formato JSON. O JSON deve possuir exatamente estas chaves:
-                "autorContexto": "Informações sobre quem escreveu, quando e contexto histórico/cultural.",
-                "exegeseOriginal": "Explicação exegética, significado das palavras no original e intenção primária.",
-                "esbocoHomiletico": "Esboço contendo Título, Introdução, Ponto 1, Ponto 2, Ponto 3 e Conclusão (com apelo pentecostal).",
-                "ilustracao": "Ilustração ou metáfora do cotidiano aplicável.",
-                "visaoTeologica": "Comentário teológico enriquecedor citando princípios pentecostais."
+                O usuário fornecerá um texto/tema bíblico, uma ênfase e um formato. 
+                Sua resposta DEVE ser estritamente em JSON, seguindo esta estrutura, com análises PROFUNDAS e ACADÊMICAS, porém aplicáveis para a igreja:
                 
-                Não inclua nenhuma introdução ou texto em markdown, APENAS O JSON.`;
+                {
+                    "autorContexto": "Escreva um contexto profundo. Não fique no raso. Fale sobre a geografia, o momento político do império, a cultura da época e o estado emocional/espiritual de quem escreveu e de quem recebeu a mensagem.",
+                    "exegeseOriginal": "OBRIGATÓRIO: Isole de 2 a 4 palavras fundamentais do texto em seu idioma original (Hebraico ou Grego). Escreva a palavra original, coloque a transliteração (pronúncia) e o significado teológico literal raiz. Explique como essa palavra no original muda ou aprofunda a compreensão do texto.",
+                    "esbocoHomiletico": "Esboço completo, detalhado e estruturado. Inclua: TEMA CENTRAL IMPACTANTE, INTRODUÇÃO, PONTOS PRINCIPAIS (1, 2 e 3, com subtópicos curtos e referências cruzadas), CONCLUSÃO e um forte APELO PENTECOSTAL.",
+                    "ilustracao": "Conte uma ilustração rica: pode ser um fato histórico, uma metáfora bem construída ou uma história correlata que ilumine a mensagem. Evite clichês infantis.",
+                    "visaoTeologica": "Um arrazoado teológico denso. Aborde soteriologia, pneumatologia ou escatologia contida no texto. Cite (ou faça alusão) a grandes teólogos ou comentários (ex: Stanley Horton, Myer Pearlman, Matthew Henry, Antônio Gilberto)."
+                }
+                
+                Retorne APENAS o JSON válido. Nenhuma letra fora das chaves do JSON.`;
 
                 const promptUsuario = `Texto bíblico: "${texto}"\nÊnfase: ${enfase}\nFormato: ${formato}`;
 
@@ -229,13 +285,13 @@
                         'Authorization': `Bearer ${key}`
                     },
                     body: JSON.stringify({
-                        model: "llama-3.3-70b-versatile", // ATUALIZADO AQUI PARA O NOVO MODELO
+                        model: "llama-3.3-70b-versatile",
                         messages: [
                             { role: "system", content: promptSistema },
                             { role: "user", content: promptUsuario }
                         ],
                         response_format: { type: "json_object" },
-                        temperature: 0.7
+                        temperature: 0.75
                     })
                 });
 
@@ -251,33 +307,43 @@
                 let rawText = data.choices[0].message.content;
                 estudoGlobal = JSON.parse(rawText);
 
-                document.getElementById('res-hermeneutica').innerText = estudoGlobal.autorContexto;
-                document.getElementById('res-exegese').innerText = estudoGlobal.exegeseOriginal;
-                document.getElementById('res-esboco').innerText = estudoGlobal.esbocoHomiletico;
-                document.getElementById('res-ilustracao').innerText = estudoGlobal.ilustracao;
-                document.getElementById('res-teologia').innerText = estudoGlobal.visaoTeologica;
+                // Preencher as janelas com o conteúdo formatado
+                document.getElementById('res-hermeneutica').innerHTML = formatarTexto(estudoGlobal.autorContexto);
+                document.getElementById('res-exegese').innerHTML = formatarTexto(estudoGlobal.exegeseOriginal);
+                document.getElementById('res-esboco').innerHTML = formatarTexto(estudoGlobal.esbocoHomiletico);
+                document.getElementById('res-ilustracao').innerHTML = formatarTexto(estudoGlobal.ilustracao);
+                document.getElementById('res-teologia').innerHTML = formatarTexto(estudoGlobal.visaoTeologica);
 
-                document.getElementById('resultado').style.display = 'block';
-                document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+                // Exibir a área de estudos e voltar para a primeira aba
+                document.getElementById('area-estudo').style.display = 'block';
+                document.querySelectorAll('.tab-btn')[0].click();
+                document.getElementById('area-estudo').scrollIntoView({ behavior: 'smooth' });
 
             } catch (e) {
-                alert('⚠️ Falha de comunicação ou JSON inválido: ' + e.message);
+                alert('⚠️ Ocorreu um erro ao formatar o estudo: ' + e.message);
             } finally {
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('btn-gerar').disabled = false;
             }
         }
 
+        // Função simples para dar negrito em títulos e textos entre asteriscos
+        function formatarTexto(texto) {
+            if(!texto) return '';
+            // Troca os asteriscos do markdown para tag <b> HTML
+            return texto.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<b>$1</b>');
+        }
+
         function copiarWhatsApp() {
             if(!estudoGlobal.esbocoHomiletico) return;
-            let txt = `*🔥 ESTUDO BÍBLICO PENTECOSTAL*\n\n` +
-                      `*📜 CONTEXTO HISTÓRICO:*\n${estudoGlobal.autorContexto}\n\n` +
+            let txt = `*🔥 ESTUDO BÍBLICO PROFUNDO*\n\n` +
+                      `*📜 CONTEXTO:*\n${estudoGlobal.autorContexto}\n\n` +
+                      `*🔍 ORIGINAIS (Grego/Hebraico):*\n${estudoGlobal.exegeseOriginal}\n\n` +
                       `*🔥 ESBOÇO DA PREGAÇÃO:*\n${estudoGlobal.esbocoHomiletico}\n\n` +
-                      `*💡 ILUSTRAÇÃO:*\n${estudoGlobal.ilustracao}\n\n` +
-                      `_Gerado pelo App Rhema Bíblia_`;
+                      `_Gerado pelo Rhema Premium_`;
 
             navigator.clipboard.writeText(txt);
-            alert('✅ Esboço copiado! Cole no WhatsApp.');
+            alert('✅ Estudo copiado! Cole no WhatsApp.');
         }
 
         function baixarPDF() {
@@ -285,11 +351,11 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({ format: 'a4' });
 
-            doc.setFillColor(15, 19, 32);
+            doc.setFillColor(10, 12, 18);
             doc.rect(0, 0, 210, 30, 'F');
             doc.setTextColor(217, 119, 6);
-            doc.setFontSize(16); doc.setFont("helvetica", "bold");
-            doc.text("RHEMA • ESBOÇO E ESTUDO PENTECOSTAL", 15, 18);
+            doc.setFontSize(18); doc.setFont("helvetica", "bold");
+            doc.text("RHEMA PREMIUM • TEOLOGIA E ESBOÇO", 15, 20);
 
             doc.setTextColor(30, 30, 30); doc.setFontSize(10); doc.setFont("helvetica", "bold");
             let y = 40;
@@ -299,26 +365,37 @@
                 doc.setFont("helvetica", "bold"); doc.setTextColor(180, 83, 9);
                 doc.text(titulo, 15, y); y += 6;
                 doc.setFont("helvetica", "normal"); doc.setTextColor(40, 40, 40);
-                let linhas = doc.splitTextToSize(texto, 180);
+                
+                // Limpa os asteriscos para o PDF não ficar sujo
+                let cleanText = texto.replace(/\*\*/g, '').replace(/\*/g, '');
+                let linhas = doc.splitTextToSize(cleanText, 180);
+                
+                // Verifica quebra de página no meio do bloco
+                if (y + (linhas.length * 5) > 280) { doc.addPage(); y = 20; }
+                
                 doc.text(linhas, 15, y);
-                y += (linhas.length * 5) + 10;
+                y += (linhas.length * 5) + 12;
             }
 
-            addBloco("1. HERMENÊUTICA & CONTEXTO HISTÓRICO", estudoGlobal.autorContexto);
-            addBloco("2. EXEGESE DO TEXTO", estudoGlobal.exegeseOriginal);
+            addBloco("1. CONTEXTO HISTÓRICO E HERMENÊUTICO", estudoGlobal.autorContexto);
+            addBloco("2. EXEGESE NOS IDIOMAS ORIGINAIS", estudoGlobal.exegeseOriginal);
             addBloco("3. ESBOÇO HOMILÉTICO", estudoGlobal.esbocoHomiletico);
             addBloco("4. ILUSTRAÇÃO", estudoGlobal.ilustracao);
-            addBloco("5. NOTAS TEOLÓGICAS PENTECOSTAIS", estudoGlobal.visaoTeologica);
+            addBloco("5. SÍNTESE TEOLÓGICA", estudoGlobal.visaoTeologica);
 
-            doc.save(`Esboco_Pentecostal.pdf`);
+            doc.save(`Estudo_Premium_Rhema.pdf`);
         }
 
         function ouvirEstudo() {
             if(!estudoGlobal.esbocoHomiletico) return;
             window.speechSynthesis.cancel();
-            let textoLer = `Esboço bíblico. ${estudoGlobal.esbocoHomiletico}`;
+            
+            // Limpa formatação para o robô ler certinho
+            let textoLer = `Esboço da Pregação. ${estudoGlobal.esbocoHomiletico}`.replace(/\*/g, '');
+            
             let synth = new SpeechSynthesisUtterance(textoLer);
             synth.lang = 'pt-BR';
+            synth.rate = 1.05; // Levemente mais rápido
             window.speechSynthesis.speak(synth);
         }
     </script>

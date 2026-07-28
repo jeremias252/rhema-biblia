@@ -207,7 +207,7 @@
             Ênfase solicitada: ${enfase}.
             Formato: ${formato}.
 
-            Responda ESTRITAMENTE em formato JSON com o seguinte esquema sem formatação markdown em volta do JSON:
+            Responda ESTRITAMENTE em formato JSON com o seguinte esquema sem formatação markdown em volta do JSON (inicie com { e termine com }):
             {
                 "autorContexto": "Informações sobre QUEM escreveu (biografia), QUANDO escreveu (data aproximada e contexto histórico/cultural) e PARA QUEM escreveu.",
                 "exegeseOriginal": "Explicação exegética do que o autor estava dizendo no momento da escrita, significado das palavras no grego/hebraico e intenção primária.",
@@ -217,8 +217,8 @@
             }
             `;
 
-            // MODELOS DE RESERVA PARA NUNCA DAR ERRO DE API
-            const modelos = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash-latest", "gemini-1.5-pro"];
+            // ATUALIZADO: Usando os modelos oficiais e universais do Google AI Studio
+            const modelos = ["gemini-1.5-flash", "gemini-1.0-pro", "gemini-pro"];
             let sucesso = false;
             let ultimoErro = "";
 
@@ -237,7 +237,7 @@
                     
                     if (data.error) {
                         ultimoErro = data.error.message;
-                        continue; // Tenta o próximo modelo
+                        continue; // Se o modelo falhar, tenta automaticamente o próximo
                     }
 
                     let rawText = data.candidates[0].content.parts[0].text;
@@ -255,14 +255,14 @@
                     document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
 
                     sucesso = true;
-                    break; // Sucesso, sai do loop
+                    break; // Se deu sucesso, sai do loop imediatamente
                 } catch (e) {
                     ultimoErro = e.message;
                 }
             }
 
             if (!sucesso) {
-                alert('❌ Erro na API: ' + ultimoErro + '\n\nVerifique se sua chave do Google AI Studio está correta!');
+                alert('❌ Erro na API do Google: ' + ultimoErro + '\n\nPor favor, verifique se a sua chave do AI Studio está correta e ativa.');
             }
 
             document.getElementById('loading').style.display = 'none';

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rhema • Estudo Bíblico</title>
+    <title>Rhema • Estudo Bíblico v4</title>
     
     <!-- Fontes e Libs -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -37,8 +37,8 @@
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
 
         header { text-align: center; padding: 30px 0 20px; }
-        .logo-title { font-family: 'Cinzel', serif; font-size: 28px; font-weight: 900; color: var(--gold-light); letter-spacing: 1px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
-        .v3-badge { font-family: 'Poppins', sans-serif; background: #dc2626; color: #fff; font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; animation: pulse 2s infinite; }
+        .logo-title { font-family: 'Cinzel', serif; font-size: 26px; font-weight: 900; color: var(--gold-light); letter-spacing: 1px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        .v4-badge { font-family: 'Poppins', sans-serif; background: #10b981; color: #000; font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
 
         .logo-sub { color: var(--text-sub); font-size: 13px; margin-top: 5px; font-weight: 300; }
@@ -90,7 +90,7 @@
 
         @media (max-width: 600px) {
             .grid-2 { grid-template-columns: 1fr; }
-            .logo-title { font-size: 22px; }
+            .logo-title { font-size: 20px; }
         }
     </style>
 </head>
@@ -99,13 +99,13 @@
     <div class="container">
         <header>
             <span class="badge-status badge-pentecostal">🔥 Teologia & Homilética Pentecostal</span>
-            <h1 class="logo-title">RHEMA • BÍBLIA <span class="v3-badge">VERSÃO 3.0</span></h1>
+            <h1 class="logo-title">RHEMA • BÍBLIA <span class="v4-badge">v4.0 ONLINE</span></h1>
             <p class="logo-sub">Gerador de Esboços e Exegese Bíblica Profunda</p>
         </header>
 
         <div class="api-config" id="box-api">
             <span style="font-size:12px; color:var(--gold-light); font-weight:700;">🔑 Chave da API do Google Gemini (Gratuito):</span>
-            <input type="password" id="api-key" placeholder="Cole sua chave API do Google AI Studio aqui..." style="margin-top:8px; margin-bottom:8px; text-align:center;">
+            <input type="password" id="api-key" placeholder="Cole sua chave API aqui (aistudio.google.com)..." style="margin-top:8px; margin-bottom:8px; text-align:center;">
             <small style="color:var(--text-sub); font-size:11px;">
                 Obtenha uma chave grátis no site <b>aistudio.google.com</b>.
             </small>
@@ -142,7 +142,7 @@
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="color:var(--gold-light); font-weight:700;" id="loading-txt">Detectando Inteligência Ativa do Google...</p>
+            <p style="color:var(--gold-light); font-weight:700;" id="loading-txt">Sincronizando com o Google AI...</p>
             <small style="color:var(--text-sub)">Analisando autor, contexto histórico e aplicações pentecostais...</small>
         </div>
 
@@ -188,22 +188,6 @@
 
         let estudoGlobal = {};
 
-        // DETECTOR AUTOMÁTICO DE MODELO ATIVO DA CHAVE
-        async function detectarModeloGoogle(key) {
-            try {
-                let r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
-                let d = await r.json();
-                if(d.models && d.models.length > 0) {
-                    let mFlash = d.models.find(m => m.name.includes('flash') && m.supportedGenerationMethods.includes('generateContent'));
-                    if(mFlash) return mFlash.name.replace('models/', '');
-                    
-                    let mQualquer = d.models.find(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'));
-                    if(mQualquer) return mQualquer.name.replace('models/', '');
-                }
-            } catch(e){}
-            return 'gemini-2.5-flash'; // Padrão
-        }
-
         async function gerarEstudoPentecostal() {
             let texto = document.getElementById('texto-biblico').value.trim();
             let key = document.getElementById('api-key').value.trim();
@@ -219,29 +203,60 @@
             document.getElementById('resultado').style.display = 'none';
             document.getElementById('btn-gerar').disabled = true;
 
-            const promptEspecial = `
-            Você é um teólogo doutor em Hermenêutica Bíblica e mestre em Homilética com cosmovisão estritamente PENTECOSTAL (alinhado com a Declaração de Fé das Assembleias de Deus e autores como Donald Stamps, Stanley Horton, Orlando Boyer, Antonio Gilberto e Myer Pearlman).
-
-            Análise a seguinte passagem/texto bíblico: "${texto}".
-            Ênfase solicitada: ${enfase}.
-            Formato: ${formato}.
-
-            Responda ESTRITAMENTE em formato JSON com o seguinte esquema sem formatação markdown em volta do JSON (inicie com { e termine com }):
-            {
-                "autorContexto": "Informações sobre QUEM escreveu (biografia), QUANDO escreveu (data aproximada e contexto histórico/cultural) e PARA QUEM escreveu.",
-                "exegeseOriginal": "Explicação exegética do que o autor estava dizendo no momento da escrita, significado das palavras no grego/hebraico e intenção primária.",
-                "esbocoHomiletico": "Um esboço pronto contendo:\\n- TÍTULO DA MENSAGEM\\n- INTRODUÇÃO\\n- PONTO 1 (Com versículo de apoio)\\n- PONTO 2 (Com versículo de apoio)\\n- PONTO 3 (Com versículo de apoio)\\n- CONCLUSAO E APELO PENTECOSTAL (Ação do Espírito Santo, Unção, Batalha Espiritual)",
-                "ilustracao": "Uma história bíblica correlata ou uma ilustração/metáfora do cotidiano para ajudar a assembleia a entender a mensagem.",
-                "visaoTeologica": "Comentário teológico enriquecedor citando princípios teológicos pentecostais e a visão de comentaristas clássicos."
-            }
-            `;
-
             try {
-                // Detecta qual IA o Google liberou especificamente para a chave digitada
-                let modeloAtivo = await detectarModeloGoogle(key);
-                document.getElementById('loading-txt').innerText = `Consultando as Escrituras (${modeloAtivo})...`;
+                document.getElementById('loading-txt').innerText = "Verificando modelos liberados na sua chave...";
+                
+                // 1. Busca quais modelos estão liberados para a chave informada
+                let resModels = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
+                let dataModels = await resModels.json();
 
-                let url = `https://generativelanguage.googleapis.com/v1beta/models/${modeloAtivo}:generateContent?key=${key}`;
+                if (dataModels.error) {
+                    alert('❌ Chave API inválida ou incorreta:\n' + dataModels.error.message + '\n\nPor favor, recopie a chave no aistudio.google.com');
+                    return;
+                }
+
+                if (!dataModels.models || dataModels.models.length === 0) {
+                    alert('❌ Nenhum modelo de IA encontrado para esta conta.');
+                    return;
+                }
+
+                // 2. Filtra modelos que aceitam "generateContent"
+                let modelosValidos = dataModels.models.filter(m => 
+                    m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent')
+                );
+
+                if (modelosValidos.length === 0) {
+                    alert('❌ Nenhum modelo de geração de texto disponível para sua chave.');
+                    return;
+                }
+
+                // 3. Escolhe o melhor modelo disponível
+                let modeloEscolhido = modelosValidos.find(m => m.name.includes('flash')) || 
+                                      modelosValidos.find(m => m.name.includes('pro')) || 
+                                      modelosValidos[0];
+
+                let nomeModeloCompleto = modeloEscolhido.name; // Ex: "models/gemini-1.5-flash"
+                document.getElementById('loading-txt').innerText = `Gerando estudo via ${nomeModeloCompleto.replace('models/', '')}...`;
+
+                const promptEspecial = `
+                Você é um teólogo doutor em Hermenêutica Bíblica e mestre em Homilética com cosmovisão estritamente PENTECOSTAL (alinhado com a Declaração de Fé das Assembleias de Deus e autores como Donald Stamps, Stanley Horton, Orlando Boyer, Antonio Gilberto e Myer Pearlman).
+
+                Análise a seguinte passagem/texto bíblico: "${texto}".
+                Ênfase solicitada: ${enfase}.
+                Formato: ${formato}.
+
+                Responda ESTRITAMENTE em formato JSON com o seguinte esquema sem formatação markdown em volta do JSON (inicie com { e termine com }):
+                {
+                    "autorContexto": "Informações sobre QUEM escreveu (biografia), QUANDO escreveu (data aproximada e contexto histórico/cultural) e PARA QUEM escreveu.",
+                    "exegeseOriginal": "Explicação exegética do que o autor estava dizendo no momento da escrita, significado das palavras no grego/hebraico e intenção primária.",
+                    "esbocoHomiletico": "Um esboço pronto contendo:\\n- TÍTULO DA MENSAGEM\\n- INTRODUÇÃO\\n- PONTO 1 (Com versículo de apoio)\\n- PONTO 2 (Com versículo de apoio)\\n- PONTO 3 (Com versículo de apoio)\\n- CONCLUSAO E APELO PENTECOSTAL (Ação do Espírito Santo, Unção, Batalha Espiritual)",
+                    "ilustracao": "Uma história bíblica correlata ou uma ilustração/metáfora do cotidiano para ajudar a assembleia a entender a mensagem.",
+                    "visaoTeologica": "Comentário teológico enriquecedor citando princípios teológicos pentecostais e a visão de comentaristas clássicos."
+                }
+                `;
+
+                // 4. Executa a requisição com o modelo autodetectado
+                let url = `https://generativelanguage.googleapis.com/v1beta/${nomeModeloCompleto}:generateContent?key=${key}`;
                 let response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -253,7 +268,7 @@
                 let data = await response.json();
                 
                 if (data.error) {
-                    alert('❌ Erro na API do Google: ' + data.error.message + '\n\nVerifique se a sua chave do AI Studio está correta!');
+                    alert('❌ Erro na geração: ' + data.error.message);
                     return;
                 }
 
@@ -272,7 +287,7 @@
                 document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
 
             } catch (e) {
-                alert('⚠️ Falha ao processar resposta: ' + e.message);
+                alert('⚠️ Falha de comunicação: ' + e.message + '\n\nVerifique se a chave API está correta.');
             } finally {
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('btn-gerar').disabled = false;

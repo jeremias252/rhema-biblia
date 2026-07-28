@@ -211,7 +211,7 @@
             <span>Jeremias 20:9</span>
         </div>
         <div class="login-box">
-            <h1 style="position: relative;">BETHESDA <span style="position:absolute; top:-10px; right: 20px; font-size:12px; color:var(--gold-main); font-family: 'Manrope';">v18.0</span></h1>
+            <h1 style="position: relative;">BETHESDA <span style="position:absolute; top:-10px; right: 20px; font-size:12px; color:var(--gold-main); font-family: 'Manrope';">v19.0</span></h1>
             <input type="password" id="senha-login" placeholder="Código de Acesso" onkeypress="verificarEnter(event)">
             <button class="btn-luxury" onclick="fazerLogin()">Entrar no Santuário</button>
         </div>
@@ -224,8 +224,9 @@
                 <h2>Cofre API</h2>
                 <button class="close-modal" onclick="fecharConfig()">&times;</button>
             </div>
-            <label class="bento-label">Chave Groq (Llama 3.3)</label>
-            <input type="password" id="api-key" placeholder="gsk_..." style="margin-bottom:20px; text-align:center;">
+            <label class="bento-label">Chave OpenRouter (Gemini 2.0)</label>
+            <input type="password" id="api-key" placeholder="sk-or-v1-..." style="margin-bottom:10px; text-align:center;">
+            <p style="color:var(--text-muted); font-size:12px; text-align:center; margin-bottom:25px;">Pegue sua chave gratuita em <b>openrouter.ai/keys</b></p>
             <button class="btn-luxury" onclick="salvarConfig()">Salvar Credenciais</button>
         </div>
     </div>
@@ -348,7 +349,7 @@
             <div class="loading" id="loading">
                 <div class="spinner"></div>
                 <p style="font-family:'Playfair Display',serif; font-size:24px; color:var(--text-title);" id="loading-txt">Sondando os Arquivos...</p>
-                <small style="color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:2px;">Motor Llama 3.3</small>
+                <small style="color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:2px;">Conectando OpenRouter (Gemini 2.0)</small>
             </div>
 
             <!-- MODO LEITURA (RESULTADOS) -->
@@ -384,12 +385,12 @@
 
         // ================= CONFIGURAÇÕES =================
         window.onload = () => {
-            let keySalva = localStorage.getItem('groq_key_biblia');
+            let keySalva = localStorage.getItem('or_key_biblia');
             if(keySalva) document.getElementById('api-key').value = keySalva;
         }
         function abrirConfig() { document.getElementById('modal-config').style.display = 'flex'; }
         function fecharConfig() { document.getElementById('modal-config').style.display = 'none'; }
-        function salvarConfig() { localStorage.setItem('groq_key_biblia', document.getElementById('api-key').value); fecharConfig(); }
+        function salvarConfig() { localStorage.setItem('or_key_biblia', document.getElementById('api-key').value); fecharConfig(); }
 
         // ================= SIDEBAR =================
         const sidebar = document.getElementById('sidebar');
@@ -478,34 +479,51 @@
         }
         function finalizarSelecaoBiblia(ref) { document.getElementById('texto-biblico').value = ref; fecharBiblia(); }
 
-        // ================= IA: DUPLA CONEXÃO (JSON e RAW TEXT) =================
+        // ================= NOVO MOTOR DE INTELIGÊNCIA (OPENROUTER / GEMINI) =================
         let estudoGlobal = {};
         let contextoCopia = ""; 
 
-        // Função Flexível: Se isJson=true, exige formato JSON. Se falso, aceita texto livre (MUITO mais seguro para listas).
-        async function chamarAPI(promptSistema, promptUsuario, loadingMsg, isJson = true) {
+        // Extrai o JSON à força, ignorando tabelas, marcações markdown de código ou textos introdutórios que a IA crie
+        function extrairJsonDaResposta(textoBruto) {
+            try {
+                // Acha tudo que está entre { e } na resposta
+                const match = textoBruto.match(/\{[\s\S]*\}/);
+                if (match) {
+                    return JSON.parse(match[0]);
+                }
+            } catch (e) {
+                console.error("Erro na extração forçada do JSON:", e);
+            }
+            return null;
+        }
+
+        async function chamarAPI(promptSistema, promptUsuario, loadingMsg) {
             let key = document.getElementById('api-key').value.trim();
-            if(!key || !key.startsWith('gsk_')) { alert('Acesso negado: Chave API ausente.'); return null; }
+            if(!key || !key.startsWith('sk-or-v1-')) { 
+                alert('Acesso Negado: Insira uma Chave do OpenRouter válida na Engrenagem ⚙️'); 
+                return null; 
+            }
 
             document.getElementById('loading').style.display = 'block';
             document.getElementById('loading-txt').innerText = loadingMsg;
             document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
 
-            let bodyData = {
-                model: "llama-3.3-70b-versatile",
-                messages: [{ role: "system", content: promptSistema }, { role: "user", content: promptUsuario }],
-                temperature: 0.6, 
-                max_tokens: 6500
-            };
-            
-            // Ativa o JSON mode apenas para o Tratado que possui abas.
-            if(isJson) bodyData.response_format = { type: "json_object" };
-
             try {
-                let response = await fetch(`https://api.groq.com/openai/v1/chat/completions`, {
+                let response = await fetch(`https://openrouter.ai/api/v1/chat/completions`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-                    body: JSON.stringify(bodyData)
+                    headers: { 
+                        'Content-Type': 'application/json', 
+                        'Authorization': `Bearer ${key}`,
+                        'HTTP-Referer': 'https://bethesda.app',
+                        'X-Title': 'Bethesda Majestic'
+                    },
+                    body: JSON.stringify({
+                        model: "google/gemini-2.0-flash-lite-preview-02-05:free", // Motor Gratuito do Google no OpenRouter
+                        messages: [
+                            { role: "system", content: promptSistema }, 
+                            { role: "user", content: promptUsuario }
+                        ]
+                    })
                 });
 
                 let data = await response.json();
@@ -514,7 +532,7 @@
                 let content = data.choices[0].message.content;
                 document.getElementById('loading').style.display = 'none';
                 
-                return isJson ? JSON.parse(content) : content; // Retorna o texto cru se não for JSON
+                return content; 
             } catch (e) {
                 alert('Erro de conexão neural: ' + e.message);
                 document.getElementById('loading').style.display = 'none';
@@ -535,31 +553,38 @@
             return resultadoFinal.join('');
         }
 
-        // ================= GERAÇÕES =================
+        // ================= GERAÇÕES DA BETHESDA =================
 
-        // 1. TRATADO (Usa Modo JSON para dividir em abas)
+        // 1. TRATADO
         async function gerarEstudoElite() {
             let texto = document.getElementById('texto-biblico').value.trim();
             let enfase = document.getElementById('enfase').value;
             let formato = document.getElementById('formato').value;
             if(!texto) return alert('Selecione um texto na Bíblia.');
 
-            const sys = `Você é um Ph.D. em Teologia. OUTPUT STRICTLY A RAW JSON OBJECT. START WITH { AND END WITH }.
+            const sys = `Você é um Ph.D. em Teologia. PRODUZA UM JSON VÁLIDO CONTENDO 5 CHAVES EXATAS.
 {
-  "autorContexto": "Ensaio histórico profundo.", 
-  "exegeseOriginal": "Análise de originais (Grego/Heb).", 
-  "esbocoHomiletico": "Esboço completo e longo.", 
-  "ilustracao": "Aplicação pastoral com história.", 
-  "visaoTeologica": "Tratado Teológico Sistemático."
-}`;
-            let result = await chamarAPI(sys, `Ref: "${texto}"\nÊnfase: ${enfase}\nFmt: ${formato}`, "Escrevendo Manuscrito...", true);
-            if(result) {
-                estudoGlobal = result; contextoCopia = "ESTUDO";
-                document.getElementById('res-hermeneutica').innerHTML = formatarTexto(result.autorContexto);
-                document.getElementById('res-exegese').innerHTML = formatarTexto(result.exegeseOriginal);
-                document.getElementById('res-esboco').innerHTML = formatarTexto(result.esbocoHomiletico);
-                document.getElementById('res-ilustracao').innerHTML = formatarTexto(result.ilustracao);
-                document.getElementById('res-teologia').innerHTML = formatarTexto(result.visaoTeologica);
+  "autorContexto": "Texto histórico do contexto",
+  "exegeseOriginal": "Análise das palavras originais (Grego/Hebraico)",
+  "esbocoHomiletico": "Esboço da pregação detalhado",
+  "ilustracao": "Aplicação com base histórica",
+  "visaoTeologica": "Tratado sistemático e hermenêutico"
+}
+REGRA: Todos os valores devem ser textos formados por parágrafos. NÃO crie arrays, apenas strings!`;
+            
+            let resultText = await chamarAPI(sys, `Referência: "${texto}"\nÊnfase: ${enfase}\nFormato: ${formato}`, "Escrevendo Manuscrito...");
+            if(resultText) {
+                let jsonParsed = extrairJsonDaResposta(resultText);
+                if (!jsonParsed) return alert("Erro: O servidor da IA devolveu um formato ilegível. Tente novamente.");
+
+                estudoGlobal = jsonParsed; 
+                contextoCopia = "ESTUDO";
+                
+                document.getElementById('res-hermeneutica').innerHTML = formatarTexto(estudoGlobal.autorContexto);
+                document.getElementById('res-exegese').innerHTML = formatarTexto(estudoGlobal.exegeseOriginal);
+                document.getElementById('res-esboco').innerHTML = formatarTexto(estudoGlobal.esbocoHomiletico);
+                document.getElementById('res-ilustracao').innerHTML = formatarTexto(estudoGlobal.ilustracao);
+                document.getElementById('res-teologia').innerHTML = formatarTexto(estudoGlobal.visaoTeologica);
                 
                 document.getElementById('menu-resultados-simples').style.display = 'none';
                 document.getElementById('menu-resultados').style.display = 'block';
@@ -567,37 +592,47 @@
             }
         }
 
-        // 2. PERSONAGEM (Usa Texto Livre - Sem erro de JSON)
+        // 2. PERSONAGEM
         async function gerarPersonagem() {
             let personagem = document.getElementById('select-personagem').value;
-            const sys = `Você é um historiador teológico. Escreva um dossiê acadêmico detalhado em TEXTO LIVRE usando formatação Markdown. NÃO USE JSON. Estruture o documento com Biografia, Perfil, Vitórias e Tipologia Cristã.`;
-            
-            let result = await chamarAPI(sys, `Personagem: ${personagem}`, `Mapeando Dossiê...`, false);
-            if(result) {
-                estudoGlobal = { conteudo: result }; 
+            const sys = `Você é um historiador teológico. PRODUZA UM JSON VÁLIDO CONTENDO APENAS 1 CHAVE CHAMADA "conteudo".
+{
+  "conteudo": "Dossiê acadêmico sobre o personagem. Escreva tudo como UM ÚNICO TEXTO em blocos separados por parágrafos e marcadores markdown (-)."
+}`;
+            let resultText = await chamarAPI(sys, `Personagem: ${personagem}`, `Mapeando Dossiê...`);
+            if(resultText) {
+                let jsonParsed = extrairJsonDaResposta(resultText);
+                if (!jsonParsed || !jsonParsed.conteudo) return alert("Erro de extração. Tente gerar de novo.");
+
+                estudoGlobal = jsonParsed; 
                 contextoCopia = "SIMPLES";
                 
                 document.getElementById('tit-simples').innerText = `Dossiê: ${personagem}`;
-                document.getElementById('res-simples').innerHTML = formatarTexto(result);
+                document.getElementById('res-simples').innerHTML = formatarTexto(estudoGlobal.conteudo);
                 document.getElementById('menu-resultados').style.display = 'none';
                 document.getElementById('menu-resultados-simples').style.display = 'block';
                 mostrarResultadoSimples();
             }
         }
 
-        // 3. LIVROS (Usa Texto Livre - Sem erro de JSON e Tabelas)
+        // 3. LIVROS
         async function gerarLivros() {
             let tema = document.getElementById('texto-livros').value.trim();
             if(!tema) return alert('Digite um tema para buscar as obras.');
-            const sys = `Você é um curador literário teológico. Recomende 5 a 8 LIVROS clássicos ou contemporâneos sobre o tema solicitado. Escreva a sua recomendação em TEXTO LIVRE usando formatação Markdown (Não crie tabelas e não use JSON). Fale o Título, o Autor e um profundo resumo teológico do livro.`;
-            
-            let result = await chamarAPI(sys, `Tema: ${tema}`, "Consultando Acervo...", false);
-            if(result) {
-                estudoGlobal = { conteudo: result }; 
+            const sys = `Você é um curador literário teológico. PRODUZA UM JSON VÁLIDO CONTENDO APENAS 1 CHAVE CHAMADA "conteudo".
+{
+  "conteudo": "Recomende de 5 a 8 livros teológicos sobre o tema solicitado. Escreva como UM ÚNICO TEXTO TEXTUAL LIVRE. NÃO USE TABELAS. Apenas digite o nome do livro em negrito, o autor e um breve resumo."
+}`;
+            let resultText = await chamarAPI(sys, `Tema: ${tema}`, "Consultando Acervo...");
+            if(resultText) {
+                let jsonParsed = extrairJsonDaResposta(resultText);
+                if (!jsonParsed || !jsonParsed.conteudo) return alert("Erro de extração de dados. Tente gerar de novo.");
+
+                estudoGlobal = jsonParsed; 
                 contextoCopia = "SIMPLES";
 
                 document.getElementById('tit-simples').innerText = `Acervo Literário: ${tema}`;
-                document.getElementById('res-simples').innerHTML = formatarTexto(result);
+                document.getElementById('res-simples').innerHTML = formatarTexto(estudoGlobal.conteudo);
                 document.getElementById('menu-resultados').style.display = 'none';
                 document.getElementById('menu-resultados-simples').style.display = 'block';
                 mostrarResultadoSimples();

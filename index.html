@@ -6,7 +6,7 @@
     <title>Rhema Premium • Teologia Profunda</title>
     
     <!-- Fontes e Libs -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
@@ -41,7 +41,7 @@
         /* HEADER */
         header { text-align: center; padding: 30px 0 20px; }
         .logo-title { font-family: 'Cinzel', serif; font-size: 32px; font-weight: 900; color: var(--gold-light); letter-spacing: 2px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; text-shadow: 0 5px 15px rgba(217, 119, 6, 0.4);}
-        .v11-badge { font-family: 'Poppins', sans-serif; background: #ef4444; color: #fff; font-size: 11px; font-weight: 900; padding: 4px 12px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);}
+        .v12-badge { font-family: 'Poppins', sans-serif; background: #000; border: 1px solid var(--gold); color: var(--gold-light); font-size: 11px; font-weight: 900; padding: 4px 12px; border-radius: 8px; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 4px 15px var(--gold-glow);}
         .logo-sub { color: var(--text-sub); font-size: 14px; margin-top: 5px; font-weight: 400; }
         .badge-pentecostal { background: rgba(217, 119, 6, 0.1); border: 1px solid var(--gold); color: var(--gold-light); font-size: 10px; font-weight: 800; padding: 5px 14px; border-radius: 99px; text-transform: uppercase; letter-spacing: 1.5px; display: inline-block; margin-bottom: 12px; }
 
@@ -81,11 +81,16 @@
             border-radius: 24px; padding: 30px; margin-bottom: 20px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.4); position: relative;
         }
-        .card-estudo h3 { margin: 0 0 15px; font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 22px; border-bottom: 1px solid rgba(217, 119, 6, 0.2); padding-bottom: 12px; }
-        .card-estudo p { margin: 0; font-size: 15px; line-height: 1.8; color: #e2e8f0; white-space: pre-line; font-weight: 300;}
+        .card-estudo h3 { margin: 0 0 20px; font-family: 'Cinzel', serif; color: var(--gold-light); font-size: 22px; border-bottom: 1px solid rgba(217, 119, 6, 0.2); padding-bottom: 12px; }
         
-        /* DESTAQUE HEBRAICO/GREGO */
-        .card-estudo p b { color: var(--gold-light); font-weight: 700; }
+        /* FORMATAÇÃO PROFUNDA DO TEXTO */
+        .card-estudo p { margin: 0; font-size: 15px; line-height: 1.8; color: #e2e8f0; white-space: pre-wrap; font-weight: 300;}
+        .card-estudo p b { color: var(--gold-light); font-weight: 700; font-size: 15.5px; }
+        .card-estudo p i { color: #94a3b8; }
+        
+        /* ESTILO PARA AS LISTAS E TÓPICOS DO ESBOÇO */
+        .topico-lista { display: block; margin-left: 20px; position: relative; }
+        .topico-lista::before { content: '•'; color: var(--gold); position: absolute; left: -15px; font-weight: bold; }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .actions-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; justify-content: center;}
@@ -104,7 +109,7 @@
 
         @media (max-width: 600px) {
             .grid-2 { grid-template-columns: 1fr; }
-            .logo-title { font-size: 22px; }
+            .logo-title { font-size: 20px; }
             .panel { padding: 20px; }
             .tabs-list { padding: 6px; }
             .tab-btn { padding: 10px 16px; font-size: 12px; }
@@ -116,14 +121,14 @@
     <div class="container">
         <header>
             <span class="badge-status badge-pentecostal">Teologia & Exegese Profunda</span>
-            <h1 class="logo-title">RHEMA PREMIUM <span class="v11-badge">v11.0 BLINDADO</span></h1>
-            <p class="logo-sub">Estudos, Originais Grego/Hebraico e Homilética</p>
+            <h1 class="logo-title">RHEMA PREMIUM <span class="v12-badge">v12.0 DEEP THEOLOGY</span></h1>
+            <p class="logo-sub">Pesquisa avançada em comentários e originais</p>
         </header>
 
         <div class="api-config" id="box-api">
             <span style="font-size:11px; color:var(--text-sub); font-weight:700; text-transform:uppercase; letter-spacing:1px;">🔑 Chave da API Groq:</span>
             <input type="password" id="api-key" placeholder="Cole sua chave gsk_... aqui" style="margin-top:10px; margin-bottom:10px; text-align:center; padding:12px;">
-            <small style="color:var(--text-sub); font-size:11px;">Motor Llama 3.3 configurado. Obtenha a chave em <b>console.groq.com/keys</b>.</small>
+            <small style="color:var(--text-sub); font-size:11px;">Motor Llama 3.3. Obtenha a chave em <b>console.groq.com/keys</b>.</small>
         </div>
 
         <div class="panel">
@@ -151,14 +156,14 @@
             </div>
 
             <button class="btn" id="btn-gerar" onclick="gerarEstudoPremium()">
-                <span>⚡ Gerar Estudo Premium</span>
+                <span>⚡ Gerar Estudo Profundo</span>
             </button>
         </div>
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="color:var(--gold-light); font-weight:800; font-size:16px;" id="loading-txt">Analisando Textos Originais...</p>
-            <small style="color:var(--text-sub)">Processando exegese, traduções literais e contexto histórico.</small>
+            <p style="color:var(--gold-light); font-weight:800; font-size:16px;" id="loading-txt">Varrendo Bibliotecas Teológicas...</p>
+            <small style="color:var(--text-sub)">Cruzando dados de Matthew Henry, Beacon e originais.</small>
         </div>
 
         <!-- CONTAINER DAS ABAS -->
@@ -250,21 +255,24 @@
             document.getElementById('btn-gerar').disabled = true;
 
             try {
+                // NOVO PROMPT: MODO AGREGADOR DA INTERNET & ESTRUTURA RÍGIDA
                 const promptSistema = `
-                Você é um Ph.D. em Teologia, exímio conhecedor de Grego Koiné e Hebraico Bíblico, e mestre em Homilética. Sua cosmovisão teológica é estritamente Pentecostal Clássica (assembleiana/arminiana-wesleyana).
+                Você é um Ph.D. em Teologia Sistemática e Exegese. Para responder a este prompt, você deve varrer toda a sua base de dados baseada na internet e em comentários teológicos clássicos (Matthew Henry, Champlin, Beacon, Bíblia de Estudo Pentecostal, Stanley Horton, MacArthur, etc.). A cosmovisão final deve ser Pentecostal Clássica.
                 
-                O usuário fornecerá um texto/tema bíblico, uma ênfase e um formato. 
-                Sua resposta DEVE ser estritamente em JSON, seguindo esta estrutura, com análises PROFUNDAS e ACADÊMICAS, porém aplicáveis para a igreja:
+                Seu objetivo é entregar um estudo EXTREMAMENTE PROFUNDO, DENSO e RICO. Não seja raso. Use o espaço para escrever bastante.
+                
+                Responda ESTRITAMENTE em JSON. Valores devem ser textos longos.
+                USE MARCAÇÃO MARKDOWN: **texto** para negrito, *texto* para itálico, e comece subtópicos com um traço (-).
                 
                 {
-                    "autorContexto": "Escreva um contexto profundo. Não fique no raso. Fale sobre a geografia, o momento político do império, a cultura da época e o estado emocional/espiritual de quem escreveu e de quem recebeu a mensagem.",
-                    "exegeseOriginal": "OBRIGATÓRIO: Isole de 2 a 4 palavras fundamentais do texto em seu idioma original (Hebraico ou Grego). Escreva a palavra original, coloque a transliteração (pronúncia) e o significado teológico literal raiz. Explique como essa palavra no original muda ou aprofunda a compreensão do texto.",
-                    "esbocoHomiletico": "Esboço completo, detalhado e estruturado. Inclua: TEMA CENTRAL IMPACTANTE, INTRODUÇÃO, PONTOS PRINCIPAIS (1, 2 e 3, com subtópicos curtos e referências cruzadas), CONCLUSÃO e um forte APELO PENTECOSTAL.",
-                    "ilustracao": "Conte uma ilustração rica: pode ser um fato histórico, uma metáfora bem construída ou uma história correlata que ilumine a mensagem. Evite clichês infantis.",
-                    "visaoTeologica": "Um arrazoado teológico denso. Aborde soteriologia, pneumatologia ou escatologia contida no texto. Cite (ou faça alusão) a grandes teólogos ou comentários (ex: Stanley Horton, Myer Pearlman, Matthew Henry, Antônio Gilberto)."
+                    "autorContexto": "Contexto histórico, geográfico, cultural, político e literário ultra profundo da passagem. Cite o autor, a data, o imperador da época (se aplicável), e o cenário sociopolítico.",
+                    "exegeseOriginal": "Faça uma exegese profunda de 3 a 5 palavras-chave fundamentais no original (Grego Koiné ou Hebraico). Formato: **Palavra (Transliteração)**: Explicação morfológica e significado teológico profundo.",
+                    "esbocoHomiletico": "Um esboço denso, extremamente organizado e SEPARADO POR TÓPICOS. Estrutura obrigatória a ser seguida risca:\n**TEMA CENTRAL:** [Seu Tema]\n\n**INTRODUÇÃO:**\n[Texto da introdução]\n\n**I. PRIMEIRO TÓPICO:**\n- [Subtópico A com referências cruzadas]\n- [Subtópico B]\n\n**II. SEGUNDO TÓPICO:**\n- [Subtópico A]\n- [Subtópico B]\n\n**III. TERCEIRO TÓPICO:**\n- [Subtópico A]\n- [Subtópico B]\n\n**CONCLUSÃO E APELO:**\n[Texto]",
+                    "ilustracao": "Uma ilustração histórica real ou narrativa teológica profunda que se conecte brilhantemente ao tema. Nada superficial.",
+                    "visaoTeologica": "Sintetize a doutrina principal (Soteriologia, Cristologia, etc.). Cite textualmente a visão de grandes teólogos clássicos e comentários renomados a respeito deste texto."
                 }
                 
-                Retorne APENAS o JSON válido. Nenhuma letra fora das chaves do JSON. Garanta que o valor de CADA CHAVE do JSON seja um TEXTO SIMPLES (String) e não uma lista (Array).`;
+                Retorne APENAS o JSON válido. Certifique-se de que cada valor do JSON seja uma STRING única formatada.`;
 
                 const promptUsuario = `Texto bíblico: "${texto}"\nÊnfase: ${enfase}\nFormato: ${formato}`;
 
@@ -283,7 +291,8 @@
                             { role: "user", content: promptUsuario }
                         ],
                         response_format: { type: "json_object" },
-                        temperature: 0.75
+                        temperature: 0.7, // Um pouco menor para garantir estrutura rígida
+                        max_tokens: 4000 // Garante que a IA tenha espaço para textos gigantes
                     })
                 });
 
@@ -299,15 +308,14 @@
                 let rawText = data.choices[0].message.content;
                 estudoGlobal = JSON.parse(rawText);
 
-                // --- SISTEMA DE BLINDAGEM DE DADOS ---
-                // Verifica e converte todas as respostas da IA para string (texto simples), evitando o erro 'replace is not a function'
+                // Blindagem de Dados
                 for (let chave in estudoGlobal) {
                     if (Array.isArray(estudoGlobal[chave])) {
-                        estudoGlobal[chave] = estudoGlobal[chave].join('\n\n'); // Se for array, junta tudo
+                        estudoGlobal[chave] = estudoGlobal[chave].join('\n\n');
                     } else if (typeof estudoGlobal[chave] === 'object') {
-                        estudoGlobal[chave] = JSON.stringify(estudoGlobal[chave], null, 2); // Se for objeto puro, converte pra texto
+                        estudoGlobal[chave] = JSON.stringify(estudoGlobal[chave], null, 2);
                     } else {
-                        estudoGlobal[chave] = String(estudoGlobal[chave]); // Garante que é string
+                        estudoGlobal[chave] = String(estudoGlobal[chave]);
                     }
                 }
 
@@ -329,10 +337,26 @@
             }
         }
 
-        // Formata os títulos e negritos vindos do Markdown
+        // Função Avançada para transformar Markdown em visual bonito na tela
         function formatarTexto(texto) {
             if(!texto) return '';
-            return texto.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<b>$1</b>');
+            
+            // 1. Trata negritos e itálicos
+            let html = texto.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+            html = html.replace(/\*(.*?)\*/g, '<i>$1</i>');
+            
+            // 2. Trata quebras de linha para manter a formatação do JSON
+            // html = html.replace(/\n/g, '<br>');
+            
+            // 3. Destaca os marcadores de lista (-) criando classes CSS para recuo
+            let linhas = html.split('\n');
+            for(let i=0; i < linhas.length; i++) {
+                if (linhas[i].trim().startsWith('- ')) {
+                    linhas[i] = `<span class="topico-lista">${linhas[i].replace('- ', '')}</span>`;
+                }
+            }
+            
+            return linhas.join('\n');
         }
 
         function copiarWhatsApp() {
@@ -342,6 +366,11 @@
                       `*🔍 ORIGINAIS (Grego/Hebraico):*\n${estudoGlobal.exegeseOriginal}\n\n` +
                       `*🔥 ESBOÇO DA PREGAÇÃO:*\n${estudoGlobal.esbocoHomiletico}\n\n` +
                       `_Gerado pelo Rhema Premium_`;
+
+            // Limpa formatação HTML para o WhatsApp
+            txt = txt.replace(/<span class="topico-lista">/g, '- ').replace(/<\/span>/g, '');
+            txt = txt.replace(/<b>/g, '*').replace(/<\/b>/g, '*');
+            txt = txt.replace(/<i>/g, '_').replace(/<\/i>/g, '_');
 
             navigator.clipboard.writeText(txt);
             alert('✅ Estudo copiado! Cole no WhatsApp.');
@@ -367,6 +396,7 @@
                 doc.text(titulo, 15, y); y += 6;
                 doc.setFont("helvetica", "normal"); doc.setTextColor(40, 40, 40);
                 
+                // Limpa marcações markdown para PDF limpo
                 let cleanText = texto.replace(/\*\*/g, '').replace(/\*/g, '');
                 let linhas = doc.splitTextToSize(cleanText, 180);
                 
@@ -389,7 +419,7 @@
             if(!estudoGlobal.esbocoHomiletico) return;
             window.speechSynthesis.cancel();
             
-            let textoLer = `Esboço da Pregação. ${estudoGlobal.esbocoHomiletico}`.replace(/\*/g, '');
+            let textoLer = `Esboço da Pregação. ${estudoGlobal.esbocoHomiletico}`.replace(/\*/g, '').replace(/-/g, 'Tópico: ');
             
             let synth = new SpeechSynthesisUtterance(textoLer);
             synth.lang = 'pt-BR';

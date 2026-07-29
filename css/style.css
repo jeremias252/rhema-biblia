@@ -1,1 +1,205 @@
+   /* TEMA ALABASTER (CLARO & OURO) */
+        :root {
+            /* Cores de Fundo - Tons de Papel/Mármore */
+            --bg-base: #F9F8F6;
+            --surface: #FFFFFF;
+            --surface-hover: #F4F1EA;
+            --border: rgba(0, 0, 0, 0.08);
+            
+            /* Ouro Rosé / Cobre Clássico */
+            --gold-light: #d4a373;
+            --gold-main: #b58150;
+            --gold-dark: #8b5a33;
+            
+            /* Textos Claros para Leitura Confortável */
+            --text-title: #1C1917; /* Grafite quase preto */
+            --text-body: #3F3F46; /* Cinza chumbo */
+            --text-muted: #71717A; /* Cinza médio */
+            
+            --glow: 0 10px 30px rgba(181, 129, 80, 0.15);
+            --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.04);
+            --glass-blur: blur(24px);
+        }
 
+        body {
+            margin: 0; padding: 0; font-family: 'Manrope', sans-serif;
+            background-color: var(--bg-base); color: var(--text-body);
+            overflow-x: hidden; display: flex;
+        }
+
+        * { box-sizing: border-box; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: var(--gold-light); border-radius: 10px; }
+
+        /* Fundo Animado Ambient Light Suave */
+        .ambient-light {
+            position: fixed; top: -10%; left: -10%; width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(212,163,115,0.05) 0%, transparent 70%);
+            z-index: -1; filter: blur(60px); animation: float 15s ease-in-out infinite alternate;
+        }
+        .ambient-light.two {
+            top: auto; bottom: -10%; left: auto; right: -10%;
+            background: radial-gradient(circle, rgba(139,90,51,0.05) 0%, transparent 70%);
+            animation-delay: -5s;
+        }
+
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(5%, 10%) scale(1.1); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ================= TELA DE LOGIN ================= */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--bg-base); z-index: 9999; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; padding: 20px; transition: 0.8s ease;
+        }
+        .login-verse { max-width: 550px; text-align: center; margin-bottom: 40px; }
+        .login-verse h2 {
+            font-family: 'Playfair Display', serif; color: var(--text-title); font-size: 26px; 
+            font-style: italic; line-height: 1.6; font-weight: 600; margin-bottom: 15px;
+        }
+        .login-verse span { color: var(--gold-main); font-size: 13px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; }
+        
+        .login-box {
+            background: var(--surface); border: 1px solid var(--border); padding: 50px; 
+            border-radius: 32px; text-align: center; box-shadow: var(--shadow-card); width: 100%; max-width: 420px;
+        }
+        .login-box h1 { font-family: 'Playfair Display', serif; color: var(--text-title); font-size: 38px; margin: 0 0 10px; letter-spacing: 2px; }
+        .login-box p { color: var(--gold-main); font-size: 11px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px;}
+        .login-box input {
+            width: 100%; padding: 18px; border-radius: 16px; background: var(--bg-base);
+            border: 1px solid var(--border); color: var(--text-title); text-align: center; letter-spacing: 5px; 
+            margin-bottom: 30px; font-size: 16px; transition: 0.3s; outline: none; font-weight: 600;
+        }
+        .login-box input:focus { border-color: var(--gold-main); box-shadow: var(--glow); }
+
+        .btn-luxury {
+            background: var(--text-title); color: #fff; border: none;
+            padding: 20px; border-radius: 16px; width: 100%; font-weight: 700; font-size: 14px; 
+            letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: 0.4s;
+        }
+        .btn-luxury:hover { background: var(--gold-main); transform: translateY(-2px); box-shadow: var(--glow); }
+
+        /* ================= SIDEBAR LATERAL ================= */
+        .sidebar {
+            width: 280px; height: 100vh; position: fixed; top: 0; left: 0; z-index: 100;
+            background: var(--surface); border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 40px 0; overflow-y: auto; box-shadow: 5px 0 20px rgba(0,0,0,0.02);
+        }
+        .sidebar.closed { transform: translateX(-100%); }
+        
+        .sidebar-header { padding: 0 30px 40px; position: relative; }
+        .sidebar-header h1 { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--text-title); margin: 0; font-weight: 800;}
+        .sidebar-header p { color: var(--gold-main); font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin: 5px 0 0; font-weight: 700;}
+        .btn-config { position: absolute; right: 25px; top: 0; background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-muted); transition: 0.3s;}
+        .btn-config:hover { color: var(--gold-main); transform: rotate(90deg);}
+
+        .menu-group { padding: 0 20px; margin-bottom: 30px; }
+        .menu-title { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; padding-left: 10px;}
+        
+        .menu-link {
+            display: block; padding: 14px 20px; color: var(--text-body); text-decoration: none;
+            font-size: 13px; font-weight: 600; border-radius: 14px; margin-bottom: 8px; transition: 0.3s; cursor: pointer;
+        }
+        .menu-link:hover { background: var(--bg-base); color: var(--gold-main); }
+        .menu-link.active { background: var(--text-title); color: #fff; }
+        
+        /* BOTÕES DE RESULTADO DA SIDEBAR */
+        .menu-result-link {
+            display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--text-muted); 
+            font-size: 13px; font-weight: 600; border-radius: 14px; margin-bottom: 5px; transition: 0.3s; cursor: pointer;
+        }
+        .menu-result-link::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--border); transition: 0.3s; }
+        .menu-result-link:hover { color: var(--text-title); }
+        .menu-result-link.active { color: var(--gold-main); background: var(--bg-base); }
+        .menu-result-link.active::before { background: var(--gold-main); transform: scale(1.5); }
+
+        /* ================= ÁREA PRINCIPAL ================= */
+        .main-wrapper { flex: 1; margin-left: 280px; min-height: 100vh; padding: 40px; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .main-wrapper.expanded { margin-left: 0; }
+        
+        .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .btn-toggle-menu { background: var(--surface); border: 1px solid var(--border); color: var(--text-title); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-card);}
+        .btn-toggle-menu:hover { background: var(--surface-hover); color: var(--gold-main); }
+        .page-title { font-family: 'Playfair Display', serif; color: var(--text-title); font-size: 32px; font-weight: 700; margin: 0;}
+
+        /* SEÇÕES (VIEWS) */
+        .view-section { display: none; animation: fadeIn 0.5s ease; max-width: 900px; margin: 0 auto; }
+        .view-section.active { display: block; }
+
+        .bento-card { background: var(--surface); border: 1px solid var(--border); border-radius: 32px; padding: 40px; margin-bottom: 24px; box-shadow: var(--shadow-card);}
+        .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+        
+        label.bento-label { font-size: 10px; font-weight: 800; color: var(--gold-main); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 15px;}
+        
+        .input-wrapper { position: relative; }
+        textarea, select, input[type="text"] {
+            width: 100%; padding: 20px; border-radius: 20px; background: var(--bg-base);
+            border: 1px solid var(--border); color: var(--text-title); font-family: inherit; 
+            font-size: 15px; transition: 0.3s; font-weight: 600; outline: none; resize: none;
+        }
+        textarea:focus, select:focus, input[type="text"]:focus { border-color: var(--gold-main); background: #fff; box-shadow: var(--glow);}
+        
+        .btn-bible {
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            background: var(--text-title); border: none; color: #fff; 
+            padding: 10px 20px; border-radius: 12px; font-size: 11px; font-weight: 700; 
+            cursor: pointer; transition: 0.3s; text-transform: uppercase;
+        }
+        .btn-bible:hover { background: var(--gold-main); }
+
+        /* ================= MODO LEITURA (MARKDOWN EM TEMA CLARO) ================= */
+        .reader-content { display: none; }
+        .reader-content.active { display: block; animation: fadeIn 0.5s; }
+        
+        .book-card { background: var(--surface); border: 1px solid var(--border); border-radius: 32px; padding: 60px; box-shadow: var(--shadow-card); }
+        
+        /* Estilos de Tipografia Literária */
+        .book-card h1, .book-card h2, .book-card h3 { font-family: 'Playfair Display', serif; color: var(--text-title); margin-top: 30px; margin-bottom: 15px; line-height: 1.3;}
+        .book-card h1 { font-size: 38px; border-bottom: 2px solid var(--bg-base); padding-bottom: 15px; margin-top: 0;}
+        .book-card h2 { font-size: 26px; color: var(--gold-main); }
+        .book-card h3 { font-size: 20px; }
+        
+        .book-card p { font-size: 17px; line-height: 1.9; color: var(--text-body); margin-bottom: 20px; text-align: justify;}
+        .book-card strong { color: var(--text-title); font-weight: 800; }
+        .book-card em { color: var(--gold-main); font-style: italic; }
+        .book-card ul, .book-card ol { font-size: 17px; line-height: 1.9; color: var(--text-body); margin-bottom: 20px; padding-left: 20px; }
+        .book-card li { margin-bottom: 10px; }
+        .book-card blockquote { border-left: 4px solid var(--gold-main); background: var(--bg-base); padding: 15px 20px; margin: 20px 0; font-style: italic; color: var(--text-muted); border-radius: 0 16px 16px 0;}
+
+        /* Links da Biblioteca */
+        .book-card a { color: var(--gold-main); font-weight: 700; text-decoration: none; border-bottom: 1px dashed var(--gold-main); transition: 0.2s;}
+        .book-card a:hover { color: var(--gold-dark); border-bottom-style: solid; }
+
+        .actions-bar { display: flex; gap: 15px; justify-content: flex-end; margin-bottom: 25px; }
+        .btn-icon { background: var(--surface); border: 1px solid var(--border); color: var(--text-body); padding: 12px 20px; border-radius: 12px; font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; box-shadow: var(--shadow-card);}
+        .btn-icon:hover { background: var(--text-title); color: #fff; border-color: var(--text-title);}
+
+        /* ================= LOADING & MODAIS ================= */
+        .loading { display: none; text-align: center; padding: 100px 0; }
+        .spinner { width: 60px; height: 60px; border: 3px solid var(--bg-base); border-top-color: var(--gold-main); border-radius: 50%; animation: spin 1s infinite cubic-bezier(0.6, 0.2, 0.4, 0.8); margin: 0 auto 30px; }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+        .modal-content { background: var(--surface); border: 1px solid var(--border); width: 100%; max-width: 600px; border-radius: 32px; padding: 40px; max-height: 85vh; overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.2); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid var(--bg-base); padding-bottom: 15px;}
+        .modal-header h2 { font-family: 'Playfair Display', serif; color: var(--text-title); margin: 0; font-size: 26px; }
+        .close-modal { background: none; border: none; color: var(--text-muted); font-size: 32px; cursor: pointer; transition: 0.3s;}
+        .close-modal:hover { color: var(--gold-main); transform: rotate(90deg);}
+        
+        .grid-biblia { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+        .biblia-btn { background: var(--bg-base); border: 1px solid var(--border); color: var(--text-body); padding: 14px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; text-align: center; }
+        .biblia-btn:hover { background: var(--text-title); color: #fff; }
+        .grid-numeros { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 10px; display: none;}
+        .num-btn { background: var(--bg-base); border: 1px solid var(--border); color: var(--text-body); padding: 15px 0; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .num-btn:hover { background: var(--gold-main); color: #fff; border-color: var(--gold-main);}
+        .num-btn.wide { grid-column: 1 / -1; background: var(--text-title); color: #fff; text-transform: uppercase; font-size: 11px; letter-spacing: 2px;}
+
+        @media (max-width: 900px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; padding: 20px; }
+            .book-card { padding: 30px; border-radius: 24px; }
+            .book-card h1 { font-size: 30px; }
+            .book-card p { font-size: 16px; }
+        }

@@ -10,9 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const nome = botao.textContent.trim();
 
-            dashboard.style.display = "none";
-            pagina.style.display = "block";
-
             switch (nome) {
 
                 case "🏠 Dashboard":
@@ -24,19 +21,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 case "📚 Biblioteca":
 
-                    pagina.innerHTML = `
-                        <h2>📚 Biblioteca Bíblica</h2>
+                    dashboard.style.display = "none";
+                    pagina.style.display = "block";
 
-                        <p>
-                            Aqui ficarão os livros teológicos,
-                            comentários, dicionários e materiais
-                            de estudo.
-                        </p>
-                    `;
+                    abrirBiblioteca();
 
                     break;
 
                 default:
+
+                    dashboard.style.display = "none";
+                    pagina.style.display = "block";
 
                     pagina.innerHTML = `
                         <h2>${nome}</h2>
@@ -47,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     `;
 
                     break;
+
             }
 
         });

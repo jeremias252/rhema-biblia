@@ -151,3 +151,46 @@ header p{
     font-weight:bold;
     font-size:18px;
 }
+.dashboard{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:30px;
+
+}
+
+.cards-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:25px;
+
+}
+
+.grande{
+
+    min-height:170px;
+
+}
+
+.pequeno{
+
+    min-height:180px;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+}
+
+.pequeno:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 20px 45px rgba(0,0,0,.12);
+
+}

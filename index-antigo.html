@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bethesda - Estudos Bíblicos com IA</title>
+    
+    <!-- Fontes Premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- MOTORES PROFISSIONAIS DE LEITURA E PDF -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</head>
+<body>
+    
+    <div class="ambient-light"></div>
+    <div class="ambient-light two"></div>
+
+    <!-- TELA DE LOGIN -->
+    <div id="login-screen">
+        <div class="login-verse">
+            <h2>"Mas a sua palavra era em meu coração como fogo ardente, encerrado nos meus ossos; e estou fatigado de sofrê-lo, e não posso mais."</h2>
+            <span>Jeremias 20:9</span>
+        </div>
+<div class="menu-group">
+
+    <div class="menu-title">Principal</div>
+
+    <a class="menu-link active" id="nav-tool-ai" onclick="mostrarFerramenta('ai')">
+        🤖 Bethesda AI
+    </a>
+
+    <div class="menu-title" style="margin-top:25px;">Estudos</div>
+
+    <a class="menu-link" id="nav-tool-estudo" onclick="mostrarFerramenta('estudo')">
+        📖 Estudo Bíblico
+    </a>
+
+    <a class="menu-link" id="nav-tool-personagem" onclick="mostrarFerramenta('personagem')">
+        👤 Personagens Bíblicos
+    </a>
+
+    <a class="menu-link" id="nav-tool-livros" onclick="mostrarFerramenta('livros')">
+        📚 Biblioteca
+    </a>
+
+</div>
+
+    <!-- MODAL BÍBLIA -->
+    <div class="modal-overlay" id="modal-biblia">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-biblia-title">Selecione o Livro</h2>
+                <button class="close-modal" onclick="fecharBiblia()">&times;</button>
+            </div>
+            <div id="view-livros-biblia">
+                <label class="bento-label">Antigo Testamento</label>
+                <div class="grid-biblia" id="grid-vt" style="margin-bottom: 30px;"></div>
+                <label class="bento-label">Novo Testamento</label>
+                <div class="grid-biblia" id="grid-nt"></div>
+            </div>
+            <div id="view-numeros" class="grid-numeros"></div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1>BETHESDA</h1>
+<p>Estudos Bíblicos com Inteligência Artificial</p>
+            <button class="btn-config" onclick="abrirConfig()">⚙️</button>
+        </div>
+
+        <div class="menu-group">
+            <div class="menu-title">Ferramentas</div>
+            <a class="menu-link active" id="nav-tool-estudo" onclick="mostrarFerramenta('estudo')">
+📖 Estudo Bíblico
+</a>
+
+<a class="menu-link" id="nav-tool-personagem" onclick="mostrarFerramenta('personagem')">
+👤 Personagens Bíblicos
+</a>
+
+<a class="menu-link" id="nav-tool-livros" onclick="mostrarFerramenta('livros')">
+📚 Biblioteca
+</a>
+        </div>
+
+        <!-- MENU DE RESULTADOS DO TRATADO -->
+        <div class="menu-group" id="menu-resultados-estudo" style="display: none;">
+            <div class="menu-title">Sumário do Estudo</div>
+            <a class="menu-result-link active" id="nav-res-hermeneutica" onclick="mostrarAbaEstudo('hermeneutica')">Contexto Histórico</a>
+            <a class="menu-result-link" id="nav-res-exegese" onclick="mostrarAbaEstudo('exegese')">Análise de Originais</a>
+            <a class="menu-result-link" id="nav-res-esboco" onclick="mostrarAbaEstudo('esboco')">Esboço Homilético</a>
+            <a class="menu-result-link" id="nav-res-ilustracao" onclick="mostrarAbaEstudo('ilustracao')">Aplicação Pastoral</a>
+            <a class="menu-result-link" id="nav-res-teologia" onclick="mostrarAbaEstudo('teologia')">Teologia Sistemática</a>
+        </div>
+        
+        <!-- MENU DE RESULTADOS SIMPLES (Livros / Personagem) -->
+        <div class="menu-group" id="menu-resultados-simples" style="display: none;">
+            <div class="menu-title">Documento Gerado</div>
+            <a class="menu-result-link active" id="nav-res-simples" onclick="mostrarAbaSimples()">Ler Manuscrito</a>
+        </div>
+    </nav>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper" id="main-wrapper">
+        <div class="topbar">
+            <button class="btn-toggle-menu" onclick="toggleSidebar()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+            <h2 class="page-title" id="topbar-title">Tratado Exegético</h2>
+        </div>
+
+        <div class="content-area">
+            
+            <!-- TOOL 1: ESTUDO -->
+            <div class="view-section active" id="view-estudo">
+                <div class="bento-card full">
+                    <label class="bento-label">Texto Base ou Tema</label>
+                    <div class="input-wrapper">
+                        <textarea id="texto-biblico" rows="2" placeholder="Selecione um texto nas Escrituras..." readonly onclick="abrirBiblia()"></textarea>
+                        <button class="btn-bible" onclick="abrirBiblia()">Bíblia</button>
+                    </div>
+                </div>
+                <div class="bento-grid">
+                    <div class="bento-card">
+                        <label class="bento-label">Abordagem Teológica</label>
+                        <select id="enfase">
+                            <option value="Doutorado e Teologia Sistemática">Teologia Sistemática (Acadêmico)</option>
+                            <option value="Pentecostal Clássico e Avivamento">Pentecostal Clássico & Avivamento</option>
+                            <option value="Soteriologia e Graça">Soteriologia & Graça</option>
+                        </select>
+                    </div>
+                    <div class="bento-card">
+                        <label class="bento-label">Estrutura do Documento</label>
+                        <select id="formato">
+                            <option value="Sermão Expositivo Completo">Sermão Expositivo</option>
+                            <option value="Exegese Versículo a Versículo">Exegese Versículo a Versículo</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-luxury" onclick="gerarEstudoElite()">Gerar Manuscrito</button>
+            </div>
+
+            <!-- TOOL 2: PERSONAGEM -->
+            <div class="view-section" id="view-personagem">
+                <div class="bento-card full">
+                    <label class="bento-label">Perfil Biográfico</label>
+                    <input type="text" id="texto-personagem" placeholder="Ex: Rei Davi, Apóstolo Paulo, Rute..." style="margin-bottom: 30px;">
+                    <button class="btn-luxury" onclick="gerarPersonagem()">Gerar Dossiê do Personagem</button>
+                </div>
+            </div>
+
+            <!-- TOOL 3: LIVROS -->
+            <div class="view-section" id="view-livros">
+                <div class="bento-card full">
+                    <label class="bento-label">Resenha Literária e Links</label>
+                    <input type="text" id="texto-livros" placeholder="Ex: Livros sobre o Rei Davi, Escatologia..." style="margin-bottom: 30px;">
+                    <button class="btn-luxury" onclick="gerarLivros()">Pesquisar Obras</button>
+                </div>
+            </div>
+            <!-- LOADING SCREEN -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="font-family:'Playfair Display',serif; font-size:24px; color:var(--text-title);" id="loading-txt">Sondando os Arquivos...</p>
+                <small style="color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:2px;">Aguarde, extraindo dados...</small>
+            </div>
+
+            <!-- MODO LEITURA -->
+            <div class="view-section" id="view-leitura">
+                <div class="actions-bar">
+                    <button class="btn-icon" onclick="copiarWhatsApp()">Copiar Texto</button>
+                    <button class="btn-icon" onclick="baixarPDF()">Salvar PDF</button>
+                </div>
+                
+                <!-- Abas do Tratado -->
+                <div class="reader-content" id="reader-hermeneutica"><div class="book-card" id="res-hermeneutica"></div></div>
+                <div class="reader-content" id="reader-exegese"><div class="book-card" id="res-exegese"></div></div>
+                <div class="reader-content" id="reader-esboco"><div class="book-card" id="res-esboco"></div></div>
+                <div class="reader-content" id="reader-ilustracao"><div class="book-card" id="res-ilustracao"></div></div>
+                <div class="reader-content" id="reader-teologia"><div class="book-card" id="res-teologia"></div></div>
+
+                <!-- Aba Simples (Livros e Personagens) -->
+                <div class="reader-content" id="reader-simples"><div class="book-card" id="res-simples"></div></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -24,26 +24,29 @@
             <h2>"Mas a sua palavra era em meu coração como fogo ardente, encerrado nos meus ossos; e estou fatigado de sofrê-lo, e não posso mais."</h2>
             <span>Jeremias 20:9</span>
         </div>
-        <div class="login-box">
-            <h1>BETHESDA</h1>
-<p>Estudos Bíblicos com Inteligência Artificial</p>
-            <input type="password" id="senha-login" placeholder="Sua Senha" onkeypress="verificarEnter(event)">
-            <button class="btn-luxury" onclick="fazerLogin()">Acessar Biblioteca</button>
-        </div>
-    </div>
+<div class="menu-group">
 
-    <!-- MODAL CONFIG -->
-    <div class="modal-overlay" id="modal-config">
-        <div class="modal-content" style="max-width: 450px;">
-            <div class="modal-header">
-                <h2>Cofre API</h2>
-                <button class="close-modal" onclick="fecharConfig()">&times;</button>
-            </div>
-            <label class="bento-label">Chave GROQ (Llama 3.3)</label>
-            <input type="password" id="api-key" placeholder="gsk_..." style="margin-bottom:20px; text-align:center; width: 100%; padding: 18px; border-radius: 16px; background: var(--bg-base); border: 1px solid var(--border); color: var(--text-title); outline: none;">
-            <button class="btn-luxury" onclick="salvarConfig()">Salvar Chave</button>
-        </div>
-    </div>
+    <div class="menu-title">Principal</div>
+
+    <a class="menu-link active" id="nav-tool-ai" onclick="mostrarFerramenta('ai')">
+        🤖 Bethesda AI
+    </a>
+
+    <div class="menu-title" style="margin-top:25px;">Estudos</div>
+
+    <a class="menu-link" id="nav-tool-estudo" onclick="mostrarFerramenta('estudo')">
+        📖 Estudo Bíblico
+    </a>
+
+    <a class="menu-link" id="nav-tool-personagem" onclick="mostrarFerramenta('personagem')">
+        👤 Personagens Bíblicos
+    </a>
+
+    <a class="menu-link" id="nav-tool-livros" onclick="mostrarFerramenta('livros')">
+        📚 Biblioteca
+    </a>
+
+</div>
 
     <!-- MODAL BÍBLIA -->
     <div class="modal-overlay" id="modal-biblia">

@@ -1,4 +1,5 @@
-   /* TEMA ALABASTER (CLARO & OURO) */
+    <style>
+        /* TEMA ALABASTER (CLARO & OURO) */
         :root {
             /* Cores de Fundo - Tons de Papel/Mármore */
             --bg-base: #F9F8F6;
@@ -203,3 +204,4 @@
             .book-card h1 { font-size: 30px; }
             .book-card p { font-size: 16px; }
         }
+    </style>

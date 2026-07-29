@@ -1,74 +1,102 @@
-function abrirBiblioteca() {
+let livros = [];
+
+async function abrirBiblioteca() {
 
     const pagina = document.getElementById("pagina");
 
-    const antigoTestamento = [
-        "Gênesis",
-        "Êxodo",
-        "Levítico",
-        "Números",
-        "Deuteronômio",
-        "Josué",
-        "Juízes",
-        "Rute",
-        "1 Samuel",
-        "2 Samuel"
-    ];
+    try {
 
-    let html = `
-        <div class="biblioteca">
+        if (livros.length === 0) {
 
-            <h1>📚 Biblioteca Bíblica</h1>
+            const resposta = await fetch("data/livros.json");
+            livros = await resposta.json();
 
-            <p>Selecione um livro da Bíblia para iniciar o estudo.</p>
+        }
 
-            <input
-                type="text"
-                id="pesquisaLivro"
-                placeholder="Pesquisar livro..."
-            >
+        let html = `
+            <div class="biblioteca">
 
-            <h2>Antigo Testamento</h2>
+                <h1>📚 Biblioteca Bíblica</h1>
 
-            <div class="lista-livros">
-    `;
+                <p>Selecione um livro para iniciar o estudo.</p>
 
-    antigoTestamento.forEach(livro => {
+                <input
+                    type="text"
+                    id="pesquisaLivro"
+                    placeholder="Pesquisar livro..."
+                >
+
+                <div class="lista-livros">
+        `;
+
+        livros.forEach(livro => {
+
+            html += `
+                <div class="livro" onclick="abrirLivro(${livro.id})">
+
+                    <h3>${livro.nome}</h3>
+
+                    <small>${livro.categoria}</small>
+
+                </div>
+            `;
+
+        });
 
         html += `
-            <div class="livro" onclick="abrirLivro('${livro}')">
-                ${livro}
+                </div>
+
             </div>
         `;
 
-    });
+        pagina.innerHTML = html;
 
-    html += `
-            </div>
+    } catch (erro) {
 
-        </div>
-    `;
+        pagina.innerHTML = `
+            <h2>Erro</h2>
 
-    pagina.innerHTML = html;
+            <p>Não foi possível carregar os livros.</p>
+        `;
+
+        console.error(erro);
+
+    }
 
 }
-function abrirLivro(nomeLivro){
+
+function abrirLivro(id){
+
+    const livro = livros.find(l => l.id === id);
+
+    if(!livro){
+        return;
+    }
 
     const pagina = document.getElementById("pagina");
 
     pagina.innerHTML = `
-        <button onclick="abrirBiblioteca()">⬅ Voltar</button>
 
-        <h1>${nomeLivro}</h1>
+        <button onclick="abrirBiblioteca()">
 
-        <h3>Autor</h3>
-        <p>Em breve...</p>
+            ⬅ Voltar
 
-        <h3>Data</h3>
-        <p>Em breve...</p>
+        </button>
 
-        <h3>Tema</h3>
-        <p>Em breve...</p>
+        <h1>${livro.nome}</h1>
+
+        <hr>
+
+        <p><strong>Autor:</strong> ${livro.autor}</p>
+
+        <p><strong>Tema:</strong> ${livro.tema}</p>
+
+        <p><strong>Categoria:</strong> ${livro.categoria}</p>
+
+        <p><strong>Capítulos:</strong> ${livro.capitulos}</p>
+
+        <p><strong>Data:</strong> ${livro.data}</p>
+
     `;
 
 }

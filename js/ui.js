@@ -13,7 +13,14 @@ document.addEventListener("DOMContentLoaded", () => {
             dashboard.style.display = "none";
             pagina.style.display = "block";
 
-            switch(nome){
+            switch (nome) {
+
+                case "🏠 Dashboard":
+
+                    pagina.style.display = "none";
+                    dashboard.style.display = "flex";
+
+                    break;
 
                 case "📚 Biblioteca":
 
@@ -21,12 +28,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         <h2>📚 Biblioteca Bíblica</h2>
 
                         <p>
-                            Aqui ficarão os livros teológicos, comentários,
-                            dicionários e materiais de estudo.
+                            Aqui ficarão os livros teológicos,
+                            comentários, dicionários e materiais
+                            de estudo.
                         </p>
                     `;
 
-                break;
+                    break;
 
                 default:
 
@@ -38,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </p>
                     `;
 
+                    break;
             }
 
         });

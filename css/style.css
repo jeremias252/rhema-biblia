@@ -194,3 +194,44 @@ header p{
     box-shadow:0 20px 45px rgba(0,0,0,.12);
 
 }
+.biblioteca h1{
+    font-family:'Playfair Display',serif;
+    color:#B58150;
+    margin-bottom:10px;
+}
+
+.biblioteca p{
+    margin-bottom:20px;
+}
+
+#pesquisaLivro{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    margin-bottom:30px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.lista-livros{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:15px;
+}
+
+.livro{
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 5px 15px rgba(0,0,0,.06);
+    text-align:center;
+    font-weight:600;
+}
+
+.livro:hover{
+    background:#B58150;
+    color:white;
+    transform:translateY(-4px);
+}

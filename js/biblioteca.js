@@ -1,76 +1,61 @@
-let livros = [];
-
 async function abrirBiblioteca() {
 
     const pagina = document.getElementById("pagina");
 
-    try {
+    const livros = await carregarLivros();
 
-        if (livros.length === 0) {
+    let html = `
 
-            const resposta = await fetch("data/livros.json");
-            livros = await resposta.json();
+        <div class="biblioteca">
 
-        }
+            <h1>📚 Biblioteca Bíblica</h1>
 
-        let html = `
-            <div class="biblioteca">
+            <p>Escolha um livro da Bíblia</p>
 
-                <h1>📚 Biblioteca Bíblica</h1>
+            <div class="lista-livros">
 
-                <p>Selecione um livro para iniciar o estudo.</p>
+    `;
 
-                <input
-                    type="text"
-                    id="pesquisaLivro"
-                    placeholder="Pesquisar livro..."
-                >
-
-                <div class="lista-livros">
-        `;
-
-        livros.forEach(livro => {
-
-            html += `
-                <div class="livro" onclick="abrirLivro(${livro.id})">
-
-                    <h3>${livro.nome}</h3>
-
-                    <small>${livro.categoria}</small>
-
-                </div>
-            `;
-
-        });
+    livros.forEach(livro => {
 
         html += `
-                </div>
+
+            <div class="livro" onclick="abrirLivro(${livro.id})">
+
+                <h3>${livro.nome}</h3>
+
+                <small>${livro.categoria}</small>
 
             </div>
+
         `;
 
-        pagina.innerHTML = html;
+    });
 
-    } catch (erro) {
+    html += `
 
-        pagina.innerHTML = `
-            <h2>Erro</h2>
+            </div>
 
-            <p>Não foi possível carregar os livros.</p>
-        `;
+        </div>
 
-        console.error(erro);
+    `;
 
-    }
+    pagina.innerHTML = html;
 
 }
 
-function abrirLivro(id){
+async function abrirLivro(id){
+
+    const livros = await carregarLivros();
 
     const livro = livros.find(l => l.id === id);
 
     if(!livro){
+
+        alert("Livro não encontrado.");
+
         return;
+
     }
 
     const pagina = document.getElementById("pagina");
@@ -89,13 +74,9 @@ function abrirLivro(id){
 
         <p><strong>Autor:</strong> ${livro.autor}</p>
 
-        <p><strong>Tema:</strong> ${livro.tema}</p>
-
         <p><strong>Categoria:</strong> ${livro.categoria}</p>
 
-        <p><strong>Capítulos:</strong> ${livro.capitulos}</p>
-
-        <p><strong>Data:</strong> ${livro.data}</p>
+        <p><strong>Abreviação:</strong> ${livro.abrev}</p>
 
     `;
 

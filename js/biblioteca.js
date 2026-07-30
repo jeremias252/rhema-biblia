@@ -2,12 +2,9 @@ async function abrirLivro(id){
 
     const livros = await carregarLivros();
 
-    const livro = livros.find(l => l.id === id);
+    alert(JSON.stringify(livros[0], null, 2));
 
-    if(!livro){
-        alert("Livro não encontrado.");
-        return;
-    }
+}
 
     console.log(livro);
 

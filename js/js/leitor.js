@@ -22,8 +22,7 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
 
         <div class="capitulo">
 
-            <button
-                class="btn-voltar"
+            <button class="btn-voltar"
                 onclick="abrirLivro(${livroInfo.id})">
                 ⬅ Voltar
             </button>
@@ -36,20 +35,18 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
 
                 ${
                     numeroCapitulo > 1
-                    ? `<button
-                            class="btn-voltar"
-                            onclick="abrirCapitulo('${abrev}', ${numeroCapitulo - 1})">
-                            ⬅ Capítulo Anterior
+                    ? `<button class="btn-voltar"
+                        onclick="abrirCapitulo('${abrev}', ${numeroCapitulo-1})">
+                        ⬅ Capítulo Anterior
                        </button>`
                     : ""
                 }
 
                 ${
                     numeroCapitulo < total
-                    ? `<button
-                            class="btn-voltar"
-                            onclick="abrirCapitulo('${abrev}', ${numeroCapitulo + 1})">
-                            Próximo Capítulo ➡
+                    ? `<button class="btn-voltar"
+                        onclick="abrirCapitulo('${abrev}', ${numeroCapitulo+1})">
+                        Próximo Capítulo ➡
                        </button>`
                     : ""
                 }
@@ -62,8 +59,6 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
 
     capitulo.forEach((versiculo, indice) => {
 
-        const referencia = `${livroInfo.nome} ${numeroCapitulo}:${indice + 1}`;
-
         html += `
 
             <div class="card" style="margin-bottom:15px;">
@@ -72,23 +67,12 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
 
                     <strong>${indice + 1}</strong>
 
-                    <button
-                        onclick="adicionarFavorito('${referencia}', ${JSON.stringify(versiculo).replace(/"/g, '&quot;')})"
-                        style="
-                            border:none;
-                            background:#B58150;
-                            color:white;
-                            padding:8px 12px;
-                            border-radius:8px;
-                            cursor:pointer;
-                        ">
-                        ⭐ Favoritar
-                    </button>
-
                 </div>
 
                 <p style="margin-top:12px;line-height:1.8;">
+
                     ${versiculo}
+
                 </p>
 
             </div>
@@ -97,11 +81,7 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
 
     });
 
-    html += `
-
-        </div>
-
-    `;
+    html += `</div>`;
 
     pagina.innerHTML = html;
 

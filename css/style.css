@@ -96,7 +96,8 @@ header p{
 .card strong{
     font-size:18px;
 }
-/* ---------- TOPO ---------- */
+
+/* TOPO */
 
 .topbar{
     display:flex;
@@ -151,49 +152,36 @@ header p{
     font-weight:bold;
     font-size:18px;
 }
+
 .dashboard{
-
     display:flex;
-
     flex-direction:column;
-
     gap:30px;
-
 }
 
 .cards-grid{
-
     display:grid;
-
     grid-template-columns:repeat(2,1fr);
-
     gap:25px;
-
 }
 
 .grande{
-
     min-height:170px;
-
 }
 
 .pequeno{
-
     min-height:180px;
-
     cursor:pointer;
-
     transition:.35s;
-
 }
 
 .pequeno:hover{
-
     transform:translateY(-8px);
-
     box-shadow:0 20px 45px rgba(0,0,0,.12);
-
 }
+
+/* BIBLIOTECA */
+
 .biblioteca h1{
     font-family:'Playfair Display',serif;
     color:#B58150;
@@ -234,4 +222,96 @@ header p{
     background:#B58150;
     color:white;
     transform:translateY(-4px);
+}
+
+/* LIVRO */
+
+.livro-detalhe h1{
+    font-family:'Playfair Display',serif;
+    font-size:48px;
+    color:#B58150;
+    margin-bottom:10px;
+}
+
+.livro-info{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    margin-bottom:30px;
+}
+
+.livro-info p{
+    margin:8px 0;
+    font-size:18px;
+}
+
+.btn-voltar{
+    background:#B58150;
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-bottom:25px;
+    font-size:15px;
+}
+
+.btn-voltar:hover{
+    opacity:.9;
+}
+
+/* CAPÍTULOS */
+
+.lista-capitulos{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:20px;
+}
+
+.capitulo-btn{
+    width:50px;
+    height:50px;
+    border:none;
+    border-radius:12px;
+    background:#B58150;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.3s;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.capitulo-btn:hover{
+    transform:scale(1.08);
+    background:#9b6738;
+}
+
+/* VERSÍCULOS */
+
+.capitulo{
+    background:white;
+    padding:35px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.capitulo h2{
+    margin-bottom:25px;
+    color:#B58150;
+    font-family:'Playfair Display',serif;
+}
+
+.versiculo{
+    font-size:19px;
+    line-height:2;
+    margin-bottom:18px;
+}
+
+.numero-versiculo{
+    color:#B58150;
+    font-weight:bold;
+    margin-right:8px;
+    font-size:15px;
 }

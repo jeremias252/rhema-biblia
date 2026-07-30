@@ -1,15 +1,16 @@
 async function abrirBiblioteca() {
 
     const pagina = document.getElementById("pagina");
-
     const livros = await carregarLivros();
 
     let html = `
-        <h1>📚 Biblioteca Bíblica</h1>
+        <div class="biblioteca">
 
-        <p>Escolha um livro da Bíblia</p>
+            <h1>📚 Biblioteca Bíblica</h1>
 
-        <div class="lista-livros">
+            <p>Escolha um livro da Bíblia</p>
+
+            <div class="lista-livros">
     `;
 
     livros.forEach(livro => {
@@ -24,6 +25,8 @@ async function abrirBiblioteca() {
     });
 
     html += `
+            </div>
+
         </div>
     `;
 
@@ -32,6 +35,8 @@ async function abrirBiblioteca() {
 }
 
 async function abrirLivro(id) {
+
+    const pagina = document.getElementById("pagina");
 
     const livros = await carregarLivros();
     const biblia = await carregarBiblia();
@@ -47,35 +52,39 @@ async function abrirLivro(id) {
     }
 
     let html = `
-        <button onclick="abrirBiblioteca()">⬅ Voltar</button>
+        <div class="livro-detalhe">
 
-        <h1>${livroInfo.nome}</h1>
+            <button class="btn-voltar" onclick="abrirBiblioteca()">
+                ⬅ Voltar
+            </button>
 
-        <hr>
+            <h1>${livroInfo.nome}</h1>
 
-        <p><strong>Autor:</strong> ${livroInfo.autor}</p>
+            <div class="livro-info">
 
-        <p><strong>Tema:</strong> ${livroInfo.tema || "-"}</p>
+                <p><strong>Autor:</strong> ${livroInfo.autor}</p>
 
-        <p><strong>Categoria:</strong> ${livroInfo.categoria}</p>
+                <p><strong>Tema:</strong> ${livroInfo.tema || "-"}</p>
 
-        <p><strong>Capítulos:</strong> ${livroBiblia.chapters.length}</p>
+                <p><strong>Categoria:</strong> ${livroInfo.categoria}</p>
 
-        <p><strong>Data:</strong> ${livroInfo.data || "-"}</p>
+                <p><strong>Capítulos:</strong> ${livroBiblia.chapters.length}</p>
 
-        <p><strong>Abreviação:</strong> ${livroInfo.abrev}</p>
+                <p><strong>Data:</strong> ${livroInfo.data || "-"}</p>
 
-        <hr>
+            </div>
 
-        <h2>📖 Capítulos</h2>
+            <h2>📖 Capítulos</h2>
 
-        <div class="lista-capitulos">
+            <div class="lista-capitulos">
     `;
 
     for (let i = 1; i <= livroBiblia.chapters.length; i++) {
 
         html += `
-            <button class="capitulo-btn" onclick="abrirCapitulo('${livroInfo.abrev}', ${i})">
+            <button
+                class="capitulo-btn"
+                onclick="abrirCapitulo('${livroInfo.abrev}', ${i})">
                 ${i}
             </button>
         `;
@@ -83,14 +92,18 @@ async function abrirLivro(id) {
     }
 
     html += `
+            </div>
+
         </div>
     `;
 
-    document.getElementById("pagina").innerHTML = html;
+    pagina.innerHTML = html;
 
 }
 
 async function abrirCapitulo(abrev, numeroCapitulo) {
+
+    const pagina = document.getElementById("pagina");
 
     const livros = await carregarLivros();
     const biblia = await carregarBiblia();
@@ -108,25 +121,41 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
     const capitulo = livroBiblia.chapters[numeroCapitulo - 1];
 
     let html = `
-        <button onclick="abrirLivro(${livroInfo.id})">⬅ Voltar</button>
+        <div class="capitulo">
 
-        <h1>${livroInfo.nome}</h1>
+            <button
+                class="btn-voltar"
+                onclick="abrirLivro(${livroInfo.id})">
+                ⬅ Voltar
+            </button>
 
-        <h2>Capítulo ${numeroCapitulo}</h2>
+            <h1>${livroInfo.nome}</h1>
 
-        <hr>
+            <h2>Capítulo ${numeroCapitulo}</h2>
+
+            <hr style="margin:25px 0;">
     `;
 
     capitulo.forEach((versiculo, indice) => {
 
         html += `
-            <p>
-                <strong>${indice + 1}</strong> ${versiculo}
+            <p class="versiculo">
+
+                <span class="numero-versiculo">
+                    ${indice + 1}
+                </span>
+
+                ${versiculo}
+
             </p>
         `;
 
     });
 
-    document.getElementById("pagina").innerHTML = html;
+    html += `
+        </div>
+    `;
+
+    pagina.innerHTML = html;
 
 }

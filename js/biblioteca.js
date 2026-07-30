@@ -69,6 +69,19 @@ async function abrirLivro(id) {
         <p><strong>Data:</strong> ${livro.data || "-"}</p>
 
         <p><strong>Abreviação:</strong> ${livro.abrev || "-"}</p>
+        <hr>
+
+<h2>Capítulos</h2>
+
+<div class="lista-capitulos">
+
+${Array.from({length: livro.capitulos}, (_, i) => `
+    <button class="capitulo-btn" onclick="abrirCapitulo('${livro.abrev}', ${i + 1})">
+        ${i + 1}
+    </button>
+`).join("")}
+
+</div>
     `;
 
 }

@@ -39,6 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     break;
 
+                case "⭐ Favoritos":
+
+                    mostrarPagina();
+                    abrirFavoritos();
+
+                    break;
+
                 case "🤖 Bethesda AI":
 
                     mostrarPagina();
@@ -48,20 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         <p>
                             Em breve você poderá conversar com a Inteligência Artificial do Bethesda.
-                        </p>
-                    `;
-
-                    break;
-
-                case "⭐ Favoritos":
-
-                    mostrarPagina();
-
-                    pagina.innerHTML = `
-                        <h1>⭐ Favoritos</h1>
-
-                        <p>
-                            Aqui ficarão seus versículos favoritos.
                         </p>
                     `;
 

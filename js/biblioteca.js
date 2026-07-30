@@ -74,12 +74,12 @@ async function abrirLivro(id){
 
         <p><strong>Autor:</strong> ${livro.autor}</p>
 
-<p><strong>Tema:</strong> ${livro.tema}</p>
+        <p><strong>Tema:</strong> ${livro.tema}</p>
 
-<p><strong>Categoria:</strong> ${livro.categoria}</p>
+        <p><strong>Categoria:</strong> ${livro.categoria}</p>
 
-<p><strong>Capítulos:</strong> ${livro.capitulos}</p>
+        <p><strong>Capítulos:</strong> ${livro.capitulos}</p>
 
-<p><strong>Data:</strong> ${livro.data}</p>
+        <p><strong>Data:</strong> ${livro.data}</p>
 
-<p><strong>Abreviação:</strong> ${livro.abrev}</p>
+        <p><strong>Abreviação:</strong> ${livro.abrev}</p>

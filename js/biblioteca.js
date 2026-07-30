@@ -1,49 +1,3 @@
-async function abrirBiblioteca() {
-
-    const pagina = document.getElementById("pagina");
-
-    const livros = await carregarLivros();
-
-    let html = `
-
-        <div class="biblioteca">
-
-            <h1>📚 Biblioteca Bíblica</h1>
-
-            <p>Escolha um livro da Bíblia</p>
-
-            <div class="lista-livros">
-
-    `;
-
-    livros.forEach(livro => {
-
-        html += `
-
-            <div class="livro" onclick="abrirLivro(${livro.id})">
-
-                <h3>${livro.nome}</h3>
-
-                <small>${livro.categoria}</small>
-
-            </div>
-
-        `;
-
-    });
-
-    html += `
-
-            </div>
-
-        </div>
-
-    `;
-
-    pagina.innerHTML = html;
-
-}
-
 async function abrirLivro(id){
 
     const livros = await carregarLivros();
@@ -51,22 +5,16 @@ async function abrirLivro(id){
     const livro = livros.find(l => l.id === id);
 
     if(!livro){
-
         alert("Livro não encontrado.");
-
         return;
-
     }
+
+    console.log(livro);
 
     const pagina = document.getElementById("pagina");
 
     pagina.innerHTML = `
-
-        <button onclick="abrirBiblioteca()">
-
-            ⬅ Voltar
-
-        </button>
+        <button onclick="abrirBiblioteca()">⬅ Voltar</button>
 
         <h1>${livro.nome}</h1>
 
@@ -83,3 +31,5 @@ async function abrirLivro(id){
         <p><strong>Data:</strong> ${livro.data}</p>
 
         <p><strong>Abreviação:</strong> ${livro.abrev}</p>
+    `;
+}

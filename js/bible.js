@@ -1,4 +1,5 @@
 let livrosBiblia = [];
+let biblia = [];
 
 async function carregarLivros() {
 
@@ -11,5 +12,19 @@ async function carregarLivros() {
     livrosBiblia = await resposta.json();
 
     return livrosBiblia;
+
+}
+
+async function carregarBiblia() {
+
+    if (biblia.length > 0) {
+        return biblia;
+    }
+
+    const resposta = await fetch("data/biblia.json");
+
+    biblia = await resposta.json();
+
+    return biblia;
 
 }

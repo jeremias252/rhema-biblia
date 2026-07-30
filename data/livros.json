@@ -2,28 +2,36 @@
   {
     "id": 1,
     "nome": "Gênesis",
+    "abrev": "gn",
     "autor": "Moisés",
-    "tema": "As origens",
-    "data": "1445–1405 a.C.",
-    "categoria": "Pentateuco",
-    "capitulos": 50
+    "categoria": "Pentateuco"
   },
   {
     "id": 2,
     "nome": "Êxodo",
+    "abrev": "ex",
     "autor": "Moisés",
-    "tema": "A libertação de Israel",
-    "data": "1445–1405 a.C.",
-    "categoria": "Pentateuco",
-    "capitulos": 40
+    "categoria": "Pentateuco"
   },
   {
     "id": 3,
     "nome": "Levítico",
+    "abrev": "lv",
     "autor": "Moisés",
-    "tema": "Santidade",
-    "data": "1445–1405 a.C.",
-    "categoria": "Pentateuco",
-    "capitulos": 27
+    "categoria": "Pentateuco"
+  },
+  {
+    "id": 4,
+    "nome": "Números",
+    "abrev": "nm",
+    "autor": "Moisés",
+    "categoria": "Pentateuco"
+  },
+  {
+    "id": 5,
+    "nome": "Deuteronômio",
+    "abrev": "dt",
+    "autor": "Moisés",
+    "categoria": "Pentateuco"
   }
 ]

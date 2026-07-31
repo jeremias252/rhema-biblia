@@ -13,16 +13,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const nome = botao.textContent.trim();
 
             dashboard.style.display = "none";
-
             pagina.style.display = "block";
 
             switch (nome) {
 
                 case "🏠 Dashboard":
 
-                    pagina.style.display = "none";
-
                     dashboard.style.display = "flex";
+                    pagina.style.display = "none";
 
                     break;
 
@@ -38,12 +36,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     break;
 
+                case "📝 Anotações":
+
+                    abrirAnotacoes();
+
+                    break;
+
                 case "🤖 Bethesda AI":
 
                     pagina.innerHTML = `
-                        <h1>🤖 Bethesda AI</h1>
+                        <div class="biblioteca">
 
-                        <p>Em construção...</p>
+                            <h1>🤖 Bethesda AI</h1>
+
+                            <p>Em breve você poderá conversar com a IA bíblica.</p>
+
+                        </div>
                     `;
 
                     break;
@@ -51,9 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "📖 Estudos":
 
                     pagina.innerHTML = `
-                        <h1>📖 Estudos</h1>
+                        <div class="biblioteca">
 
-                        <p>Em construção...</p>
+                            <h1>📖 Estudos</h1>
+
+                            <p>Em desenvolvimento.</p>
+
+                        </div>
                     `;
 
                     break;
@@ -61,9 +73,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "👤 Personagens":
 
                     pagina.innerHTML = `
-                        <h1>👤 Personagens</h1>
+                        <div class="biblioteca">
 
-                        <p>Em construção...</p>
+                            <h1>👤 Personagens Bíblicos</h1>
+
+                            <p>Em desenvolvimento.</p>
+
+                        </div>
                     `;
 
                     break;
@@ -71,9 +87,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "🗺️ Mapas":
 
                     pagina.innerHTML = `
-                        <h1>🗺️ Mapas</h1>
+                        <div class="biblioteca">
 
-                        <p>Em construção...</p>
+                            <h1>🗺️ Mapas Bíblicos</h1>
+
+                            <p>Em desenvolvimento.</p>
+
+                        </div>
                     `;
 
                     break;
@@ -81,19 +101,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "📜 Strong":
 
                     pagina.innerHTML = `
-                        <h1>📜 Strong</h1>
+                        <div class="biblioteca">
 
-                        <p>Em construção...</p>
-                    `;
+                            <h1>📜 Dicionário Strong</h1>
 
-                    break;
+                            <p>Em desenvolvimento.</p>
 
-                case "📝 Anotações":
-
-                    pagina.innerHTML = `
-                        <h1>📝 Anotações</h1>
-
-                        <p>Em construção...</p>
+                        </div>
                     `;
 
                     break;
@@ -101,9 +115,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "⚙️ Configurações":
 
                     pagina.innerHTML = `
-                        <h1>⚙️ Configurações</h1>
+                        <div class="biblioteca">
 
-                        <p>Em construção...</p>
+                            <h1>⚙️ Configurações</h1>
+
+                            <p>Em desenvolvimento.</p>
+
+                        </div>
                     `;
 
                     break;

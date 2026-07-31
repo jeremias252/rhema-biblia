@@ -2,7 +2,7 @@ async function pesquisarBiblia(texto) {
 
     const pagina = document.getElementById("pagina");
 
-    if (!texto || texto.trim() === "") {
+    if (!texto.trim()) {
 
         alert("Digite algo para pesquisar.");
 
@@ -24,7 +24,13 @@ async function pesquisarBiblia(texto) {
 
                     resultados.push({
 
+                        livro: livro.abbrev,
+
                         referencia: `${livro.name} ${indiceCapitulo + 1}:${indiceVersiculo + 1}`,
+
+                        capitulo: indiceCapitulo + 1,
+
+                        versiculo: indiceVersiculo + 1,
 
                         texto: versiculo
 
@@ -44,7 +50,10 @@ async function pesquisarBiblia(texto) {
 
             <button
                 class="btn-voltar"
-                onclick="document.querySelector('.dashboard').style.display='flex';document.getElementById('pagina').style.display='none';">
+                onclick="
+                    document.querySelector('.dashboard').style.display='flex';
+                    document.getElementById('pagina').style.display='none';
+                ">
 
                 ⬅ Voltar
 
@@ -54,9 +63,9 @@ async function pesquisarBiblia(texto) {
 
             <p>
 
-                Foram encontrados <strong>${resultados.length}</strong> versículos para:
-
-                <strong>"${texto}"</strong>
+                Foram encontrados
+                <strong>${resultados.length}</strong>
+                resultado(s).
 
             </p>
 
@@ -68,7 +77,7 @@ async function pesquisarBiblia(texto) {
 
             <div class="card">
 
-                <p>Nenhum resultado encontrado.</p>
+                <p>Nenhum versículo encontrado.</p>
 
             </div>
 
@@ -80,7 +89,10 @@ async function pesquisarBiblia(texto) {
 
             html += `
 
-                <div class="card" style="margin-bottom:20px;">
+                <div
+                    class="card"
+                    style="margin-bottom:20px;cursor:pointer;"
+                    onclick="abrirCapitulo('${item.livro}', ${item.capitulo})">
 
                     <h3>${item.referencia}</h3>
 

@@ -1,58 +1,34 @@
 async function pesquisarBiblia(texto) {
 
-    texto = texto.toLowerCase().trim();
-
-    if (texto === "") {
-        abrirBiblioteca();
-        return;
-    }
-
     const pagina = document.getElementById("pagina");
 
-    const livros = await carregarLivros();
+    if (!texto || texto.trim() === "") {
+
+        alert("Digite algo para pesquisar.");
+
+        return;
+
+    }
+
     const biblia = await carregarBiblia();
 
-    let html = `
-        <div class="biblioteca">
-
-            <button class="btn-voltar" onclick="abrirBiblioteca()">
-                ⬅ Voltar
-            </button>
-
-            <h1>🔍 Pesquisa</h1>
-
-            <p>Resultados para <strong>"${texto}"</strong></p>
-
-            <hr>
-
-    `;
-
-    let encontrados = 0;
+    let resultados = [];
 
     biblia.forEach(livro => {
 
-        livro.chapters.forEach((capitulo, numeroCapitulo) => {
+        livro.chapters.forEach((capitulo, indiceCapitulo) => {
 
-            capitulo.forEach((versiculo, numeroVersiculo) => {
+            capitulo.forEach((versiculo, indiceVersiculo) => {
 
-                if (versiculo.toLowerCase().includes(texto)) {
+                if (versiculo.toLowerCase().includes(texto.toLowerCase())) {
 
-                    encontrados++;
+                    resultados.push({
 
-                    const info = livros.find(l => l.abrev === livro.abbrev);
+                        referencia: `${livro.name} ${indiceCapitulo + 1}:${indiceVersiculo + 1}`,
 
-                    html += `
-                        <div class="card" style="margin-bottom:20px;">
+                        texto: versiculo
 
-                            <h3>
-                                ${info.nome}
-                                ${numeroCapitulo + 1}:${numeroVersiculo + 1}
-                            </h3>
-
-                            <p>${versiculo}</p>
-
-                        </div>
-                    `;
+                    });
 
                 }
 
@@ -62,15 +38,67 @@ async function pesquisarBiblia(texto) {
 
     });
 
-    if (encontrados === 0) {
+    let html = `
+
+        <div class="biblioteca">
+
+            <button
+                class="btn-voltar"
+                onclick="document.querySelector('.dashboard').style.display='flex';document.getElementById('pagina').style.display='none';">
+
+                ⬅ Voltar
+
+            </button>
+
+            <h1>🔍 Pesquisa Bíblica</h1>
+
+            <p>
+
+                Foram encontrados <strong>${resultados.length}</strong> versículos para:
+
+                <strong>"${texto}"</strong>
+
+            </p>
+
+    `;
+
+    if (resultados.length === 0) {
 
         html += `
-            <p>Nenhum versículo encontrado.</p>
+
+            <div class="card">
+
+                <p>Nenhum resultado encontrado.</p>
+
+            </div>
+
         `;
+
+    } else {
+
+        resultados.forEach(item => {
+
+            html += `
+
+                <div class="card" style="margin-bottom:20px;">
+
+                    <h3>${item.referencia}</h3>
+
+                    <p>${item.texto}</p>
+
+                </div>
+
+            `;
+
+        });
 
     }
 
-    html += `</div>`;
+    html += `
+
+        </div>
+
+    `;
 
     pagina.innerHTML = html;
 

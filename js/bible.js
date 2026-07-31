@@ -1,6 +1,5 @@
 let livrosBiblia = [];
-
-let cacheBiblia = {};
+let biblia = [];
 
 async function carregarLivros() {
 
@@ -13,7 +12,7 @@ async function carregarLivros() {
         const resposta = await fetch("data/livros.json");
 
         if (!resposta.ok) {
-            throw new Error("Não foi possível carregar livros.json");
+            throw new Error("Erro ao carregar livros.");
         }
 
         livrosBiblia = await resposta.json();
@@ -24,7 +23,37 @@ async function carregarLivros() {
 
         console.error(erro);
 
-        alert("Erro ao carregar os livros da Bíblia.");
+        alert("Não foi possível carregar os livros da Bíblia.");
+
+        return [];
+
+    }
+
+}
+
+async function carregarBiblia() {
+
+    if (biblia.length > 0) {
+        return biblia;
+    }
+
+    try {
+
+        const resposta = await fetch("data/biblia.json");
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao carregar a Bíblia.");
+        }
+
+        biblia = await resposta.json();
+
+        return biblia;
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        alert("Não foi possível carregar a Bíblia.");
 
         return [];
 
@@ -34,32 +63,8 @@ async function carregarLivros() {
 
 async function carregarLivroBiblia(abrev) {
 
-    if (cacheBiblia[abrev]) {
-        return cacheBiblia[abrev];
-    }
+    const bibliaCompleta = await carregarBiblia();
 
-    try {
-
-        const resposta = await fetch(`data/biblia/${abrev}.json`);
-
-        if (!resposta.ok) {
-            throw new Error(`Livro ${abrev} não encontrado.`);
-        }
-
-        const livro = await resposta.json();
-
-        cacheBiblia[abrev] = livro;
-
-        return livro;
-
-    } catch (erro) {
-
-        console.error(erro);
-
-        alert(`Erro ao carregar o livro ${abrev}.`);
-
-        return null;
-
-    }
+    return bibliaCompleta.find(livro => livro.abbrev === abrev);
 
 }

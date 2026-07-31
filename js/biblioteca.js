@@ -30,6 +30,7 @@ async function abrirBiblioteca() {
 
     html += `
             </div>
+
         </div>
     `;
 
@@ -57,7 +58,7 @@ async function abrirLivro(id) {
 
     if (!livroBiblia) {
 
-        alert("Não foi possível carregar este livro.");
+        alert("Livro não encontrado na Bíblia.");
 
         return;
 
@@ -93,19 +94,19 @@ async function abrirLivro(id) {
             <div class="lista-capitulos">
     `;
 
-    livroBiblia.chapters.forEach((_, index) => {
+    for (let i = 1; i <= livroBiblia.chapters.length; i++) {
 
         html += `
             <button
                 class="capitulo-btn"
-                onclick="abrirCapitulo('${livroInfo.abrev}', ${index + 1})">
+                onclick="abrirCapitulo('${livroInfo.abrev}', ${i})">
 
-                ${index + 1}
+                ${i}
 
             </button>
         `;
 
-    });
+    }
 
     html += `
             </div>

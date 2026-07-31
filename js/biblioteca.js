@@ -21,7 +21,7 @@ async function abrirBiblioteca() {
 
                 <h3>${livro.nome}</h3>
 
-                <small>${livro.categoria}</small>
+                <small>${livro.categoria || ""}</small>
 
             </div>
         `;
@@ -29,9 +29,7 @@ async function abrirBiblioteca() {
     });
 
     html += `
-
             </div>
-
         </div>
     `;
 
@@ -57,16 +55,21 @@ async function abrirLivro(id) {
 
     const livroBiblia = await carregarLivroBiblia(livroInfo.abrev);
 
-    let html = `
+    if (!livroBiblia) {
 
+        alert("Não foi possível carregar este livro.");
+
+        return;
+
+    }
+
+    let html = `
         <div class="livro-detalhe">
 
             <button
                 class="btn-voltar"
                 onclick="abrirBiblioteca()">
-
                 ⬅ Voltar
-
             </button>
 
             <h1>${livroInfo.nome}</h1>
@@ -88,31 +91,26 @@ async function abrirLivro(id) {
             <h2>📖 Capítulos</h2>
 
             <div class="lista-capitulos">
-
     `;
 
-    for (let i = 1; i <= livroBiblia.chapters.length; i++) {
+    livroBiblia.chapters.forEach((_, index) => {
 
         html += `
-
             <button
                 class="capitulo-btn"
-                onclick="abrirCapitulo('${livroInfo.abrev}', ${i})">
+                onclick="abrirCapitulo('${livroInfo.abrev}', ${index + 1})">
 
-                ${i}
+                ${index + 1}
 
             </button>
-
         `;
 
-    }
+    });
 
     html += `
-
             </div>
 
         </div>
-
     `;
 
     pagina.innerHTML = html;

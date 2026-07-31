@@ -1,0 +1,51 @@
+{
+  "fé": {
+    "titulo": "Fé",
+    "descricao": "Confiança completa em Deus e em Suas promessas.",
+    "referencias": [
+      "Hebreus 11:1",
+      "Romanos 10:17",
+      "Efésios 2:8"
+    ]
+  },
+
+  "graça": {
+    "titulo": "Graça",
+    "descricao": "Favor imerecido concedido por Deus ao ser humano.",
+    "referencias": [
+      "Efésios 2:8",
+      "Romanos 3:24",
+      "Tito 2:11"
+    ]
+  },
+
+  "salvação": {
+    "titulo": "Salvação",
+    "descricao": "Obra realizada por Cristo para reconciliar o homem com Deus.",
+    "referencias": [
+      "João 3:16",
+      "Atos 4:12",
+      "Romanos 10:9"
+    ]
+  },
+
+  "arrependimento": {
+    "titulo": "Arrependimento",
+    "descricao": "Mudança de mente e de direção, voltando-se para Deus.",
+    "referencias": [
+      "Atos 3:19",
+      "Marcos 1:15",
+      "2 Coríntios 7:10"
+    ]
+  },
+
+  "espírito santo": {
+    "titulo": "Espírito Santo",
+    "descricao": "A terceira pessoa da Trindade, Consolador e Ajudador da Igreja.",
+    "referencias": [
+      "João 14:26",
+      "Atos 1:8",
+      "Efésios 1:13"
+    ]
+  }
+}

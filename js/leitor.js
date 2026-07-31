@@ -7,31 +7,22 @@ async function abrirCapitulo(abrev, numeroCapitulo, versiculoDestacado = null) {
     const livroInfo = livros.find(l => l.abrev === abrev);
 
     if (!livroInfo) {
-
         alert("Livro não encontrado.");
-
         return;
-
     }
 
     const livroBiblia = await carregarLivroBiblia(abrev);
 
     if (!livroBiblia) {
-
         alert("Livro não encontrado.");
-
         return;
-
     }
 
     const capitulo = livroBiblia.chapters[numeroCapitulo - 1];
 
     if (!capitulo) {
-
         alert("Capítulo não encontrado.");
-
         return;
-
     }
 
     let html = `
@@ -108,7 +99,8 @@ async function abrirCapitulo(abrev, numeroCapitulo, versiculoDestacado = null) {
                 class="card"
                 style="margin-bottom:20px;${destaque}">
 
-                <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div
+                    style="display:flex;justify-content:space-between;align-items:center;">
 
                     <strong>${indice + 1}</strong>
 
@@ -142,7 +134,10 @@ async function abrirCapitulo(abrev, numeroCapitulo, versiculoDestacado = null) {
 
                 </div>
 
-                <p class="versiculo">
+                <p
+                    class="versiculo"
+                    style="cursor:pointer;"
+                    onclick="abrirContextoVersiculo('${referencia}', ${JSON.stringify(versiculo).replace(/"/g,'&quot;')})">
 
                     ${versiculo}
 

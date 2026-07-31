@@ -1,5 +1,5 @@
 let livrosBiblia = [];
-let biblia = [];
+let cacheBiblia = {};
 
 async function carregarLivros() {
 
@@ -15,44 +15,18 @@ async function carregarLivros() {
 
 }
 
-async function carregarBiblia() {
+async function carregarLivroBiblia(abrev) {
 
-    if (biblia.length > 0) {
-        return biblia;
+    if (cacheBiblia[abrev]) {
+        return cacheBiblia[abrev];
     }
 
-    const resposta = await fetch("data/biblia.json");
+    const resposta = await fetch(`data/biblia/${abrev}.json`);
 
-    biblia = await resposta.json();
+    const livro = await resposta.json();
 
-    return biblia;
+    cacheBiblia[abrev] = livro;
 
-}
-
-async function obterLivro(abrev) {
-
-    const biblia = await carregarBiblia();
-
-    return biblia.find(livro => livro.abbrev === abrev);
-
-}
-
-async function obterCapitulo(abrev, numero) {
-
-    const livro = await obterLivro(abrev);
-
-    if (!livro) return null;
-
-    return livro.chapters[numero - 1];
-
-}
-
-async function totalCapitulos(abrev) {
-
-    const livro = await obterLivro(abrev);
-
-    if (!livro) return 0;
-
-    return livro.chapters.length;
+    return livro;
 
 }

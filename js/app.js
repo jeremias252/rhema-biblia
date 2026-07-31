@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
 
                 case "📖 Estudos":
+                    alert("Clique em Estudos funcionando!");
                     mostrarPagina();
                     abrirTimeline();
                     break;

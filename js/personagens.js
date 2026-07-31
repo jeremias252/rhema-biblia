@@ -2,7 +2,11 @@ let personagens = [];
 
 async function carregarPersonagens() {
 
-    if (personagens.length > 0) return personagens;
+    if (personagens.length > 0) {
+
+        return personagens;
+
+    }
 
     try {
 
@@ -14,7 +18,7 @@ async function carregarPersonagens() {
 
     } catch (erro) {
 
-        console.error(erro);
+        console.error("Erro ao carregar personagens:", erro);
 
         return [];
 
@@ -22,86 +26,35 @@ async function carregarPersonagens() {
 
 }
 
-function procurarPersonagem(nome) {
-
-    return personagens.find(p => p.nome === nome);
-
-}
-
-function criarLinkPersonagem(nome) {
-
-    const personagem = procurarPersonagem(nome);
-
-    if (!personagem) return nome;
-
-    return `
-        <a href="#"
-           onclick="abrirPersonagem(${personagem.id});return false;"
-           style="color:#B58150;font-weight:bold;text-decoration:none;">
-           ${nome}
-        </a>
-    `;
-
-}
-
 async function abrirPersonagens() {
 
     const pagina = document.getElementById("pagina");
 
-    await carregarPersonagens();
-
-    desenharListaPersonagens(personagens);
-
-}
-
-function desenharListaPersonagens(lista) {
-
-    const pagina = document.getElementById("pagina");
+    const lista = await carregarPersonagens();
 
     let html = `
 
-    <div class="biblioteca">
+        <div class="biblioteca">
 
-        <button
-            class="btn-voltar"
-            onclick="
-                document.querySelector('.dashboard').style.display='flex';
-                document.getElementById('pagina').style.display='none';
-            ">
-            ⬅ Dashboard
-        </button>
+            <h1>👤 Personagens Bíblicos</h1>
 
-        <h1>👤 Personagens Bíblicos</h1>
+            <p>Escolha um personagem para estudar.</p>
 
-        <p>Pesquise ou escolha um personagem.</p>
-
-        <input
-            id="pesquisaPersonagem"
-            type="text"
-            placeholder="Pesquisar personagem..."
-            style="
-                width:100%;
-                padding:15px;
-                border-radius:12px;
-                border:1px solid #ddd;
-                margin:25px 0;
-            "
-        >
-
-        <div class="lista-livros" id="listaPersonagens">
+            <div class="lista-livros">
 
     `;
 
-    lista.forEach(p => {
+    lista.forEach(personagem => {
 
         html += `
 
-            <div class="livro"
-                 onclick="abrirPersonagem(${p.id})">
+            <div
+                class="livro"
+                onclick="abrirPersonagem(${personagem.id})">
 
-                <h3>${p.nome}</h3>
+                <h3>${personagem.nome}</h3>
 
-                <small>${p.titulo}</small>
+                <small>${personagem.titulo}</small>
 
             </div>
 
@@ -111,55 +64,13 @@ function desenharListaPersonagens(lista) {
 
     html += `
 
-        </div>
+            </div>
 
-    </div>
+        </div>
 
     `;
 
     pagina.innerHTML = html;
-
-    document.getElementById("pesquisaPersonagem").addEventListener("input", pesquisarPersonagens);
-
-}
-
-function pesquisarPersonagens() {
-
-    const texto = document
-        .getElementById("pesquisaPersonagem")
-        .value
-        .toLowerCase();
-
-    const filtrados = personagens.filter(p =>
-
-        p.nome.toLowerCase().includes(texto) ||
-
-        p.titulo.toLowerCase().includes(texto)
-
-    );
-
-    const lista = document.getElementById("listaPersonagens");
-
-    let html = "";
-
-    filtrados.forEach(p => {
-
-        html += `
-
-            <div class="livro"
-                 onclick="abrirPersonagem(${p.id})">
-
-                <h3>${p.nome}</h3>
-
-                <small>${p.titulo}</small>
-
-            </div>
-
-        `;
-
-    });
-
-    lista.innerHTML = html;
 
 }
 
@@ -167,9 +78,9 @@ async function abrirPersonagem(id) {
 
     const pagina = document.getElementById("pagina");
 
-    await carregarPersonagens();
+    const lista = await carregarPersonagens();
 
-    const p = personagens.find(x => x.id === id);
+    const p = lista.find(x => x.id === id);
 
     if (!p) {
 
@@ -181,81 +92,61 @@ async function abrirPersonagem(id) {
 
     let html = `
 
-    <div class="capitulo">
+        <div class="capitulo">
 
-        <button class="btn-voltar"
+            <button
+                class="btn-voltar"
                 onclick="abrirPersonagens()">
 
-            ⬅ Voltar
+                ⬅ Voltar
 
-        </button>
+            </button>
 
-        <h1>${p.nome}</h1>
+            <h1>${p.nome}</h1>
 
-        <h2>${p.titulo}</h2>
+            <h2>${p.titulo}</h2>
 
-        <div class="card">
+            <div class="card">
 
-            <h3>📌 Informações Gerais</h3>
+                <p><strong>Nascimento:</strong> ${p.nascimento}</p>
 
-            <p><strong>Nascimento:</strong> ${p.nascimento}</p>
-            <p><strong>Época:</strong> ${p.epoca}</p>
-            <p><strong>Idade:</strong> ${p.idade}</p>
-            <p><strong>Versículo-chave:</strong> ${p.versiculo}</p>
+                <p><strong>Época:</strong> ${p.epoca}</p>
 
-        </div>
+                <p><strong>Idade:</strong> ${p.idade}</p>
 
-        <div class="card" style="margin-top:20px;">
+                <p><strong>Versículo-chave:</strong> ${p.versiculo}</p>
 
-            <h3>📖 Biografia</h3>
+            </div>
 
-            <p>${p.descricao}</p>
+            <div class="card" style="margin-top:20px;">
 
-        </div>
+                <h3>📖 Biografia</h3>
 
-        <div class="card" style="margin-top:20px;">
+                <p>${p.descricao}</p>
 
-            <h3>🌳 Genealogia</h3>
+            </div>
 
-    `;
+            <div class="card" style="margin-top:20px;">
 
-    if (p.pai)
-        html += `<p><strong>Pai:</strong> ${criarLinkPersonagem(p.pai)}</p>`;
+                <h3>👨‍👩‍👦 Família</h3>
 
-    if (p.mae)
-        html += `<p><strong>Mãe:</strong> ${criarLinkPersonagem(p.mae)}</p>`;
+                <pre>${JSON.stringify(p.familia, null, 2)}</pre>
 
-    if (p.esposa?.length)
-        html += `<p><strong>Cônjuge:</strong> ${p.esposa.map(criarLinkPersonagem).join(", ")}</p>`;
+            </div>
 
-    if (p.filhos?.length)
-        html += `<p><strong>Filhos:</strong> ${p.filhos.map(criarLinkPersonagem).join(", ")}</p>`;
+            <div class="card" style="margin-top:20px;">
 
-    html += `
+                <h3>⭐ Principais Eventos</h3>
 
-        </div>
+                <ul>
 
-        <div class="card" style="margin-top:20px;">
+                    ${p.principaisEventos.map(e => `<li>${e}</li>`).join("")}
 
-            <h3>⭐ Principais Eventos</h3>
+                </ul>
 
-            <ul>
-
-    `;
-
-    p.principaisEventos.forEach(evento => {
-
-        html += `<li>${evento}</li>`;
-
-    });
-
-    html += `
-
-            </ul>
+            </div>
 
         </div>
-
-    </div>
 
     `;
 

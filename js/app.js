@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const dashboard = document.querySelector(".dashboard");
-    const pagina = document.getElementById("pagina");
-
     const botoes = document.querySelectorAll(".sidebar nav button");
+
+    const dashboard = document.querySelector(".dashboard");
+
+    const pagina = document.getElementById("pagina");
 
     botoes.forEach(botao => {
 
@@ -12,14 +13,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const nome = botao.textContent.trim();
 
             dashboard.style.display = "none";
+
             pagina.style.display = "block";
 
             switch (nome) {
 
                 case "🏠 Dashboard":
 
-                    dashboard.style.display = "flex";
                     pagina.style.display = "none";
+
+                    dashboard.style.display = "flex";
 
                     break;
 
@@ -29,11 +32,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     break;
 
+                case "⭐ Favoritos":
+
+                    abrirFavoritos();
+
+                    break;
+
                 case "🤖 Bethesda AI":
 
                     pagina.innerHTML = `
                         <h1>🤖 Bethesda AI</h1>
-                        <p>Em desenvolvimento...</p>
+
+                        <p>Em construção...</p>
                     `;
 
                     break;
@@ -42,7 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     pagina.innerHTML = `
                         <h1>📖 Estudos</h1>
-                        <p>Em desenvolvimento...</p>
+
+                        <p>Em construção...</p>
                     `;
 
                     break;
@@ -51,7 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     pagina.innerHTML = `
                         <h1>👤 Personagens</h1>
-                        <p>Em desenvolvimento...</p>
+
+                        <p>Em construção...</p>
                     `;
 
                     break;
@@ -60,7 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     pagina.innerHTML = `
                         <h1>🗺️ Mapas</h1>
-                        <p>Em desenvolvimento...</p>
+
+                        <p>Em construção...</p>
                     `;
 
                     break;
@@ -69,16 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     pagina.innerHTML = `
                         <h1>📜 Strong</h1>
-                        <p>Em desenvolvimento...</p>
-                    `;
 
-                    break;
-
-                case "⭐ Favoritos":
-
-                    pagina.innerHTML = `
-                        <h1>⭐ Favoritos</h1>
-                        <p>Em desenvolvimento...</p>
+                        <p>Em construção...</p>
                     `;
 
                     break;
@@ -87,7 +92,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     pagina.innerHTML = `
                         <h1>📝 Anotações</h1>
-                        <p>Em desenvolvimento...</p>
+
+                        <p>Em construção...</p>
                     `;
 
                     break;
@@ -96,7 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     pagina.innerHTML = `
                         <h1>⚙️ Configurações</h1>
-                        <p>Em desenvolvimento...</p>
+
+                        <p>Em construção...</p>
                     `;
 
                     break;
@@ -106,21 +113,5 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
     });
-
-    const campoPesquisa = document.getElementById("campoPesquisa");
-
-    if (campoPesquisa) {
-
-        campoPesquisa.addEventListener("keydown", (e) => {
-
-            if (e.key === "Enter") {
-
-                pesquisarBiblia(campoPesquisa.value);
-
-            }
-
-        });
-
-    }
 
 });

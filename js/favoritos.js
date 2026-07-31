@@ -1,37 +1,10 @@
-function obterFavoritos() {
-
-    const favoritos = localStorage.getItem("bethesdaFavoritos");
-
-    if (!favoritos) {
-        return [];
-    }
-
-    return JSON.parse(favoritos);
-
-}
-
-function salvarFavoritos(lista) {
-
-    localStorage.setItem(
-        "bethesdaFavoritos",
-        JSON.stringify(lista)
-    );
-
-}
-
-function favoritoExiste(referencia) {
-
-    const favoritos = obterFavoritos();
-
-    return favoritos.some(item => item.referencia === referencia);
-
-}
+let favoritos = JSON.parse(localStorage.getItem("favoritosBethesda")) || [];
 
 function adicionarFavorito(referencia, texto) {
 
-    const favoritos = obterFavoritos();
+    const existe = favoritos.find(v => v.referencia === referencia);
 
-    if (favoritoExiste(referencia)) {
+    if (existe) {
 
         alert("Este versículo já está nos favoritos.");
 
@@ -41,15 +14,21 @@ function adicionarFavorito(referencia, texto) {
 
     favoritos.push({
 
-        referencia,
-        texto,
-        data: new Date().toLocaleDateString("pt-BR")
+        referencia: referencia,
+
+        texto: texto
 
     });
 
-    salvarFavoritos(favoritos);
+    localStorage.setItem(
 
-    alert("Versículo adicionado aos favoritos.");
+        "favoritosBethesda",
+
+        JSON.stringify(favoritos)
+
+    );
+
+    alert("Versículo salvo nos favoritos!");
 
 }
 
@@ -57,11 +36,13 @@ function abrirFavoritos() {
 
     const pagina = document.getElementById("pagina");
 
-    const favoritos = obterFavoritos();
+    favoritos = JSON.parse(localStorage.getItem("favoritosBethesda")) || [];
 
     let html = `
 
-        <h1>⭐ Favoritos</h1>
+        <div class="biblioteca">
+
+            <h1>⭐ Favoritos</h1>
 
     `;
 
@@ -69,27 +50,33 @@ function abrirFavoritos() {
 
         html += `
 
-            <p>Você ainda não possui favoritos.</p>
+            <p>Você ainda não possui versículos favoritos.</p>
 
         `;
 
     } else {
 
-        favoritos.forEach(item => {
+        favoritos.forEach((item, indice) => {
 
             html += `
 
-                <div class="card">
+                <div class="card" style="margin-bottom:20px;">
 
                     <h3>${item.referencia}</h3>
 
                     <p>${item.texto}</p>
 
-                    <small>Salvo em ${item.data}</small>
+                    <button
+
+                        onclick="removerFavorito(${indice})"
+
+                        class="btn-voltar">
+
+                        🗑 Remover
+
+                    </button>
 
                 </div>
-
-                <br>
 
             `;
 
@@ -97,6 +84,28 @@ function abrirFavoritos() {
 
     }
 
+    html += `
+
+        </div>
+
+    `;
+
     pagina.innerHTML = html;
+
+}
+
+function removerFavorito(indice) {
+
+    favoritos.splice(indice, 1);
+
+    localStorage.setItem(
+
+        "favoritosBethesda",
+
+        JSON.stringify(favoritos)
+
+    );
+
+    abrirFavoritos();
 
 }

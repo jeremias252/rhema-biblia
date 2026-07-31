@@ -1,6 +1,7 @@
 async function abrirBiblioteca() {
 
     const pagina = document.getElementById("pagina");
+
     const livros = await carregarLivros();
 
     let html = `
@@ -17,14 +18,18 @@ async function abrirBiblioteca() {
 
         html += `
             <div class="livro" onclick="abrirLivro(${livro.id})">
+
                 <h3>${livro.nome}</h3>
+
                 <small>${livro.categoria}</small>
+
             </div>
         `;
 
     });
 
     html += `
+
             </div>
 
         </div>
@@ -39,34 +44,40 @@ async function abrirLivro(id) {
     const pagina = document.getElementById("pagina");
 
     const livros = await carregarLivros();
-    const biblia = await carregarBiblia();
 
     const livroInfo = livros.find(l => l.id === id);
-    const livroBiblia = biblia.find(l => l.abbrev === livroInfo.abrev);
 
-    if (!livroInfo || !livroBiblia) {
+    if (!livroInfo) {
 
         alert("Livro não encontrado.");
+
         return;
 
     }
 
+    const livroBiblia = await carregarLivroBiblia(livroInfo.abrev);
+
     let html = `
+
         <div class="livro-detalhe">
 
-            <button class="btn-voltar" onclick="abrirBiblioteca()">
+            <button
+                class="btn-voltar"
+                onclick="abrirBiblioteca()">
+
                 ⬅ Voltar
+
             </button>
 
             <h1>${livroInfo.nome}</h1>
 
             <div class="livro-info">
 
-                <p><strong>Autor:</strong> ${livroInfo.autor}</p>
+                <p><strong>Autor:</strong> ${livroInfo.autor || "-"}</p>
 
                 <p><strong>Tema:</strong> ${livroInfo.tema || "-"}</p>
 
-                <p><strong>Categoria:</strong> ${livroInfo.categoria}</p>
+                <p><strong>Categoria:</strong> ${livroInfo.categoria || "-"}</p>
 
                 <p><strong>Capítulos:</strong> ${livroBiblia.chapters.length}</p>
 
@@ -77,24 +88,31 @@ async function abrirLivro(id) {
             <h2>📖 Capítulos</h2>
 
             <div class="lista-capitulos">
+
     `;
 
     for (let i = 1; i <= livroBiblia.chapters.length; i++) {
 
         html += `
+
             <button
                 class="capitulo-btn"
                 onclick="abrirCapitulo('${livroInfo.abrev}', ${i})">
+
                 ${i}
+
             </button>
+
         `;
 
     }
 
     html += `
+
             </div>
 
         </div>
+
     `;
 
     pagina.innerHTML = html;

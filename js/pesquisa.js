@@ -92,7 +92,7 @@ async function pesquisarBiblia(texto) {
                 <div
                     class="card"
                     style="margin-bottom:20px;cursor:pointer;"
-                    onclick="abrirCapitulo('${item.livro}', ${item.capitulo})">
+                    onclick="abrirCapitulo('${item.livro}', ${item.capitulo}, ${item.versiculo})">
 
                     <h3>${item.referencia}</h3>
 

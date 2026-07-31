@@ -96,19 +96,45 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
 
     capitulo.forEach((versiculo, indice) => {
 
+        const referencia = `${livroInfo.nome} ${numeroCapitulo}:${indice + 1}`;
+
         html += `
 
-            <p class="versiculo">
+            <div class="card" style="margin-bottom:20px;">
 
-                <span class="numero-versiculo">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
 
-                    ${indice + 1}
+                    <strong>${indice + 1}</strong>
 
-                </span>
+                    <div style="display:flex;gap:8px;">
 
-                ${versiculo}
+                        <button
+                            onclick="copiarVersiculo('${referencia}', ${JSON.stringify(versiculo).replace(/"/g, '&quot;')})"
+                            style="border:none;background:#2196F3;color:white;padding:8px 12px;border-radius:8px;cursor:pointer;">
 
-            </p>
+                            📋
+
+                        </button>
+
+                        <button
+                            onclick="adicionarFavorito('${referencia}', ${JSON.stringify(versiculo).replace(/"/g, '&quot;')})"
+                            style="border:none;background:#B58150;color:white;padding:8px 12px;border-radius:8px;cursor:pointer;">
+
+                            ⭐
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <p class="versiculo">
+
+                    ${versiculo}
+
+                </p>
+
+            </div>
 
         `;
 
@@ -121,5 +147,13 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
     `;
 
     pagina.innerHTML = html;
+
+}
+
+function copiarVersiculo(referencia, texto) {
+
+    navigator.clipboard.writeText(`${referencia}\n\n${texto}`);
+
+    alert("Versículo copiado!");
 
 }

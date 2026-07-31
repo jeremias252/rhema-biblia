@@ -18,7 +18,7 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
 
     if (!livroBiblia) {
 
-        alert("Não foi possível carregar o livro.");
+        alert("Livro não encontrado.");
 
         return;
 
@@ -35,24 +35,29 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
     }
 
     let html = `
+
         <div class="capitulo">
 
             <button
                 class="btn-voltar"
                 onclick="abrirLivro(${livroInfo.id})">
+
                 ⬅ Voltar
+
             </button>
 
             <h1>${livroInfo.nome}</h1>
 
             <h2>Capítulo ${numeroCapitulo}</h2>
 
-            <div style="display:flex;gap:10px;margin:25px 0;flex-wrap:wrap;">
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin:25px 0;">
+
     `;
 
     if (numeroCapitulo > 1) {
 
         html += `
+
             <button
                 class="btn-voltar"
                 onclick="abrirCapitulo('${abrev}', ${numeroCapitulo - 1})">
@@ -60,6 +65,7 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
                 ⬅ Capítulo Anterior
 
             </button>
+
         `;
 
     }
@@ -67,6 +73,7 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
     if (numeroCapitulo < livroBiblia.chapters.length) {
 
         html += `
+
             <button
                 class="btn-voltar"
                 onclick="abrirCapitulo('${abrev}', ${numeroCapitulo + 1})">
@@ -74,34 +81,43 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
                 Próximo Capítulo ➡
 
             </button>
+
         `;
 
     }
 
     html += `
+
             </div>
 
             <hr style="margin-bottom:30px;">
+
     `;
 
     capitulo.forEach((versiculo, indice) => {
 
         html += `
+
             <p class="versiculo">
 
                 <span class="numero-versiculo">
+
                     ${indice + 1}
+
                 </span>
 
                 ${versiculo}
 
             </p>
+
         `;
 
     });
 
     html += `
+
         </div>
+
     `;
 
     pagina.innerHTML = html;

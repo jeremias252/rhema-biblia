@@ -2,6 +2,8 @@ let favoritos = JSON.parse(localStorage.getItem("favoritosBethesda")) || [];
 
 function adicionarFavorito(referencia, texto) {
 
+    favoritos = JSON.parse(localStorage.getItem("favoritosBethesda")) || [];
+
     const existe = favoritos.find(v => v.referencia === referencia);
 
     if (existe) {
@@ -12,11 +14,27 @@ function adicionarFavorito(referencia, texto) {
 
     }
 
+    const partes = referencia.split(" ");
+
+    const livro = partes.slice(0, partes.length - 1).join(" ");
+
+    const capVers = partes[partes.length - 1];
+
+    const capitulo = parseInt(capVers.split(":")[0]);
+
+    const versiculo = parseInt(capVers.split(":")[1]);
+
     favoritos.push({
 
-        referencia: referencia,
+        referencia,
 
-        texto: texto
+        texto,
+
+        livro,
+
+        capitulo,
+
+        versiculo
 
     });
 
@@ -28,19 +46,32 @@ function adicionarFavorito(referencia, texto) {
 
     );
 
-    alert("Versículo salvo nos favoritos!");
+    alert("Versículo salvo!");
 
 }
 
-function abrirFavoritos() {
+async function abrirFavoritos() {
 
     const pagina = document.getElementById("pagina");
 
     favoritos = JSON.parse(localStorage.getItem("favoritosBethesda")) || [];
 
+    const livros = await carregarLivros();
+
     let html = `
 
         <div class="biblioteca">
+
+            <button
+                class="btn-voltar"
+                onclick="
+                    document.querySelector('.dashboard').style.display='flex';
+                    document.getElementById('pagina').style.display='none';
+                ">
+
+                ⬅ Voltar
+
+            </button>
 
             <h1>⭐ Favoritos</h1>
 
@@ -50,7 +81,11 @@ function abrirFavoritos() {
 
         html += `
 
-            <p>Você ainda não possui versículos favoritos.</p>
+            <div class="card">
+
+                <p>Nenhum favorito salvo.</p>
+
+            </div>
 
         `;
 
@@ -58,9 +93,14 @@ function abrirFavoritos() {
 
         favoritos.forEach((item, indice) => {
 
+            const livro = livros.find(l => l.nome === item.livro);
+
             html += `
 
-                <div class="card" style="margin-bottom:20px;">
+                <div
+                    class="card"
+                    style="margin-bottom:20px;cursor:pointer;"
+                    onclick="abrirCapitulo('${livro.abrev}', ${item.capitulo}, ${item.versiculo})">
 
                     <h3>${item.referencia}</h3>
 
@@ -68,7 +108,7 @@ function abrirFavoritos() {
 
                     <button
 
-                        onclick="removerFavorito(${indice})"
+                        onclick="event.stopPropagation();removerFavorito(${indice})"
 
                         class="btn-voltar">
 

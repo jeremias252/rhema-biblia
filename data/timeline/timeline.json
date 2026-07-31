@@ -1,0 +1,71 @@
+[
+  {
+    "id": 1,
+    "titulo": "Criação",
+    "epoca": "Antes de 4000 a.C.",
+    "personagens": [
+      "Adão",
+      "Eva"
+    ],
+    "descricao": "Deus cria os céus, a terra e toda a humanidade."
+  },
+  {
+    "id": 2,
+    "titulo": "Dilúvio",
+    "epoca": "c. 2500 a.C.",
+    "personagens": [
+      "Noé"
+    ],
+    "descricao": "Deus envia o dilúvio e preserva Noé e sua família."
+  },
+  {
+    "id": 3,
+    "titulo": "Chamado de Abraão",
+    "epoca": "c. 2000 a.C.",
+    "personagens": [
+      "Abraão",
+      "Sara"
+    ],
+    "descricao": "Deus chama Abraão para iniciar a nação de Israel."
+  },
+  {
+    "id": 4,
+    "titulo": "Êxodo",
+    "epoca": "c. 1446 a.C.",
+    "personagens": [
+      "Moisés",
+      "Arão"
+    ],
+    "descricao": "Israel é libertado da escravidão no Egito."
+  },
+  {
+    "id": 5,
+    "titulo": "Reinado de Davi",
+    "epoca": "c. 1010 a.C.",
+    "personagens": [
+      "Davi"
+    ],
+    "descricao": "Davi torna-se rei de Israel."
+  },
+  {
+    "id": 6,
+    "titulo": "Nascimento de Jesus",
+    "epoca": "c. 4 a.C.",
+    "personagens": [
+      "Jesus",
+      "Maria",
+      "José"
+    ],
+    "descricao": "Nascimento do Salvador em Belém."
+  },
+  {
+    "id": 7,
+    "titulo": "Pentecostes",
+    "epoca": "30 d.C.",
+    "personagens": [
+      "Pedro",
+      "João"
+    ],
+    "descricao": "Descida do Espírito Santo sobre a Igreja."
+  }
+]

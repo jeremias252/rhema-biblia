@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "nome": "Abraão",
+    "titulo": "Pai da Fé",
+    "nascimento": "Ur dos Caldeus",
+    "epoca": "2000 a.C.",
+    "idade": "175 anos",
+    "versiculo": "Gênesis 12:1",
+    "descricao": "Abraão foi chamado por Deus para deixar sua terra e tornar-se pai de uma grande nação.",
+
+    "pai": "Terá",
+    "mae": null,
+
+    "esposa": [
+      "Sara",
+      "Hagar"
+    ],
+
+    "filhos": [
+      "Ismael",
+      "Isaque"
+    ],
+
+    "familia": {
+      "pai": "Terá",
+      "esposa": [
+        "Sara",
+        "Hagar"
+      ],
+      "filhos": [
+        "Ismael",
+        "Isaque"
+      ]
+    },
+
+    "principaisEventos": [
+      "Chamado por Deus",
+      "Aliança",
+      "Nascimento de Isaque",
+      "Sacrifício de Isaque"
+    ]
+  },
+
+  {
+    "id": 2,
+    "nome": "Moisés",
+    "titulo": "Libertador de Israel",
+    "nascimento": "Egito",
+    "epoca": "1526 a.C.",
+    "idade": "120 anos",
+    "versiculo": "Êxodo 3:10",
+    "descricao": "Moisés libertou Israel do Egito e recebeu a Lei no Monte Sinai.",
+
+    "pai": "Anrão",
+    "mae": "Joquebede",
+
+    "esposa": [
+      "Zípora"
+    ],
+
+    "filhos": [
+      "Gerson",
+      "Eliezer"
+    ],
+
+    "familia": {
+      "pai": "Anrão",
+      "mae": "Joquebede",
+      "irmaos": [
+        "Arão",
+        "Miriã"
+      ],
+      "esposa": [
+        "Zípora"
+      ],
+      "filhos": [
+        "Gerson",
+        "Eliezer"
+      ]
+    },
+
+    "principaisEventos": [
+      "Sarça Ardente",
+      "10 Pragas",
+      "Mar Vermelho",
+      "Monte Sinai"
+    ]
+  }
+]

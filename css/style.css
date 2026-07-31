@@ -1,91 +1,535 @@
+/* =====================================================
+   BETHESDA
+   STYLE.CSS
+===================================================== */
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
-
-    font-family:Manrope,sans-serif;
-
-    background:#f5f5f5;
-
+    font-family:'Manrope',sans-serif;
+    background:#f4f5f7;
     color:#222;
-
 }
 
 #app{
-
-    max-width:1100px;
-
-    margin:auto;
-
-    padding:40px;
-
-}
-
-.hero{
-
-    background:white;
-
-    border-radius:20px;
-
-    padding:60px;
-
-    box-shadow:0 15px 40px rgba(0,0,0,.08);
-
-}
-
-.hero h1{
-
-    font-size:48px;
-
-    margin-bottom:20px;
-
-}
-
-.hero p{
-
-    font-size:20px;
-
-    color:#666;
-
-    line-height:1.6;
-
-}
-
-.botoes{
-
-    margin-top:40px;
-
     display:flex;
-
-    gap:20px;
-
-    flex-wrap:wrap;
-
+    min-height:100vh;
 }
 
-.botao{
+/* ===========================
+SIDEBAR
+=========================== */
 
-    background:#0d6efd;
+.sidebar{
+    width:280px;
+    background:#ffffff;
+    border-right:1px solid #ececec;
+    padding:30px;
+    display:flex;
+    flex-direction:column;
+}
 
-    color:white;
+.logo{
+    margin-bottom:40px;
+}
 
-    text-decoration:none;
+.logo h1{
+    font-size:34px;
+    color:#b58150;
+    font-family:'Playfair Display',serif;
+}
 
-    padding:18px 28px;
+.logo span{
+    display:block;
+    margin-top:5px;
+    color:#888;
+    font-size:14px;
+}
 
+.sidebar nav{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.sidebar button{
+    border:none;
+    background:white;
     border-radius:12px;
+    padding:15px;
+    text-align:left;
+    cursor:pointer;
+    transition:.25s;
+    font-size:15px;
+}
 
+.sidebar button:hover{
+    background:#b58150;
+    color:white;
+}
+
+/* ===========================
+CONTENT
+=========================== */
+
+.content{
+    flex:1;
+    padding:45px;
+}
+
+/* ===========================
+TOPBAR
+=========================== */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:40px;
+}
+
+.topbar h2{
+    font-size:40px;
+    font-family:'Playfair Display',serif;
+}
+
+.topbar p{
+    color:#666;
+    margin-top:8px;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.top-actions input{
+    width:260px;
+    border:none;
+    border-radius:12px;
+    padding:14px 18px;
+    background:white;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+    outline:none;
+}
+
+.top-actions button{
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:12px;
+    background:white;
+    cursor:pointer;
+    font-size:18px;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
+
+.avatar{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    background:#b58150;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
     font-weight:bold;
+}
 
-    transition:.3s;
+/* ===========================
+DASHBOARD
+=========================== */
+
+.dashboard{
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
+.cards-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+}
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.card h3{
+    color:#b58150;
+    margin-bottom:15px;
+}
+
+.card p{
+    line-height:1.7;
+}
+
+.grande{
+    min-height:180px;
+}
+
+.pequeno{
+    cursor:pointer;
+    transition:.25s;
+}
+
+.pequeno:hover{
+    transform:translateY(-6px);
+    box-shadow:0 20px 40px rgba(0,0,0,.10);
+}
+
+/* ===========================
+BIBLIOTECA
+=========================== */
+
+.biblioteca h1{
+    font-family:'Playfair Display',serif;
+    color:#b58150;
+    margin-bottom:10px;
+}
+
+.biblioteca p{
+    color:#666;
+    margin-bottom:25px;
+}
+
+.lista-livros{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:18px;
+}
+
+.livro{
+    background:white;
+    border-radius:15px;
+    padding:22px;
+    cursor:pointer;
+    transition:.25s;
+    box-shadow:0 10px 25px rgba(0,0,0,.07);
+    text-align:center;
+}
+
+.livro:hover{
+    transform:translateY(-6px);
+    background:#b58150;
+    color:white;
+}
+
+.livro small{
+    display:block;
+    margin-top:10px;
+    opacity:.8;
+}
+
+/* ===========================
+DETALHES DO LIVRO
+=========================== */
+
+.livro-detalhe h1{
+    font-family:'Playfair Display',serif;
+    color:#b58150;
+    font-size:46px;
+    margin-bottom:20px;
+}
+
+.livro-info{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    margin-bottom:35px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.livro-info p{
+    margin:8px 0;
+}
+
+/* ===========================
+BOTÕES
+=========================== */
+
+.btn-voltar{
+    background:#b58150;
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:12px 22px;
+    cursor:pointer;
+    transition:.25s;
+    font-size:15px;
+}
+
+.btn-voltar:hover{
+    background:#9d6c40;
+}
+
+/* ===========================
+CAPÍTULOS
+=========================== */
+
+.lista-capitulos{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-top:20px;
+}
+
+.capitulo-btn{
+    width:55px;
+    height:55px;
+    border:none;
+    border-radius:12px;
+    background:#b58150;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.25s;
+}
+
+.capitulo-btn:hover{
+    transform:scale(1.08);
+    background:#9d6c40;
+}
+
+/* ===========================
+LEITOR
+=========================== */
+
+.capitulo{
+    background:white;
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.capitulo h1{
+    font-family:'Playfair Display',serif;
+    color:#b58150;
+    margin-top:20px;
+}
+
+.capitulo h2{
+    margin-top:10px;
+    margin-bottom:25px;
+    color:#555;
+}
+
+.versiculo{
+    font-size:19px;
+    line-height:1.9;
+}
+
+.numero-versiculo{
+    color:#b58150;
+    font-weight:bold;
+    margin-right:8px;
+}
+
+/* ===========================
+LINKS
+=========================== */
+
+a{
+    color:#b58150;
+    text-decoration:none;
+}
+
+a:hover{
+    text-decoration:underline;
+}
+
+/* ===========================
+FORMULÁRIOS
+=========================== */
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:14px 16px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    outline:none;
+    font-size:15px;
+    font-family:'Manrope',sans-serif;
+    transition:.25s;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:#b58150;
+    box-shadow:0 0 0 4px rgba(181,129,80,.15);
+}
+
+textarea{
+    resize:vertical;
+    min-height:120px;
+}
+
+/* ===========================
+LISTAS
+=========================== */
+
+ul{
+    margin-top:12px;
+    padding-left:20px;
+}
+
+li{
+    margin:8px 0;
+}
+
+/* ===========================
+ANIMAÇÕES
+=========================== */
+
+.card,
+.livro,
+.capitulo{
+    animation:fadeIn .35s ease;
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
 
 }
 
-.botao:hover{
+/* ===========================
+SCROLLBAR
+=========================== */
 
-    transform:translateY(-3px);
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#efefef;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#b58150;
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#94663d;
+}
+
+/* ===========================
+RESPONSIVO
+=========================== */
+
+@media(max-width:1100px){
+
+    .cards-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+@media(max-width:900px){
+
+    #app{
+
+        flex-direction:column;
+
+    }
+
+    .sidebar{
+
+        width:100%;
+        border-right:none;
+        border-bottom:1px solid #e5e5e5;
+
+    }
+
+    .topbar{
+
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+
+    }
+
+    .top-actions{
+
+        width:100%;
+
+    }
+
+    .top-actions input{
+
+        flex:1;
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .content{
+
+        padding:20px;
+
+    }
+
+    .sidebar{
+
+        padding:20px;
+
+    }
+
+    .topbar h2{
+
+        font-size:30px;
+
+    }
+
+    .livro-detalhe h1{
+
+        font-size:34px;
+
+    }
+
+    .lista-livros{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .lista-capitulos{
+
+        justify-content:center;
+
+    }
 
 }

@@ -1,4 +1,4 @@
-async function abrirCapitulo(abrev, numeroCapitulo) {
+async function abrirCapitulo(abrev, numeroCapitulo, versiculoDestacado = null) {
 
     const pagina = document.getElementById("pagina");
 
@@ -36,21 +36,21 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
 
     let html = `
 
-        <div class="capitulo">
+    <div class="capitulo">
 
-            <button
-                class="btn-voltar"
-                onclick="abrirLivro(${livroInfo.id})">
+        <button
+            class="btn-voltar"
+            onclick="abrirLivro(${livroInfo.id})">
 
-                ⬅ Voltar
+            ⬅ Voltar
 
-            </button>
+        </button>
 
-            <h1>${livroInfo.nome}</h1>
+        <h1>${livroInfo.nome}</h1>
 
-            <h2>Capítulo ${numeroCapitulo}</h2>
+        <h2>Capítulo ${numeroCapitulo}</h2>
 
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin:25px 0;">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin:25px 0;">
 
     `;
 
@@ -88,9 +88,9 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
 
     html += `
 
-            </div>
+        </div>
 
-            <hr style="margin-bottom:30px;">
+        <hr style="margin-bottom:30px;">
 
     `;
 
@@ -98,18 +98,25 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
 
         const referencia = `${livroInfo.nome} ${numeroCapitulo}:${indice + 1}`;
 
+        const destaque = versiculoDestacado === indice + 1
+            ? "background:#FFF4C7;border-left:6px solid #B58150;"
+            : "";
+
         html += `
 
-            <div class="card" style="margin-bottom:20px;">
+            <div
+                class="card"
+                style="margin-bottom:20px;${destaque}">
 
-                <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div
+                    style="display:flex;justify-content:space-between;align-items:center;">
 
                     <strong>${indice + 1}</strong>
 
                     <div style="display:flex;gap:8px;">
 
                         <button
-                            onclick="copiarVersiculo('${referencia}', ${JSON.stringify(versiculo).replace(/"/g, '&quot;')})"
+                            onclick="copiarVersiculo('${referencia}', ${JSON.stringify(versiculo).replace(/"/g,'&quot;')})"
                             style="border:none;background:#2196F3;color:white;padding:8px 12px;border-radius:8px;cursor:pointer;">
 
                             📋
@@ -117,7 +124,7 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
                         </button>
 
                         <button
-                            onclick="adicionarFavorito('${referencia}', ${JSON.stringify(versiculo).replace(/"/g, '&quot;')})"
+                            onclick="adicionarFavorito('${referencia}', ${JSON.stringify(versiculo).replace(/"/g,'&quot;')})"
                             style="border:none;background:#B58150;color:white;padding:8px 12px;border-radius:8px;cursor:pointer;">
 
                             ⭐
@@ -140,11 +147,7 @@ async function abrirCapitulo(abrev, numeroCapitulo) {
 
     });
 
-    html += `
-
-        </div>
-
-    `;
+    html += `</div>`;
 
     pagina.innerHTML = html;
 

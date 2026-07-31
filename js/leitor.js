@@ -99,7 +99,7 @@ async function abrirCapitulo(abrev, numeroCapitulo, versiculoDestacado = null) {
         const referencia = `${livroInfo.nome} ${numeroCapitulo}:${indice + 1}`;
 
         const destaque = versiculoDestacado === indice + 1
-            ? "background:#FFF4C7;border-left:6px solid #B58150;"
+            ? "background:#FFF5D6;border-left:6px solid #B58150;"
             : "";
 
         html += `
@@ -108,16 +108,15 @@ async function abrirCapitulo(abrev, numeroCapitulo, versiculoDestacado = null) {
                 class="card"
                 style="margin-bottom:20px;${destaque}">
 
-                <div
-                    style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
 
                     <strong>${indice + 1}</strong>
 
-                    <div style="display:flex;gap:8px;">
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
 
                         <button
                             onclick="copiarVersiculo('${referencia}', ${JSON.stringify(versiculo).replace(/"/g,'&quot;')})"
-                            style="border:none;background:#2196F3;color:white;padding:8px 12px;border-radius:8px;cursor:pointer;">
+                            class="btn-voltar">
 
                             📋
 
@@ -125,9 +124,17 @@ async function abrirCapitulo(abrev, numeroCapitulo, versiculoDestacado = null) {
 
                         <button
                             onclick="adicionarFavorito('${referencia}', ${JSON.stringify(versiculo).replace(/"/g,'&quot;')})"
-                            style="border:none;background:#B58150;color:white;padding:8px 12px;border-radius:8px;cursor:pointer;">
+                            class="btn-voltar">
 
                             ⭐
+
+                        </button>
+
+                        <button
+                            onclick="adicionarAnotacao('${referencia}')"
+                            class="btn-voltar">
+
+                            📝
 
                         </button>
 
@@ -147,7 +154,11 @@ async function abrirCapitulo(abrev, numeroCapitulo, versiculoDestacado = null) {
 
     });
 
-    html += `</div>`;
+    html += `
+
+    </div>
+
+    `;
 
     pagina.innerHTML = html;
 
@@ -155,7 +166,11 @@ async function abrirCapitulo(abrev, numeroCapitulo, versiculoDestacado = null) {
 
 function copiarVersiculo(referencia, texto) {
 
-    navigator.clipboard.writeText(`${referencia}\n\n${texto}`);
+    navigator.clipboard.writeText(
+
+        `${referencia}\n\n${texto}`
+
+    );
 
     alert("Versículo copiado!");
 
